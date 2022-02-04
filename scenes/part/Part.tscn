@@ -161,6 +161,6 @@ margin_right = 685.0
 margin_bottom = 52.0
 text = "Add Track"
 
-[connection signal="focus_exited" from="VBoxContainer/HBoxContainer/LineEditSigUpper" to="." method="_on_LineEditSigUpper_focus_exited"]
-[connection signal="text_entered" from="VBoxContainer/HBoxContainer/LineEditSigUpper" to="." method="_on_LineEditSigUpper_text_entered"]
+[connection signal="focus_exited" from="VBoxContainer/HBoxContainer/LineEditBPM" to="." method="_on_LineEditBPM_focus_exited"]
+[connection signal="text_entered" from="VBoxContainer/HBoxContainer/LineEditBPM" to="." method="_on_LineEditBPM_text_entered"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer2/ButtonTrackAdd" to="." method="_on_ButtonTrackAdd_pressed"]
