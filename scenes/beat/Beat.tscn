@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/beat/Beat.gd" type="Script" id=1]
+
+[node name="Beat" type="Button"]
+margin_right = 37.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+toggle_mode = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
