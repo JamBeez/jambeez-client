@@ -26,3 +26,58 @@ margin_bottom = 100.0
 margin_top = 104.0
 margin_right = 1024.0
 margin_bottom = 152.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_top = 156.0
+margin_right = 1024.0
+margin_bottom = 208.0
+alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+margin_left = 339.0
+margin_right = 607.0
+margin_bottom = 52.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_right = 268.0
+margin_bottom = 24.0
+
+[node name="CheckBoxTrackSamplePreset" type="CheckBox" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" groups=["radio"]]
+margin_right = 120.0
+margin_bottom = 24.0
+pressed = true
+text = "Preset sample"
+
+[node name="OptionButton" type="OptionButton" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 124.0
+margin_right = 268.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+text = "Drums"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 28.0
+margin_right = 268.0
+margin_bottom = 52.0
+
+[node name="CheckBoxTrackSampleUpload" type="CheckBox" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2" groups=["radio"]]
+margin_right = 124.0
+margin_bottom = 24.0
+text = "Upload Sample"
+
+[node name="LineEditTrackUpload" type="LineEdit" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 128.0
+margin_right = 186.0
+margin_bottom = 24.0
+
+[node name="ButtonTrackUpload" type="Button" parent="VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 190.0
+margin_right = 268.0
+margin_bottom = 24.0
+text = "Select File"
+
+[node name="ButtonTrackAdd" type="Button" parent="VBoxContainer/HBoxContainer"]
+margin_left = 611.0
+margin_right = 685.0
+margin_bottom = 52.0
+text = "Add Track"
