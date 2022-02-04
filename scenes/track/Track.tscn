@@ -1,0 +1,84 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://scenes/track/Track.gd" type="Script" id=1]
+
+[node name="Track" type="PanelContainer"]
+margin_right = 984.0
+margin_bottom = 14.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 977.0
+margin_bottom = 41.0
+custom_constants/separation = 10
+
+[node name="TexturePlayer" type="TextureRect" parent="HBoxContainer"]
+margin_right = 32.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 32, 32 )
+
+[node name="TextureSample" type="TextureRect" parent="HBoxContainer"]
+margin_left = 42.0
+margin_right = 74.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 32, 32 )
+
+[node name="ButtonRemove" type="Button" parent="HBoxContainer"]
+margin_left = 84.0
+margin_right = 104.0
+margin_bottom = 34.0
+text = "X"
+
+[node name="VBoxContainerVol" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 114.0
+margin_right = 194.0
+margin_bottom = 34.0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainerVol"]
+margin_right = 80.0
+margin_bottom = 14.0
+text = "Vol."
+
+[node name="HSlider" type="HSlider" parent="HBoxContainer/VBoxContainerVol"]
+margin_top = 18.0
+margin_right = 80.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 80, 0 )
+value = 50.0
+
+[node name="VBoxContainerPan" type="VBoxContainer" parent="HBoxContainer"]
+visible = false
+margin_left = 204.0
+margin_right = 284.0
+margin_bottom = 34.0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainerPan"]
+margin_right = 80.0
+margin_bottom = 14.0
+text = "Pan"
+
+[node name="HSlider" type="HSlider" parent="HBoxContainer/VBoxContainerPan"]
+margin_top = 18.0
+margin_right = 80.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 80, 0 )
+value = 50.0
+
+[node name="CheckBox" type="CheckBox" parent="HBoxContainer"]
+margin_left = 204.0
+margin_right = 265.0
+margin_bottom = 34.0
+text = "Mute"
+
+[node name="Score" type="PanelContainer" parent="HBoxContainer"]
+margin_left = 275.0
+margin_right = 970.0
+margin_bottom = 34.0
+size_flags_horizontal = 3

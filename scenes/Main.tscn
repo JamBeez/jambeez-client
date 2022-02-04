@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://assets/theme.tres" type="Theme" id=1]
+[ext_resource path="res://scenes/track/Track.tscn" type="PackedScene" id=2]
 
 [node name="Main" type="Node2D"]
 
@@ -60,6 +61,25 @@ margin_left = 10.0
 margin_top = 10.0
 margin_right = 994.0
 margin_bottom = 494.0
+
+[node name="Track" parent="CanvasLayer/MarginContainer/VBoxContainer/Content/VBoxContainer" instance=ExtResource( 2 )]
+margin_bottom = 48.0
+
+[node name="Track2" parent="CanvasLayer/MarginContainer/VBoxContainer/Content/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 52.0
+margin_bottom = 100.0
+
+[node name="Track3" parent="CanvasLayer/MarginContainer/VBoxContainer/Content/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 104.0
+margin_bottom = 152.0
+
+[node name="Track4" parent="CanvasLayer/MarginContainer/VBoxContainer/Content/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 156.0
+margin_bottom = 204.0
+
+[node name="Track5" parent="CanvasLayer/MarginContainer/VBoxContainer/Content/VBoxContainer" instance=ExtResource( 2 )]
+margin_top = 208.0
+margin_bottom = 256.0
 
 [node name="Footer" type="MarginContainer" parent="CanvasLayer/MarginContainer/VBoxContainer"]
 margin_top = 546.0
