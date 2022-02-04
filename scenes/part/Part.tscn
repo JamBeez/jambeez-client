@@ -84,7 +84,7 @@ text = "Bars"
 margin_left = 407.0
 margin_right = 465.0
 margin_bottom = 24.0
-text = "4"
+text = "2"
 
 [node name="Tracks" type="VBoxContainer" parent="VBoxContainer"]
 margin_top = 28.0
