@@ -10,6 +10,10 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+path_sig_upper = NodePath("VBoxContainer/HBoxContainer/LineEditSigUpper")
+path_sig_lower = NodePath("VBoxContainer/HBoxContainer/LineEditSigLower")
+path_bpm = NodePath("VBoxContainer/HBoxContainer/LineEditBPM")
+path_bars = NodePath("VBoxContainer/HBoxContainer/LineEditBars")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 margin_right = 1024.0
@@ -25,7 +29,7 @@ margin_right = 95.0
 margin_bottom = 19.0
 text = "Time Signature"
 
-[node name="LineEdit" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+[node name="LineEditSigUpper" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
 margin_left = 99.0
 margin_right = 157.0
 margin_bottom = 24.0
@@ -38,7 +42,7 @@ margin_right = 166.0
 margin_bottom = 19.0
 text = "/"
 
-[node name="LineEdit2" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+[node name="LineEditSigLower" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
 margin_left = 170.0
 margin_right = 228.0
 margin_bottom = 24.0
@@ -46,39 +50,39 @@ text = "4"
 
 [node name="Spacer" type="Control" parent="VBoxContainer/HBoxContainer"]
 margin_left = 232.0
-margin_right = 527.0
+margin_right = 252.0
 margin_bottom = 24.0
-size_flags_horizontal = 3
+rect_min_size = Vector2( 20, 0 )
 
 [node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer"]
-margin_left = 531.0
+margin_left = 256.0
 margin_top = 5.0
-margin_right = 560.0
+margin_right = 285.0
 margin_bottom = 19.0
 text = "BPM"
 
-[node name="LineEdit3" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
-margin_left = 564.0
-margin_right = 622.0
+[node name="LineEditBPM" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+margin_left = 289.0
+margin_right = 347.0
 margin_bottom = 24.0
 text = "120"
 
 [node name="Spacer2" type="Control" parent="VBoxContainer/HBoxContainer"]
-margin_left = 626.0
-margin_right = 922.0
+margin_left = 351.0
+margin_right = 371.0
 margin_bottom = 24.0
-size_flags_horizontal = 3
+rect_min_size = Vector2( 20, 0 )
 
 [node name="Label4" type="Label" parent="VBoxContainer/HBoxContainer"]
-margin_left = 926.0
+margin_left = 375.0
 margin_top = 5.0
-margin_right = 962.0
+margin_right = 403.0
 margin_bottom = 19.0
-text = "Beats"
+text = "Bars"
 
-[node name="LineEdit4" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
-margin_left = 966.0
-margin_right = 1024.0
+[node name="LineEditBars" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+margin_left = 407.0
+margin_right = 465.0
 margin_bottom = 24.0
 text = "4"
 
@@ -157,4 +161,6 @@ margin_right = 685.0
 margin_bottom = 52.0
 text = "Add Track"
 
+[connection signal="focus_exited" from="VBoxContainer/HBoxContainer/LineEditSigUpper" to="." method="_on_LineEditSigUpper_focus_exited"]
+[connection signal="text_entered" from="VBoxContainer/HBoxContainer/LineEditSigUpper" to="." method="_on_LineEditSigUpper_text_entered"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer2/ButtonTrackAdd" to="." method="_on_ButtonTrackAdd_pressed"]
