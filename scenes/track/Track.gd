@@ -18,10 +18,7 @@ onready var node_muted :CheckBox = get_node(path_muted)
 export (NodePath) var path_beats
 onready var node_beats: Node = get_node(path_beats)
 
-#var muted: bool = false setget set_muted, get_muted
-
 func _ready():
-	node_muted.connect("toggled", self, "set_muted")
 	data = Data.Track.new(part_data)
 	AudioServer.add_bus()
 	bus_id = AudioServer.bus_count - 1
@@ -30,9 +27,6 @@ func _ready():
 	node_sample.clear()
 	for sample in Consts.SAMPLES:
 		node_sample.add_item(sample[0])
-	
-func _on_tree_entered():
-	pass
 
 var next_beat_id = 0
 func _process(delta):
@@ -43,34 +37,34 @@ func _process(delta):
 	if part_data.time >= next_beat_time:
 		# seconds to past where sound should have been
 		var time_error = part_data.time - next_beat_time
-		
 		node_beats.get_children()[next_beat_id % node_beats.get_child_count()].play()
-		
 		next_beat_id += 1
 
-
+func _on_ButtonRemove_pressed():
+	Communicator.notify_remove_track(part_data.id, data.id)
+	emit_signal("delete") # TODO remove
+	
 func _on_OptionButtonSample_item_selected(index):
-	data.sample_id = index
+	Communicator.notify_change_track_sample(part_data.id, data.id, index)
+	set_sample_id(index) # TODO remove
 
-	# TODO do this after server message
+func _on_ButtonMute_toggled(pressed):
+	Communicator.notify_mute_track(part_data.id, data.id, pressed)
+	set_muted(pressed) # TODO remove
+
+func set_sample_id(sample_id):
+	data.sample_id = sample_id
+
 	for beat in node_beats.get_children():
 		beat.change_sample(data.sample_id) 
 		
-func _on_ButtonRemove_pressed():
-	emit_signal("delete")
-
-func get_score_global_rect():
-	return Rect2($HBoxContainer/Score.rect_global_position, $HBoxContainer/Score.rect_size)
-
 func set_muted(val):
 	data.muted = val
 	node_muted.pressed = val
 	AudioServer.set_bus_mute(bus_id, val)
-
-func get_muted():
-	assert(data.muted == node_muted.pressed)
-	return node_muted.pressed
 	
+func get_score_global_rect():
+	return Rect2($HBoxContainer/Score.rect_global_position, $HBoxContainer/Score.rect_size)
 	
 func deserialize(data: Data.Track):
 	node_sample.selected = data.sample_id

@@ -4,6 +4,13 @@ const HTTP_SERVER_URL = "http://localhost:8001/Jambeez-client.html"
 #const WS_SERVER_URL = "ws://echo.websocket.events/.ws"
 const WS_SERVER_URL = "ws://localhost:8080/jambeez"
 
+const SAMPLES = [
+	["Snare Drum", preload("res://assets/samples/drums/snare_drum.wav")],
+	["Bass Drum", preload("res://assets/samples/drums/bass_drum.wav")],
+	["Cow Bell", preload("res://assets/samples/drums/cow_bell.wav")],
+	["Kick", preload("res://assets/samples/drums/kick.wav")]
+]
+
 func get_invite_link(lobby_id) -> String:
 	return "%s?lobby_id=%s" % [HTTP_SERVER_URL, str(lobby_id)]
 
@@ -26,14 +33,18 @@ func initial_part(id: String):
 		"sig_upper": 4,
 		"sig_lower": 4,
 		"tracks": [
-			initial_track("Track 1")
+			initial_track("Track 1", 0),
+			initial_track("Track 2", 1),
+			initial_track("Track 3", 2),
+			initial_track("Track 4", 3),
 		]
 	}
 
-func initial_track(id: String):
+func initial_track(id: String, sample_id: int):
 	return {
 		"id": id,
 		"muted": false,
+		"sample_id": sample_id,
 		"beats": [
 			initial_beat(), initial_beat(), initial_beat(), initial_beat(),
 			initial_beat(), initial_beat(), initial_beat(), initial_beat(),

@@ -10,6 +10,9 @@ signal change_sig_lower(part_id, sig_lower)
 signal change_sig_upper(part_id, sig_upper)
 signal add_track(part_id, track)
 
+signal change_track_sample_id(part_id, track_id, sample_id)
+signal mute_track(part_id, track_id, muted)
+
 var _client = WebSocketClient.new()
 var _is_connected = false
 
@@ -66,6 +69,29 @@ func notify_add_track(part_id: String, track: Data.Track):
 		"intent" : "part:add_track",
 		"part_id" : part_id,
 		"track_data" : track
+	}
+	_send_data(JSON.print(msg))
+func notify_remove_track(part_id: String, track_id: String):
+	var msg = {
+		"intent" : "part:remove_track",
+		"part_id" : part_id,
+		"track_id" : track_id
+	}
+	_send_data(JSON.print(msg))
+func notify_mute_track(part_id: String, track_id: String, muted: bool):
+	var msg = {
+		"intent" : "track:mute",
+		"part_id" : part_id,
+		"track_id" : track_id,
+		"muted" : muted
+	}
+	_send_data(JSON.print(msg))
+func notify_change_track_sample(part_id: String, track_id: String, sample_id: int):
+	var msg = {
+		"intent" : "track:change_sample_id",
+		"part_id" : part_id,
+		"track_id" : track_id,
+		"sample_id" : sample_id
 	}
 	_send_data(JSON.print(msg))
 
@@ -170,14 +196,20 @@ func _on_data():
 				notify_update_parts(serialize_main.call_func())
 			"part:add_track":
 				emit_signal("add_track", data_json.part_id, data_json.track)
-			"track:change_bpm":
+			"part:remove_track":
+				emit_signal("remove_track", data_json.part_id, data_json.track_id)
+			"part:change_bpm":
 				emit_signal("change_BPM", data_json.part_id, data_json.value)
-			"track:change_bars":
+			"part:change_bars":
 				emit_signal("change_bars", data_json.part_id, data_json.value)
-			"track:change_sig_lower":
+			"part:change_sig_lower":
 				emit_signal("change_sig_lower", data_json.part_id, data_json.value)
-			"track:change_sig_upper":
+			"part:change_sig_upper":
 				emit_signal("change_sig_upper", data_json.part_id, data_json.value)
+			"track:change_sample_id":
+				emit_signal("change_track_sample_id", data_json.part_id, data_json.track, data_json.value)
+			"track:mute":
+				emit_signal("mute_track", data_json.part_id, data_json.track, data_json.value)
 
 func _process(delta):
 	_client.poll()

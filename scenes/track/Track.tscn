@@ -9,6 +9,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+path_sample = NodePath("HBoxContainer/OptionButtonSample")
 path_muted = NodePath("HBoxContainer/ButtonMute")
 path_beats = NodePath("HBoxContainer/Score/Beats")
 
@@ -20,25 +21,28 @@ margin_bottom = 41.0
 custom_constants/separation = 10
 
 [node name="TexturePlayer" type="TextureRect" parent="HBoxContainer"]
+visible = false
 margin_right = 32.0
 margin_bottom = 34.0
 rect_min_size = Vector2( 32, 32 )
 
-[node name="TextureSample" type="TextureRect" parent="HBoxContainer"]
-margin_left = 42.0
-margin_right = 74.0
+[node name="OptionButtonSample" type="OptionButton" parent="HBoxContainer"]
+margin_right = 120.0
 margin_bottom = 34.0
-rect_min_size = Vector2( 32, 32 )
+rect_min_size = Vector2( 120, 0 )
+text = "Snare Drum"
+items = [ "Snare Drum", null, false, 0, null, "Bass Drum", null, false, 1, null, "Cow Bell", null, false, 2, null, "Kick", null, false, 3, null ]
+selected = 0
 
 [node name="ButtonRemove" type="Button" parent="HBoxContainer"]
-margin_left = 84.0
-margin_right = 104.0
+margin_left = 130.0
+margin_right = 150.0
 margin_bottom = 34.0
 text = "X"
 
 [node name="VBoxContainerVol" type="VBoxContainer" parent="HBoxContainer"]
-margin_left = 114.0
-margin_right = 194.0
+margin_left = 160.0
+margin_right = 240.0
 margin_bottom = 34.0
 
 [node name="Label" type="Label" parent="HBoxContainer/VBoxContainerVol"]
@@ -72,13 +76,13 @@ rect_min_size = Vector2( 80, 0 )
 value = 50.0
 
 [node name="ButtonMute" type="CheckBox" parent="HBoxContainer"]
-margin_left = 204.0
-margin_right = 265.0
+margin_left = 250.0
+margin_right = 311.0
 margin_bottom = 34.0
 text = "Mute"
 
 [node name="Score" type="PanelContainer" parent="HBoxContainer"]
-margin_left = 275.0
+margin_left = 321.0
 margin_right = 970.0
 margin_bottom = 34.0
 size_flags_horizontal = 3
@@ -86,7 +90,9 @@ size_flags_horizontal = 3
 [node name="Beats" type="HBoxContainer" parent="HBoxContainer/Score"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 688.0
+margin_right = 642.0
 margin_bottom = 27.0
 
+[connection signal="item_selected" from="HBoxContainer/OptionButtonSample" to="." method="_on_OptionButtonSample_item_selected"]
 [connection signal="pressed" from="HBoxContainer/ButtonRemove" to="." method="_on_ButtonRemove_pressed"]
+[connection signal="toggled" from="HBoxContainer/ButtonMute" to="." method="_on_ButtonMute_toggled"]
