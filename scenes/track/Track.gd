@@ -8,10 +8,10 @@ var bus_id
 
 const Beat = preload("res://scenes/beat/Beat.tscn")
 
-const SAMPLES = [
-	preload("res://assets/samples/drums/snare_drum.wav")
-]
 signal delete()
+
+export (NodePath) var path_sample
+onready var node_sample: OptionButton = get_node(path_sample)
 
 export (NodePath) var path_muted
 onready var node_muted :CheckBox = get_node(path_muted)
@@ -27,6 +27,10 @@ func _ready():
 	AudioServer.add_bus()
 	bus_id = AudioServer.bus_count - 1
 	deserialize(data)
+	
+	node_sample.clear()
+	for sample in Consts.SAMPLES:
+		node_sample.add_item(sample[0])
 	
 func _on_tree_entered():
 	pass
@@ -44,7 +48,15 @@ func _process(delta):
 		node_beats.get_children()[next_beat_id % node_beats.get_child_count()].play()
 		
 		next_beat_id += 1
-	
+
+
+func _on_OptionButtonSample_item_selected(index):
+	data.sample_id = index
+
+	# TODO do this after server message
+	for beat in node_beats.get_children():
+		beat.change_sample(data.sample_id) 
+		
 func _on_ButtonRemove_pressed():
 	emit_signal("delete")
 
@@ -62,6 +74,8 @@ func get_muted():
 	
 	
 func deserialize(data: Data.Track):
+	node_sample.selected = data.sample_id
+	set_muted(data.muted)
 	if data != null:
 		self.data = data
 	# clear prev Beats
@@ -71,10 +85,9 @@ func deserialize(data: Data.Track):
 	for beat_is_on in data.beats:
 		var beat = Beat.instance()
 		beat.is_on = beat_is_on
-		beat.sample = SAMPLES[data.sample_id]
+		beat.sample = Consts.SAMPLES[data.sample_id][1]
 		beat.bus_id = bus_id
 		node_beats.add_child(beat)
-	set_muted(data.muted)
 	
 func serialize():
 	return inst2dict(data)

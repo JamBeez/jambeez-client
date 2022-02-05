@@ -31,8 +31,6 @@ export (NodePath) var path_needle
 onready var node_needle:Control = get_node(path_needle)
 
 func _ready():
-	
-	
 	Communicator.connect("change_sig_upper", self, "_on_Communicator_change_sig_upper")
 	Communicator.connect("change_sig_lower", self, "_on_Communicator_change_sig_lower")
 	Communicator.connect("change_BPM", self, "_on_Communicator_change_BPM")

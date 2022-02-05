@@ -16,6 +16,9 @@ func play():
 	if is_on:
 		player.play(0)
 
+func change_sample(sample_id: int):
+	sample = Consts.SAMPLES[sample_id][1]
+	player.stream = sample
 
 func _on_Beat_toggled(button_pressed):
 	is_on = button_pressed
