@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/snare_drum.wav-a35c48c1f972040f74a53371aef6ce92.sample"
+
+[deps]
+
+source_file="res://assets/samples/drums/snare_drum.wav"
+dest_files=[ "res://.import/snare_drum.wav-a35c48c1f972040f74a53371aef6ce92.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
