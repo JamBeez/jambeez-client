@@ -15,7 +15,7 @@ var serialize_main: FuncRef
 
 func notify_request_lobby():
 	var msg = {
-		"intent" : "lobby:create"
+		"intent" : "lobby:create",
 	}
 	_send_data(JSON.print(msg))
 func notify_join_lobby(lobby_id: String):
@@ -24,10 +24,10 @@ func notify_join_lobby(lobby_id: String):
 		"lobby_id" : lobby_id
 	}
 	_send_data(JSON.print(msg))
-func notify_send_lobby(lobby: Main.LobbyData):
+func notify_update_parts(lobby: Main.LobbyData):
 	var msg = {
-		"intent" : "lobby:send_state",
-		"lobby" : lobby
+		"intent" : "lobby:update_parts",
+		"parts" : lobby.parts
 	}
 	_send_data(JSON.print(msg))
 func notify_BPM(part_id: String, bpm: int):
@@ -128,6 +128,7 @@ func _on_data():
 				
 				var data = serialize_main.call_func()
 				print(data)
+				notify_update_parts(serialize_main.call_func())
 			"lobby:join":
 				var lobby: Main.LobbyData
 				if data_json.get("lobby") == null:
@@ -139,8 +140,8 @@ func _on_data():
 				emit_signal("lobby_join", lobby)
 			"user:joined":
 				pass
-			"lobby:request_state":
-				notify_send_lobby(serialize_main.call_func())
+			"lobby:update_parts":
+				notify_update_parts(serialize_main.call_func())
 			"part:add_track":
 				emit_signal("add_track", data_json.part_id, data_json.track)
 			"track:change_bpm":
