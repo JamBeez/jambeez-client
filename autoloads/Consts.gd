@@ -2,7 +2,10 @@ extends Node
 
 const HTTP_SERVER_URL = "http://localhost:8001/Jambeez-client.html"
 #const WS_SERVER_URL = "ws://echo.websocket.events/.ws"
-const WS_SERVER_URL = "ws://localhost:8080/jambeez"
+#const WS_SERVER_URL = "ws://localhost:8080/jambeez"
+const WS_SERVER_URL = "ws://vps.fuchss.org:8888/jambeez"
+
+
 
 const SAMPLES = [
 	["Snare Drum", preload("res://assets/samples/drums/snare_drum.wav")],

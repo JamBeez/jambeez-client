@@ -112,15 +112,37 @@ func _on_LineEditBPM_text_entered(new_text):
 	Communicator.notify_BPM(data.id, int(new_text))
 func _on_LineEditBPM_focus_exited(): _on_LineEditBPM_text_entered(input_bpm.text)
 	
-func _on_Communicator_change_BPM(part_id, bpm):
-	if data.id != part_id:
-		return
-	data.bpm = bpm
-	input_bpm.text = str(bpm)
+func _on_Communicator_change_BPM(part_id, value):
+	if data.id != part_id: return
+	data.bpm = value
+	input_bpm.text = str(value)
 	update_time()
 	update_needle()
-	emit_signal("setting_bpm_changed", bpm)
-	print("BPM was set to " + str(bpm))
+	emit_signal("setting_bpm_changed", value)
+
+func _on_Communicator_change_sig_upper(part_id, value):
+	if data.id != part_id: return
+	data.sig_upper = value
+	input_sig_upper.text = str(value)
+	update_time()
+	update_needle()
+	emit_signal("setting_sig_upper_changed", value)
+
+func _on_Communicator_change_sig_lower(part_id, value):
+	if data.id != part_id: return
+	data.sig_lower = value
+	input_sig_lower.text = str(value)
+	update_time()
+	update_needle()
+	emit_signal("setting_sig_lower_changed", value)
+
+func _on_Communicator_change_bars(part_id, value):
+	if data.id != part_id: return
+	data.bars = value
+	input_bars.text = str(value)
+	update_time()
+	update_needle()
+	emit_signal("setting_bars_changed", value)
 
 func deserialize(data: Data.Part):
 	if data != null:
@@ -131,6 +153,8 @@ func deserialize(data: Data.Part):
 	input_sig_lower.text = str(data.sig_lower)
 	input_bpm.text = str(data.bpm)
 	input_bars.text = str(data.bars)
+	update_time()
+	update_needle()
 	
 	# clear prev Tracks
 	for track in node_tracks.get_children():
