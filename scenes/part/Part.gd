@@ -1,21 +1,7 @@
 tool
 extends MarginContainer
-class_name Part
-class PartData:
-	var time: float = 0
-	var time_last: float = -0.00000001
-	var id: String
-	var bpm: int = 120
-	var bars: int = 2
-	var sig_upper: int = 4
-	var sig_lower: int = 4
-	var tracks: Array = [
-		Track.TrackData.new(self),
-		Track.TrackData.new(self),
-		Track.TrackData.new(self)
-	]
 
-var data: PartData = PartData.new()
+var data: Data.Part = Data.Part.new()
 
 signal setting_sig_upper_changed(sig_upper)
 signal setting_sig_lower_changed(sig_lower)
@@ -92,11 +78,11 @@ func _on_Part_resized():
 	update_needle()
 	
 func _on_ButtonTrackAdd_pressed():
-	var data = Track.TrackData.new(self.data)
+	var data = Data.Track.new(self.data)
 	data.muted = true
 	add_track(data)
 	
-func add_track(data: Track.TrackData):
+func add_track(data: Data.Track):
 	var child = TrackScene.instance()
 	child.data = data
 	child.part_data = self.data

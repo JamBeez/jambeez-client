@@ -24,7 +24,7 @@ func notify_join_lobby(lobby_id: String):
 		"lobby_id" : lobby_id
 	}
 	_send_data(JSON.print(msg))
-func notify_update_parts(lobby: Main.LobbyData):
+func notify_update_parts(lobby: Data.Lobby):
 	var msg = {
 		"intent" : "lobby:update_parts",
 		"parts" : lobby.parts
@@ -37,7 +37,7 @@ func notify_BPM(part_id: String, bpm: int):
 		"value" : bpm
 	}
 	_send_data(JSON.print(msg))
-func notify_add_track(part_id: String, track: Track.TrackData):
+func notify_add_track(part_id: String, track: Data.Track):
 	var msg = {
 		"intent" : "part:add_track",
 		"part_id" : part_id,
@@ -131,7 +131,7 @@ func _on_data():
 				print(data)
 				notify_update_parts(serialize_main.call_func())
 			"lobby:join":
-				var lobby: Main.LobbyData
+				var lobby: Data.Lobby
 				if data_json.get("lobby") == null:
 					lobby = Consts.initial_lobby
 					print("lobby:join : Mocking lobby ", lobby)

@@ -1,8 +1,6 @@
 tool
 extends Button
 class_name Beat
-class BeatData:
-	var is_on: bool = false
 
 var is_on = false
 var sample: Resource

@@ -1,18 +1,8 @@
 tool
 extends PanelContainer
-class_name Track
-class TrackData:
-	var id: String
-	var muted: bool
-	var beats: Array
-	var sample: Resource = preload("res://assets/samples/drums/snare_drum.wav")
-	func _init(part_data):
-		var num_beats = part_data.sig_lower * part_data.bars
-		beats = []
-		for i in range(num_beats):
-			beats.append(false)
 
-var data: TrackData
+
+var data: Data.Track
 var part_data
 var bus_id
 
@@ -30,7 +20,7 @@ onready var node_beats: Node = get_node(path_beats)
 
 func _ready():
 	node_muted.connect("toggled", self, "set_muted")
-	data = TrackData.new(part_data)
+	data = Data.Track.new(part_data)
 	AudioServer.add_bus()
 	bus_id = AudioServer.bus_count - 1
 	deserialize(data)
@@ -68,7 +58,7 @@ func get_muted():
 	return node_muted.pressed
 	
 	
-func deserialize(data: TrackData):
+func deserialize(data: Data.Track):
 	if data != null:
 		self.data = data
 	# clear prev Beats

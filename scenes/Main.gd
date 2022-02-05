@@ -1,30 +1,7 @@
 tool
 extends Node2D
 
-class_name Main
-class LobbyData:
-	var id: String
-	var users: Array = [] # Main.UserData
-	var parts: Array = [] # Part.PartData
-	
-	static func from_dict(dict: Dictionary) -> LobbyData:
-		var lobby = LobbyData.new()
-		lobby.id = dict['id']
-		for u in dict['users']:
-			var user = Main.UserData.from_dict(u)
-			lobby.users.append(user)
-		for t in dict['tracks']:
-			var track = Track.TrackData.from_dict(t)
-			lobby.tracks.append(track)
-		dict2inst(dict)
-		
-		return lobby
-
-class UserData:
-	var id: String
-	var alias: String
-	
-var data: LobbyData = LobbyData.new()
+var data: Data.Lobby = Data.Lobby.new()
 #var data: LobbyData = LobbyData.from_dict(Consts.initial_lobby("i-am-a-drum-bee"))
 
 export (NodePath) var path_connection

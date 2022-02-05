@@ -13,27 +13,9 @@ _global_script_classes=[ {
 "class": "Beat",
 "language": "GDScript",
 "path": "res://scenes/beat/Beat.gd"
-}, {
-"base": "Node2D",
-"class": "Main",
-"language": "GDScript",
-"path": "res://scenes/Main.gd"
-}, {
-"base": "MarginContainer",
-"class": "Part",
-"language": "GDScript",
-"path": "res://scenes/part/Part.gd"
-}, {
-"base": "PanelContainer",
-"class": "Track",
-"language": "GDScript",
-"path": "res://scenes/track/Track.gd"
 } ]
 _global_script_class_icons={
-"Beat": "",
-"Main": "",
-"Part": "",
-"Track": ""
+"Beat": ""
 }
 
 [application]
@@ -46,6 +28,7 @@ config/icon="res://icon.png"
 
 Communicator="*res://autoloads/Communicator.gd"
 Consts="*res://autoloads/Consts.gd"
+Data="*res://autoloads/Data.gd"
 
 [display]
 
