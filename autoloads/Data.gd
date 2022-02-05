@@ -14,13 +14,17 @@ class Lobby:
 		for t in dict['tracks']:
 			var track = Track.from_dict(t)
 			lobby.tracks.append(track)
-		dict2inst(dict)
-		
 		return lobby
 
 class User:
 	var id: String
 	var alias: String
+	
+	static func from_dict(dict: Dictionary) -> User:
+		var user = User.new()
+		user.id = dict['id']
+		user.alias = dict['alias']
+		return user
 
 class Track:
 	var id: String
@@ -32,17 +36,40 @@ class Track:
 		beats = []
 		for i in range(num_beats):
 			beats.append(false)
+			
+	func from_dict(dict: Dictionary, part: Part) -> Track:
+		var track = Track.new(part)
+		track.muted = dict['muted']
+		track.sample_id = dict['sample_id']
+		# TODO init read beats from dict
+		# track.beats
+		return track
 
 class Part:
-	var time: float = 0
-	var time_last: float = -0.00000001
 	var id: String
 	var bpm: int = 120
 	var bars: int = 2
 	var sig_upper: int = 4
 	var sig_lower: int = 4
+	var time: float = 0
+	var time_last: float = -0.00000001
 	var tracks: Array = [
-		Data.Track.new(self),
-		Data.Track.new(self),
-		Data.Track.new(self)
+		Track.new(self),
+		Track.new(self),
+		Track.new(self)
 	]
+	
+	func from_dict(dict: Dictionary) -> Part:
+		var part = Part.new()
+		part.id = dict["id"]
+		part.bpm = dict["bpm"]
+		part.bars = dict["bars"]
+		part.sig_upper = dict["sig_upper"]
+		part.sig_lower = dict["sig_lower"]
+		# TODO sync timing
+		#part.time = dict["time"]
+		#part.time_last = dict["time_last"]
+		for t in dict["tracks"]:
+			var track = Track.from_dict(t)
+			part.tracks.append(track)
+		return part
