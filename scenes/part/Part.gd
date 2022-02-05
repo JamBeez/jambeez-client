@@ -113,7 +113,7 @@ func _on_LineEditBPM_text_entered(new_text):
 func _on_LineEditBPM_focus_exited(): _on_LineEditBPM_text_entered(input_bpm.text)
 	
 func _on_Communicator_change_BPM(part_id, bpm):
-	if self.part_id != part_id:
+	if data.id != part_id:
 		return
 	data.bpm = bpm
 	input_bpm.text = str(bpm)

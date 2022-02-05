@@ -10,6 +10,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 path_sample = NodePath("HBoxContainer/OptionButtonSample")
+path_volume = NodePath("HBoxContainer/VBoxContainerVol/HSlider")
 path_muted = NodePath("HBoxContainer/ButtonMute")
 path_beats = NodePath("HBoxContainer/Score/Beats")
 
@@ -95,4 +96,5 @@ margin_bottom = 27.0
 
 [connection signal="item_selected" from="HBoxContainer/OptionButtonSample" to="." method="_on_OptionButtonSample_item_selected"]
 [connection signal="pressed" from="HBoxContainer/ButtonRemove" to="." method="_on_ButtonRemove_pressed"]
+[connection signal="value_changed" from="HBoxContainer/VBoxContainerVol/HSlider" to="." method="_on_HSlider_value_changed"]
 [connection signal="toggled" from="HBoxContainer/ButtonMute" to="." method="_on_ButtonMute_toggled"]

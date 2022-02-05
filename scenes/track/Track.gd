@@ -2,7 +2,7 @@ extends PanelContainer
 
 
 var data: Data.Track
-var part_data
+var part_data: Data.Part
 var bus_id
 
 const Beat = preload("res://scenes/beat/Beat.tscn")
@@ -11,6 +11,9 @@ signal delete()
 
 export (NodePath) var path_sample
 onready var node_sample: OptionButton = get_node(path_sample)
+
+export (NodePath) var path_volume
+onready var node_volume: HSlider = get_node(path_volume)
 
 export (NodePath) var path_muted
 onready var node_muted :CheckBox = get_node(path_muted)
@@ -24,6 +27,10 @@ func _ready():
 	bus_id = AudioServer.bus_count - 1
 	deserialize(data)
 	
+	Communicator.connect("set_sample", self, "_on_Communicator_set_sample")
+	Communicator.connect("toggle_mute", self, "_on_Communicator_toggle_mute")
+	Communicator.connect("change_volume", self, "_on_Communicator_change_volume")
+
 	node_sample.clear()
 	for sample in Consts.SAMPLES:
 		node_sample.add_item(sample[0])
@@ -45,30 +52,45 @@ func _on_ButtonRemove_pressed():
 	emit_signal("delete") # TODO remove
 	
 func _on_OptionButtonSample_item_selected(index):
-	Communicator.notify_change_track_sample(part_data.id, data.id, index)
-	set_sample_id(index) # TODO remove
-
+	Communicator.notify_change_sample(part_data.id, data.id, index)
+	set_sample(index) # TODO remove
 func _on_ButtonMute_toggled(pressed):
-	Communicator.notify_mute_track(part_data.id, data.id, pressed)
-	set_muted(pressed) # TODO remove
+	Communicator.notify_toggle_mute(part_data.id, data.id, pressed)
+	toggle_mute(pressed) # TODO remove
+func _on_HSlider_value_changed(value):
+	Communicator.notify_change_volume(part_data.id, data.id, value)
+	change_volume(value) # TODO remove
 
-func set_sample_id(sample_id):
+func _on_Communicator_set_sample(part_id, track_id, sample_id):
+	if part_data.id == part_id and data.id == track_id:
+		set_sample(sample_id)
+func _on_Communicator_toggle_mute(part_id, track_id, muted):
+	if part_data.id == part_id and data.id == track_id:
+		toggle_mute(muted)
+func _on_Communicator_change_volume(part_id, track_id, volume):
+	if part_data.id == part_id and data.id == track_id:
+		change_volume(volume)
+	
+func set_sample(sample_id):
 	data.sample_id = sample_id
-
+	node_sample.selected = data.sample_id
 	for beat in node_beats.get_children():
 		beat.change_sample(data.sample_id) 
-		
-func set_muted(val):
+func toggle_mute(val):
 	data.muted = val
 	node_muted.pressed = val
 	AudioServer.set_bus_mute(bus_id, val)
+func change_volume(val):
+	data.volume = val
+	node_volume.value = val
+	# TODO calc db
 	
 func get_score_global_rect():
 	return Rect2($HBoxContainer/Score.rect_global_position, $HBoxContainer/Score.rect_size)
 	
 func deserialize(data: Data.Track):
-	node_sample.selected = data.sample_id
-	set_muted(data.muted)
+	toggle_mute(data.muted)
+	set_sample(data.sample_id)
 	if data != null:
 		self.data = data
 	# clear prev Beats

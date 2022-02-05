@@ -9,9 +9,9 @@ signal change_bars(part_id, bars)
 signal change_sig_lower(part_id, sig_lower)
 signal change_sig_upper(part_id, sig_upper)
 signal add_track(part_id, track)
-
-signal change_track_sample_id(part_id, track_id, sample_id)
-signal mute_track(part_id, track_id, muted)
+signal remove_track(part_id, track_id)
+signal set_sample(part_id, track_id, sample_id)
+signal toggle_mute(part_id, track_id, muted)
 
 var _client = WebSocketClient.new()
 var _is_connected = false
@@ -79,17 +79,25 @@ func notify_remove_track(part_id: String, track_id: String):
 		"track_id" : track_id
 	}
 	_send_data(JSON.print(msg))
-func notify_mute_track(part_id: String, track_id: String, muted: bool):
+func notify_change_volume(part_id: String, track_id: String, volume: int):
 	var msg = {
-		"intent" : "track:mute",
+		"intent" : "track:change_volume",
+		"part_id" : part_id,
+		"track_id" : track_id,
+		"volume" : volume
+	}
+	_send_data(JSON.print(msg))
+func notify_toggle_mute(part_id: String, track_id: String, muted: bool):
+	var msg = {
+		"intent" : "track:toggle_mute",
 		"part_id" : part_id,
 		"track_id" : track_id,
 		"muted" : muted
 	}
 	_send_data(JSON.print(msg))
-func notify_change_track_sample(part_id: String, track_id: String, sample_id: int):
+func notify_change_sample(part_id: String, track_id: String, sample_id: int):
 	var msg = {
-		"intent" : "track:change_sample_id",
+		"intent" : "track:change_sample",
 		"part_id" : part_id,
 		"track_id" : track_id,
 		"sample_id" : sample_id
@@ -206,10 +214,12 @@ func _on_data():
 				emit_signal("change_sig_lower", data_json.part_id, data_json.value)
 			"part:change_sig_upper":
 				emit_signal("change_sig_upper", data_json.part_id, data_json.value)
-			"track:change_sample_id":
-				emit_signal("change_track_sample_id", data_json.part_id, data_json.track, data_json.value)
-			"track:mute":
-				emit_signal("mute_track", data_json.part_id, data_json.track, data_json.value)
+			"track:set_sample":
+				emit_signal("set_sample", data_json.part_id, data_json.track, data_json.sample)
+			"track:change_volume":
+				emit_signal("change_volume", data_json.part_id, data_json.track, data_json.volume)
+			"track:toggle_mute":
+				emit_signal("mute_track", data_json.part_id, data_json.track, data_json.mute)
 
 func _process(delta):
 	_client.poll()

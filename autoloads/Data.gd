@@ -94,6 +94,7 @@ class Track:
 	var muted: bool
 	var beats: Array
 	var sample_id: int = 0
+	var volume: int = 50
 	func _init(part_data):
 		var num_beats = part_data.sig_lower * part_data.bars
 		beats = []
@@ -105,6 +106,7 @@ class Track:
 		track.id = dict['id']
 		track.muted = dict['muted']
 		track.sample_id = dict['sample_id']
+		track.volume = dict['volume']
 		# TODO init read beats from dict
 		# track.beats
 		return track
@@ -114,6 +116,7 @@ class Track:
 		d['id'] = id
 		d['muted'] = muted
 		d['sample_id'] = sample_id
+		d['volume'] = volume
 		# TODO save beats
 		# track.beats
 		return d
@@ -149,6 +152,7 @@ func initial_track(id: String):
 		"id": id,
 		"muted": false,
 		"sample_id": 0,
+		"volume": 50,
 		"beats": [
 			initial_beat(), initial_beat(), initial_beat(), initial_beat(),
 			initial_beat(), initial_beat(), initial_beat(), initial_beat(),
