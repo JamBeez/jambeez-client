@@ -10,6 +10,7 @@ script = ExtResource( 4 )
 path_connection = NodePath("CanvasLayer/MarginContainer/VBoxContainer/Header/HBoxContainer/ConnectionToogle")
 path_join = NodePath("CanvasLayer/MarginContainer/VBoxContainer/Header/HBoxContainer/ButtonJoin")
 path_invite = NodePath("CanvasLayer/MarginContainer/VBoxContainer/Header/HBoxContainer/Invitation")
+path_invite_link = NodePath("CanvasLayer/MarginContainer/VBoxContainer/Header/HBoxContainer/Invitation/LineEditInvite")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
