@@ -143,16 +143,17 @@ func _on_data():
 		print(data_json)
 		match data_json.intent:
 			"lobby:create":
-				if data_json.get("lobby_id") == null:
-					data_json.lobby_id = "i-am-a-drum-bee" # TODO remove
-					print("lobby:create : Mocking lobby id ", data_json.lobby_id)
+#				if data_json.get("lobby_id") == null:
+#					data_json.lobby_id = "i-am-a-drum-bee" # TODO remove
+#					print("lobby:create : Mocking lobby id ", data_json.lobby_id)
 					
 				# TODO change url so that it can be shared but without triggering website reload
 				
-				emit_signal("lobby_create", data_json.lobby_id)
+				var lobby = Data.Lobby.from_dict(data_json.lobby)
+				emit_signal("lobby_create", lobby.id)
 				
-				var data = serialize_main.call_func()
-				print(data)
+				#var data = serialize_main.call_func()
+				#print(data)
 				#notify_update_parts(serialize_main.call_func())
 			"lobby:join":
 				var lobby: Data.Lobby

@@ -11,9 +11,9 @@ class Lobby:
 		for u in dict['users']:
 			var user = User.from_dict(u)
 			lobby.users.append(user)
-		for t in dict['tracks']:
-			var track = Track.from_dict(t)
-			lobby.tracks.append(track)
+		for t in dict['parts']:
+			var part = Part.from_dict(t)
+			lobby.parts.append(part)
 		return lobby
 
 class User:
@@ -23,7 +23,7 @@ class User:
 	static func from_dict(dict: Dictionary) -> User:
 		var user = User.new()
 		user.id = dict['id']
-		user.alias = dict['alias']
+		user.alias = "Alias" # dict['alias'] TODO
 		return user
 
 class Track:
