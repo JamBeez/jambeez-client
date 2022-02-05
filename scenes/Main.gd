@@ -27,7 +27,7 @@ func _ready():
 	Communicator.connect("lobby_join", self, "_on_Communicator_lobby_join")
 	Communicator.get_main_data = funcref(self, "get_data")
 	
-	deserialize(data)
+	deserialize()
 
 func _on_Communicator_connection_state_changed(state):
 	match state:
@@ -64,25 +64,27 @@ func _on_ConnectionToogle_toggled(button_pressed):
 		Communicator.stop_connection()
 		
 
-func add_track(data: Data.Part):
+func add_part(part_data: Data.Part):
 	var child = Part.instance()
-	child.data = data
+	child.data = part_data
 	child.connect("delete", self, "delete_track", [child])
 	node_tab_cont.add_child(child)
 
 func delete_track(child):
 	node_tab_cont.remove_child(child)
 
-func deserialize(data: Data.Lobby):
-	if data != null:
-		self.data = data
+func deserialize(new_data: Data.Lobby = null):
+	if new_data != null:
+		if data == null:
+			printerr("data is null can't deserialise Lobby")
+		data = new_data
 	
 	# clear prev 
 	for part in node_tab_cont.get_children():
 		part.queue_free()
 	# Create new Tracks
 	for part_data in data.parts:
-		add_track(part_data)
+		add_part(part_data)
 
 
 func get_data() -> Data.Lobby:

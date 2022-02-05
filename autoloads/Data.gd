@@ -95,7 +95,7 @@ class Track:
 	func _init(part_data):
 		var num_beats = part_data.sig_lower * part_data.bars
 		beats = []
-		for i in range(num_beats):
+		for _i in range(num_beats):
 			beats.append(false)
 
 	static func from_dict(dict: Dictionary, part: Part) -> Track:
@@ -134,6 +134,7 @@ func initial_lobby(id: String) -> Lobby:
 
 func initial_part(id: String, with_tracks: bool = false) -> Part:
 	var part = Part.new()
+	part.id = id
 	if with_tracks:
 		part.tracks.append(initial_track(part, "Snare Drum", 0))
 		part.tracks.append(initial_track(part, "Bass Drum", 1))

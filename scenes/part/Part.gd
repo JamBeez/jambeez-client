@@ -35,8 +35,9 @@ func _ready():
 	Communicator.connect("change_BPM", self, "_on_Communicator_change_BPM")
 	Communicator.connect("change_bars", self, "_on_Communicator_change_bars")
 	
-	deserialize(data)
+	deserialize()
 	
+	# Runtime warn-error because Part from Editor get deleted befor yield
 	yield(get_tree(), "idle_frame")
 	update_needle()
 	update_time()
@@ -73,13 +74,13 @@ func _on_Part_resized():
 	update_needle()
 	
 func _on_ButtonTrackAdd_pressed():
-	var data = Data.Track.new(self.data)
-	data.muted = true
-	add_track(data)
+	var track_data = Data.Track.new(data)
+	track_data.muted = true
+	add_track(track_data)
 	
-func add_track(data: Data.Track):
+func add_track(track_data: Data.Track):
 	var child = Track.instance()
-	child.data = data
+	child.data = track_data
 	child.part_data = self.data
 	child.connect("delete", self, "delete_track", [child])
 	node_tracks.add_child(child)
@@ -144,9 +145,11 @@ func _on_Communicator_change_bars(part_id, value):
 	update_needle()
 	emit_signal("setting_bars_changed", value)
 
-func deserialize(data: Data.Part):
-	if data != null:
-		self.data = data
+func deserialize(new_data: Data.Part = null):
+	if new_data != null:
+		if data == null:
+			printerr("data is null can't deserialise Part")
+		data = new_data
 	
 	# update ui
 	input_sig_upper.text = str(data.sig_upper)
