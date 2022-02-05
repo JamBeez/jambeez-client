@@ -1,5 +1,16 @@
 tool
 extends MarginContainer
+class_name Part
+class PartData:
+	var id: String
+	var bpm: int
+	var bars: int
+	var sig_upper: int
+	var sig_lower: int
+	var tracks: Array # Track.TrackData
+
+var data: PartData = PartData.new()
+
 
 signal setting_sig_upper_changed(sig_upper)
 signal setting_sig_lower_changed(sig_lower)

@@ -8,6 +8,28 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "Main",
+"language": "GDScript",
+"path": "res://scenes/Main.gd"
+}, {
+"base": "MarginContainer",
+"class": "Part",
+"language": "GDScript",
+"path": "res://scenes/part/Part.gd"
+}, {
+"base": "PanelContainer",
+"class": "Track",
+"language": "GDScript",
+"path": "res://scenes/track/Track.gd"
+} ]
+_global_script_class_icons={
+"Main": "",
+"Part": "",
+"Track": ""
+}
+
 [application]
 
 config/name="Jambeez-client"

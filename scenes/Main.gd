@@ -1,5 +1,12 @@
 extends Node2D
 
+class_name Main
+class LobbyData:
+	var id: String
+	var parts: Array
+	
+var data: LobbyData = LobbyData.new()
+
 export (NodePath) var path_connection
 onready var node_connection:CheckButton = get_node(path_connection)
 
@@ -16,6 +23,7 @@ func _ready():
 	Communicator.connect("connection_state_changed", self, "_on_Communicator_connection_state_changed")
 	Communicator.connect("request_lobby", self, "_on_Communicator_request_lobby")
 	Communicator.connect("join_lobby", self, "_on_Communicator_join_lobby")
+	Communicator.serialize_main = funcref(self, "serialize")
 
 func _on_Communicator_connection_state_changed(state):
 	match state:
@@ -49,3 +57,6 @@ func _on_ConnectionToogle_toggled(button_pressed):
 		Communicator.start_connection()
 	else:
 		Communicator.stop_connection()
+		
+func serialize():
+	return ""

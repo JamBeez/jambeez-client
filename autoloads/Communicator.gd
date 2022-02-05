@@ -1,28 +1,34 @@
 extends Node
 
 signal connection_state_changed(state)
-signal change_BPM(part_id, bpm)
 signal request_lobby(lobby_id)
 signal join_lobby(lobby_id, a_lot_of_data)
+signal change_BPM(part_id, bpm)
 
 var _client = WebSocketClient.new()
 var _is_connected = false
 
 var PARAM_WS_SERVER_URL: String
+var serialize_main: FuncRef
 
 func notify_request_lobby():
 	var msg = {
 		"intent" : "request_lobby"
 	}
 	_send_data(JSON.print(msg))
-func notify_join_lobby(lobby_id):
+func notify_join_lobby(lobby_id: String):
 	var msg = {
 		"intent" : "join_lobby",
 		"lobby_id" : lobby_id
 	}
 	_send_data(JSON.print(msg))
-	
-func notify_BPM(part_id, bpm):
+func notify_send_lobby(lobby: Main.LobbyData):
+	var msg = {
+		"intent" : "send_state",
+		"lobby" : lobby
+	}
+	_send_data(JSON.print(msg))
+func notify_BPM(part_id: String, bpm: int):
 	var msg = {
 		"intent" : "change_bpm",
 		"part_id" : part_id,
@@ -101,6 +107,8 @@ func _on_data():
 	else:
 		var data_json = result.result
 		match data_json.intent:
+			"request_state":
+				notify_send_lobby(serialize_main.call_func())
 			"change_bpm":
 				emit_signal("change_BPM", data_json.part_id, data_json.value)
 			"request_lobby":

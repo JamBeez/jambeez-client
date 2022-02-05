@@ -1,8 +1,10 @@
 tool
 extends PanelContainer
-
+class_name Track
 class TrackData:
-	var muted : bool
+	var id: String
+	var muted: bool
+	var beats: Array
 
 var data: TrackData = TrackData.new()
 var time: float = 0
@@ -31,8 +33,6 @@ func set_muted(val):
 	print(val)
 	data.muted = val
 	node_muted.pressed = val
-	
-	print(serialize())
 
 func get_muted():
 	assert(data.muted == node_muted.pressed)
