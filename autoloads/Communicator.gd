@@ -8,6 +8,8 @@ signal join_lobby(lobby_id, a_lot_of_data)
 var _client = WebSocketClient.new()
 var _is_connected = false
 
+var PARAM_WS_SERVER_URL: String
+
 func notify_request_lobby():
 	var msg = {
 		"intent" : "request_lobby"
@@ -33,12 +35,20 @@ func _ready():
 	_client.connect("connection_error", self, "_closed")
 	_client.connect("connection_established", self, "_connected")
 	_client.connect("data_received", self, "_on_data")
+	
+	if OS.is_debug_build() and OS.has_feature("JavaScript"):
+		PARAM_WS_SERVER_URL = JavaScript.eval("""
+			var url_string = window.location.href;
+			var url = new URL(url_string);
+			url.searchParams.get("ws_url");
+		""")
+
 	yield(get_tree(), "idle_frame")
 	start_connection()
 
 func get_browser_get_parameter():
 	if OS.has_feature("JavaScript"):
-		return JavaScript.eval(""" 
+		return JavaScript.eval("""
 			var url_string = window.location.href;
 			var url = new URL(url_string);
 			url.searchParams.get("lobby_id");
@@ -47,7 +57,8 @@ func get_browser_get_parameter():
 
 func start_connection():
 	emit_signal("connection_state_changed", "connecting")
-	var err = _client.connect_to_url(Consts.WS_SERVER_URL)
+	var url = PARAM_WS_SERVER_URL if PARAM_WS_SERVER_URL else Consts.WS_SERVER_URL
+	var err = _client.connect_to_url(url)
 	if err != OK:
 		printerr("Unable to connect")
 		set_process(false)
