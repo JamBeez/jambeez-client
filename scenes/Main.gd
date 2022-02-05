@@ -37,7 +37,7 @@ func _on_Communicator_connection_state_changed(state):
 			node_connection.disabled = false
 
 func _on_Communicator_request_lobby(lobby_id):
-	node_invite_link.text = Consts.HTTP_SERVER_URL + "/" + lobby_id
+	node_invite_link.text = "%s/%s" % [Consts.HTTP_SERVER_URL, str(lobby_id)]
 	print("Created lobby with id " + str(lobby_id))
 
 func _on_ConnectionToogle_toggled(button_pressed):

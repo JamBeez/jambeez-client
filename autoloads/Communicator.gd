@@ -12,6 +12,12 @@ func notify_request_lobby():
 		"intent" : "request_lobby"
 	}
 	_send_data(JSON.print(msg))
+func notify_join_lobby(lobby_id):
+	var msg = {
+		"intent" : "join_lobby",
+		"lobby_id" : lobby_id
+	}
+	_send_data(JSON.print(msg))
 	
 func notify_BPM(part_id, bpm):
 	var msg = {
@@ -28,6 +34,15 @@ func _ready():
 	_client.connect("data_received", self, "_on_data")
 	yield(get_tree(), "idle_frame")
 	start_connection()
+
+func get_browser_get_parameter(parameter):
+	if OS.has_feature("JavaScript"):
+		return JavaScript.eval(""" 
+			var url_string = window.location.href;
+			var url = new URL(url_string);
+			url.searchParams.get(parameter);
+		""")
+	return null
 
 func start_connection():
 	emit_signal("connection_state_changed", "connecting")
@@ -52,6 +67,12 @@ func _connected(proto = ""):
 	print("Connected with protocol: ", proto)
 	_is_connected = true
 	emit_signal("connection_state_changed", "connected")
+	
+	var get_param = get_browser_get_parameter("lobby")
+	if get_param:
+		notify_join_lobby(get_param)
+	else:
+		notify_request_lobby()
 
 func _send_data(message: String):
 	if _is_connected:
@@ -71,6 +92,7 @@ func _on_data():
 			"change_bpm":
 				emit_signal("change_BPM", data_json.part_id, data_json.value)
 			"request_lobby":
+				data_json.lobby_id = 123 # TODO remove
 				emit_signal("request_lobby", data_json.lobby_id)
 
 func _process(delta):
