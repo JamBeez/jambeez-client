@@ -8,6 +8,9 @@ var bus_id
 
 const Beat = preload("res://scenes/beat/Beat.tscn")
 
+const SAMPLES = [
+	preload("res://assets/samples/drums/snare_drum.wav")
+]
 signal delete()
 
 export (NodePath) var path_muted
@@ -68,7 +71,7 @@ func deserialize(data: Data.Track):
 	for beat_is_on in data.beats:
 		var beat = Beat.instance()
 		beat.is_on = beat_is_on
-		beat.sample = data.sample
+		beat.sample = SAMPLES[data.sample_id]
 		beat.bus_id = bus_id
 		node_beats.add_child(beat)
 	set_muted(data.muted)

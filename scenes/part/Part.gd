@@ -8,7 +8,6 @@ signal setting_sig_lower_changed(sig_lower)
 signal setting_bpm_changed(bpm)
 signal setting_bars_changed(bars)
 
-var part_id = randi() # TODO
 var time_max: float = 100 # TODO
 
 const TrackScene = preload("res://scenes/track/Track.tscn")
@@ -97,7 +96,7 @@ func delete_track(child):
 	update_needle()
 
 func _on_LineEditBPM_text_entered(new_text):
-	Communicator.notify_BPM(part_id, int(new_text))
+	Communicator.notify_BPM(data.id, int(new_text))
 	
 func _on_LineEditBPM_focus_exited():
 	_on_LineEditBPM_text_entered(input_bpm.text)
@@ -111,6 +110,3 @@ func _on_Communicator_change_BPM(part_id, bpm):
 	update_needle()
 	emit_signal("setting_bpm_changed", bpm)
 	print("BPM was set to " + str(bpm))
-
-
-

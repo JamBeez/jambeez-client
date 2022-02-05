@@ -26,7 +26,7 @@ class Track:
 	var id: String
 	var muted: bool
 	var beats: Array
-	var sample: Resource = preload("res://assets/samples/drums/snare_drum.wav")
+	var sample_id: int = 0
 	func _init(part_data):
 		var num_beats = part_data.sig_lower * part_data.bars
 		beats = []

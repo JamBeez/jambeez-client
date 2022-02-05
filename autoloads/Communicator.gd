@@ -129,7 +129,7 @@ func _on_data():
 				
 				var data = serialize_main.call_func()
 				print(data)
-				notify_update_parts(serialize_main.call_func())
+				#notify_update_parts(serialize_main.call_func())
 			"lobby:join":
 				var lobby: Data.Lobby
 				if data_json.get("lobby") == null:
