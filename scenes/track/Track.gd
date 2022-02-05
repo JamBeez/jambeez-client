@@ -1,9 +1,11 @@
+tool
 extends PanelContainer
 
 class TrackData:
 	var muted : bool
 
 var data: TrackData = TrackData.new()
+var time: float = 0
 
 signal delete()
 
@@ -21,7 +23,10 @@ func _on_tree_entered():
 	
 func _on_ButtonRemove_pressed():
 	emit_signal("delete")
-	
+
+func get_score_global_rect():
+	return Rect2($HBoxContainer/Score.rect_global_position, $HBoxContainer/Score.rect_size)
+
 func set_muted(val):
 	print(val)
 	data.muted = val
