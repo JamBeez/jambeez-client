@@ -5,10 +5,9 @@ class TrackData:
 	var id: String
 	var muted: bool
 	var beats: Array
-	
+	var sample: Resource = preload("res://assets/samples/drums/snare_drum.wav")
 	func _init(part_data):
 		var num_beats = part_data.sig_lower * part_data.bars
-		
 		beats = []
 		for i in range(num_beats):
 			beats.append(false)
@@ -32,12 +31,22 @@ func _ready():
 	node_muted.connect("toggled", self, "set_muted")
 	data = TrackData.new(part_data)
 	deserialize(data)
-
-func _process(delta):
-	pass
 	
 func _on_tree_entered():
 	pass
+
+var next_beat_id = 0
+var next_beat_time = 0.0
+func _process(delta):
+	if part_data.time >= next_beat_time:
+		# seconds to past where sound should have been
+		var time_error = part_data.time - next_beat_time
+		
+		node_beats.get_children()[next_beat_id % node_beats.get_child_count()].play()
+		
+		next_beat_id += 1
+		next_beat_time = next_beat_id * (60.0 / part_data.bpm)
+		
 	
 func _on_ButtonRemove_pressed():
 	emit_signal("delete")
@@ -64,6 +73,7 @@ func deserialize(data: TrackData):
 	for beat_is_on in data.beats:
 		var beat = Beat.instance()
 		beat.is_on = beat_is_on
+		beat.sample = data.sample
 		node_beats.add_child(beat)
 	set_muted(data.muted)
 	

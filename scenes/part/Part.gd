@@ -2,7 +2,8 @@ tool
 extends MarginContainer
 class_name Part
 class PartData:
-	var time: float
+	var time: float = 0
+	var time_last: float = -0.00000001
 	var id: String
 	var bpm: int = 120
 	var bars: int = 2
@@ -62,9 +63,10 @@ func _ready():
 	update_time()
 
 func _process(delta):
-	data.time = fmod(data.time + delta, time_max)
+	data.time_last = data.time
+	data.time += delta
 	
-	node_needle.rect_position.x = lerp(needle_x_min, needle_x_max, data.time / time_max)
+	node_needle.rect_position.x = lerp(needle_x_min, needle_x_max, fmod(data.time, time_max) / time_max)
 	
 func update_time():
 	data.time = 0
