@@ -1,4 +1,3 @@
-tool
 extends MarginContainer
 
 var data: Data.Part = Data.Part.new()
