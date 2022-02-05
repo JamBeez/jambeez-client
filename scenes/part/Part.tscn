@@ -171,9 +171,9 @@ text = "Add Track"
 [node name="Needle" type="Node2D" parent="."]
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Needle"]
-margin_left = 282.0
+margin_left = 380.105
 margin_top = 28.0
-margin_right = 285.0
+margin_right = 383.105
 margin_bottom = 180.0
 texture = SubResource( 1 )
 patch_margin_top = 2
@@ -182,6 +182,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[connection signal="resized" from="." to="." method="_on_Part_resized"]
 [connection signal="focus_exited" from="VBoxContainer/HBoxContainer/LineEditBPM" to="." method="_on_LineEditBPM_focus_exited"]
 [connection signal="text_entered" from="VBoxContainer/HBoxContainer/LineEditBPM" to="." method="_on_LineEditBPM_text_entered"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer2/ButtonTrackAdd" to="." method="_on_ButtonTrackAdd_pressed"]

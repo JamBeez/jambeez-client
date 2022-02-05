@@ -63,7 +63,7 @@ func update_time():
 var needle_x_min = 0
 var needle_x_max = 0
 func update_needle():
-	if node_tracks.get_child_count() == 0:
+	if !node_tracks or node_tracks.get_child_count() == 0:
 		return
 	
 	var track_first:Control = node_tracks.get_child(0)
@@ -77,6 +77,9 @@ func update_needle():
 	needle_x_min = node_needle.rect_position.x
 	needle_x_max = needle_x_min + track_first.get_score_global_rect().size.x
 
+func _on_Part_resized():
+	update_needle()
+	
 func _on_ButtonTrackAdd_pressed():
 	var data = Track.TrackData.new()
 	data.muted = true
@@ -110,3 +113,6 @@ func _on_Communicator_change_BPM(part_id, bpm):
 	update_needle()
 	emit_signal("setting_bpm_changed", bpm)
 	print("BPM was set to " + str(bpm))
+
+
+
