@@ -9,7 +9,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-path_muted = NodePath("HBoxContainer/Mute")
+path_muted = NodePath("HBoxContainer/ButtonMute")
 path_beats = NodePath("HBoxContainer/Score/Beats")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
@@ -71,7 +71,7 @@ margin_bottom = 34.0
 rect_min_size = Vector2( 80, 0 )
 value = 50.0
 
-[node name="Mute" type="CheckBox" parent="HBoxContainer"]
+[node name="ButtonMute" type="CheckBox" parent="HBoxContainer"]
 margin_left = 204.0
 margin_right = 265.0
 margin_bottom = 34.0

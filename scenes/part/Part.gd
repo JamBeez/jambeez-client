@@ -17,7 +17,6 @@ class PartData:
 
 var data: PartData = PartData.new()
 
-
 signal setting_sig_upper_changed(sig_upper)
 signal setting_sig_lower_changed(sig_lower)
 signal setting_bpm_changed(bpm)
@@ -94,7 +93,7 @@ func _on_Part_resized():
 	update_needle()
 	
 func _on_ButtonTrackAdd_pressed():
-	var data = Track.TrackData.new()
+	var data = Track.TrackData.new(self.data)
 	data.muted = true
 	add_track(data)
 	

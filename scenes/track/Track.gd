@@ -14,6 +14,7 @@ class TrackData:
 
 var data: TrackData
 var part_data
+var bus_id
 
 const Beat = preload("res://scenes/beat/Beat.tscn")
 
@@ -30,14 +31,19 @@ onready var node_beats: Node = get_node(path_beats)
 func _ready():
 	node_muted.connect("toggled", self, "set_muted")
 	data = TrackData.new(part_data)
+	AudioServer.add_bus()
+	bus_id = AudioServer.bus_count - 1
 	deserialize(data)
 	
 func _on_tree_entered():
 	pass
 
 var next_beat_id = 0
-var next_beat_time = 0.0
 func _process(delta):
+	if node_beats.get_child_count() == 0:
+		return
+	
+	var next_beat_time = next_beat_id * (60.0 / part_data.bpm)
 	if part_data.time >= next_beat_time:
 		# seconds to past where sound should have been
 		var time_error = part_data.time - next_beat_time
@@ -45,8 +51,6 @@ func _process(delta):
 		node_beats.get_children()[next_beat_id % node_beats.get_child_count()].play()
 		
 		next_beat_id += 1
-		next_beat_time = next_beat_id * (60.0 / part_data.bpm)
-		
 	
 func _on_ButtonRemove_pressed():
 	emit_signal("delete")
@@ -58,10 +62,12 @@ func set_muted(val):
 	print(val)
 	data.muted = val
 	node_muted.pressed = val
+	AudioServer.set_bus_mute(bus_id, val)
 
 func get_muted():
 	assert(data.muted == node_muted.pressed)
 	return node_muted.pressed
+	
 	
 func deserialize(data: TrackData):
 	if data != null:
@@ -74,8 +80,10 @@ func deserialize(data: TrackData):
 		var beat = Beat.instance()
 		beat.is_on = beat_is_on
 		beat.sample = data.sample
+		beat.bus_id = bus_id
 		node_beats.add_child(beat)
 	set_muted(data.muted)
 	
 func serialize():
 	return inst2dict(data)
+
