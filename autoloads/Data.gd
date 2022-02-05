@@ -102,7 +102,7 @@ class Track:
 		var track = Track.new(part)
 		track.id = dict['id']
 		track.muted = dict['muted']
-		track.sample_id = dict['sample_id']
+		track.sample_id = dict['sample']
 		track.volume = dict['volume']
 		# TODO init read beats from dict
 		# track.beats
@@ -112,7 +112,7 @@ class Track:
 		var d = {}
 		d['id'] = id
 		d['muted'] = muted
-		d['sample_id'] = sample_id
+		d['sample'] = sample_id
 		d['volume'] = volume
 		# TODO save beats
 		# track.beats
