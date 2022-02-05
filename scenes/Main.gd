@@ -40,7 +40,7 @@ func _on_Communicator_request_lobby(lobby_id):
 	node_invite_link.text = Consts.get_invite_link(lobby_id)
 	print("Created lobby with id " + str(lobby_id))
 
-func _on_Communicator_join_lobby(lobby_id):
+func _on_Communicator_join_lobby(lobby_id, state):
 	node_invite_link.text = Consts.get_invite_link(lobby_id)
 	print("Joined lobby with id " + str(lobby_id))
 
