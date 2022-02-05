@@ -1,5 +1,7 @@
 name: "godot-ci export"
-on: push
+on: 
+  push:
+  workflow_dispatch:
 
 env:
   GODOT_VERSION: 3.4.2 # when changing also change jobs:container:image
