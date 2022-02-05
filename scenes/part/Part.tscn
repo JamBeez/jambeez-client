@@ -156,9 +156,9 @@ text = "Add Track"
 [node name="Needle" type="Node2D" parent="."]
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Needle"]
-margin_left = 380.105
+margin_left = 457.696
 margin_top = 28.0
-margin_right = 383.105
+margin_right = 460.696
 margin_bottom = 180.0
 texture = SubResource( 1 )
 patch_margin_top = 2
@@ -168,6 +168,12 @@ __meta__ = {
 }
 
 [connection signal="resized" from="." to="." method="_on_Part_resized"]
+[connection signal="focus_exited" from="VBoxContainer/HBoxContainer/LineEditSigUpper" to="." method="_on_LineEditSigUpper_focus_exited"]
+[connection signal="text_entered" from="VBoxContainer/HBoxContainer/LineEditSigUpper" to="." method="_on_LineEditSigUpper_text_entered"]
+[connection signal="focus_exited" from="VBoxContainer/HBoxContainer/LineEditSigLower" to="." method="_on_LineEditSigLower_focus_exited"]
+[connection signal="text_entered" from="VBoxContainer/HBoxContainer/LineEditSigLower" to="." method="_on_LineEditSigLower_text_entered"]
 [connection signal="focus_exited" from="VBoxContainer/HBoxContainer/LineEditBPM" to="." method="_on_LineEditBPM_focus_exited"]
 [connection signal="text_entered" from="VBoxContainer/HBoxContainer/LineEditBPM" to="." method="_on_LineEditBPM_text_entered"]
+[connection signal="focus_exited" from="VBoxContainer/HBoxContainer/LineEditBars" to="." method="_on_LineEditBars_focus_exited"]
+[connection signal="text_entered" from="VBoxContainer/HBoxContainer/LineEditBars" to="." method="_on_LineEditBars_text_entered"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer2/ButtonTrackAdd" to="." method="_on_ButtonTrackAdd_pressed"]

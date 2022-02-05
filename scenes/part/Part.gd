@@ -10,7 +10,7 @@ signal setting_bars_changed(bars)
 
 var time_max: float = 100 # TODO
 
-const TrackScene = preload("res://scenes/track/Track.tscn")
+const Track = preload("res://scenes/track/Track.tscn")
 
 export (NodePath) var path_sig_upper
 onready var input_sig_upper:LineEdit = get_node(path_sig_upper)
@@ -31,15 +31,14 @@ export (NodePath) var path_needle
 onready var node_needle:Control = get_node(path_needle)
 
 func _ready():
-	input_sig_upper.text = str(data.sig_upper)
-	input_sig_lower.text = str(data.sig_lower)
-	input_bpm.text = str(data.bpm)
-	input_bars.text = str(data.bars)
 	
+	
+	Communicator.connect("change_sig_upper", self, "_on_Communicator_change_sig_upper")
+	Communicator.connect("change_sig_lower", self, "_on_Communicator_change_sig_lower")
 	Communicator.connect("change_BPM", self, "_on_Communicator_change_BPM")
+	Communicator.connect("change_bars", self, "_on_Communicator_change_bars")
 	
-	for track_data in data.tracks:
-		add_track(track_data)
+	deserialize(data)
 	
 	yield(get_tree(), "idle_frame")
 	update_needle()
@@ -82,7 +81,7 @@ func _on_ButtonTrackAdd_pressed():
 	add_track(data)
 	
 func add_track(data: Data.Track):
-	var child = TrackScene.instance()
+	var child = Track.instance()
 	child.data = data
 	child.part_data = self.data
 	child.connect("delete", self, "delete_track", [child])
@@ -95,11 +94,26 @@ func delete_track(child):
 	node_tracks.remove_child(child)
 	update_needle()
 
-func _on_LineEditBPM_text_entered(new_text):
-	Communicator.notify_BPM(data.id, int(new_text))
+
+func _on_LineEditSigUpper_text_entered(new_text):
+	if int(new_text) == data.sig_upper: return
+	Communicator.notify_sig_upper(data.id, int(new_text))
+func _on_LineEditSigUpper_focus_exited(): _on_LineEditSigUpper_text_entered(input_sig_upper.text)
+
+func _on_LineEditSigLower_text_entered(new_text):
+	if int(new_text) == data.sig_lower: return
+	Communicator.notify_sig_lower(data.id, int(new_text))
+func _on_LineEditSigLower_focus_exited(): _on_LineEditSigLower_text_entered(input_sig_lower.text)
+
+func _on_LineEditBars_text_entered(new_text):
+	if int(new_text) == data.bars: return
+	Communicator.notify_bars(data.id, int(new_text))
+func _on_LineEditBars_focus_exited(): _on_LineEditBars_text_entered(input_bars.text)
 	
-func _on_LineEditBPM_focus_exited():
-	_on_LineEditBPM_text_entered(input_bpm.text)
+func _on_LineEditBPM_text_entered(new_text):
+	if int(new_text) == data.bpm: return
+	Communicator.notify_BPM(data.id, int(new_text))
+func _on_LineEditBPM_focus_exited(): _on_LineEditBPM_text_entered(input_bpm.text)
 	
 func _on_Communicator_change_BPM(part_id, bpm):
 	if self.part_id != part_id:
@@ -110,3 +124,21 @@ func _on_Communicator_change_BPM(part_id, bpm):
 	update_needle()
 	emit_signal("setting_bpm_changed", bpm)
 	print("BPM was set to " + str(bpm))
+
+func deserialize(data: Data.Part):
+	if data != null:
+		self.data = data
+	
+	# update ui
+	input_sig_upper.text = str(data.sig_upper)
+	input_sig_lower.text = str(data.sig_lower)
+	input_bpm.text = str(data.bpm)
+	input_bars.text = str(data.bars)
+	
+	# clear prev Tracks
+	for track in node_tracks.get_children():
+		track.queue_free()
+	# Create new Tracks
+	for track_data in data.tracks:
+		add_track(track_data)
+	

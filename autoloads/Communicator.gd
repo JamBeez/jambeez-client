@@ -5,6 +5,9 @@ signal lobby_create(lobby_id)
 signal lobby_join(lobby)
 signal add_part(part)
 signal change_BPM(part_id, bpm)
+signal change_bars(part_id, bars)
+signal change_sig_lower(part_id, sig_lower)
+signal change_sig_upper(part_id, sig_upper)
 signal add_track(part_id, track)
 
 var _client = WebSocketClient.new()
@@ -30,11 +33,32 @@ func notify_update_parts(lobby: Data.Lobby):
 		"parts" : lobby.parts
 	}
 	_send_data(JSON.print(msg))
-func notify_BPM(part_id: String, bpm: int):
+func notify_BPM(part_id: String, value: int):
 	var msg = {
 		"intent" : "part:change_bpm",
 		"part_id" : part_id,
-		"value" : bpm
+		"value" : value
+	}
+	_send_data(JSON.print(msg))
+func notify_bars(part_id: String, value: int):
+	var msg = {
+		"intent" : "part:change_bars",
+		"part_id" : part_id,
+		"value" : value
+	}
+	_send_data(JSON.print(msg))
+func notify_sig_lower(part_id: String, value: int):
+	var msg = {
+		"intent" : "part:change_sig_lower",
+		"part_id" : part_id,
+		"value" : value
+	}
+	_send_data(JSON.print(msg))
+func notify_sig_upper(part_id: String, value: int):
+	var msg = {
+		"intent" : "part:change_sig_upper",
+		"part_id" : part_id,
+		"value" : value
 	}
 	_send_data(JSON.print(msg))
 func notify_add_track(part_id: String, track: Data.Track):
@@ -147,6 +171,12 @@ func _on_data():
 				emit_signal("add_track", data_json.part_id, data_json.track)
 			"track:change_bpm":
 				emit_signal("change_BPM", data_json.part_id, data_json.value)
+			"track:change_bars":
+				emit_signal("change_bars", data_json.part_id, data_json.value)
+			"track:change_sig_lower":
+				emit_signal("change_sig_lower", data_json.part_id, data_json.value)
+			"track:change_sig_upper":
+				emit_signal("change_sig_upper", data_json.part_id, data_json.value)
 
 func _process(delta):
 	_client.poll()
