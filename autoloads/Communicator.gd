@@ -21,11 +21,18 @@ func _ready():
 	_client.connect("connection_established", self, "_connected")
 	_client.connect("data_received", self, "_on_data")
 
+func start_connection():
 	# Initiate connection to the given URL.
 	var err = _client.connect_to_url(_websocket_url)
 	if err != OK:
 		printerr("Unable to connect")
 		set_process(false)
+
+func stop_connection():
+	_client.disconnect_from_host()
+	
+func start_sharing():
+	start_connection()
 
 func _closed(was_clean = false):
 	print("Closed, clean: ", was_clean)
