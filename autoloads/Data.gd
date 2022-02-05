@@ -55,9 +55,6 @@ class Part:
 	var time: float = 0
 	var time_last: float = -0.00000001
 	var tracks: Array = [
-		Track.new(self),
-		Track.new(self),
-		Track.new(self)
 	]
 
 	static func from_dict(dict: Dictionary) -> Part:

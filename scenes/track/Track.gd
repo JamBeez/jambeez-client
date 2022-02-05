@@ -22,7 +22,6 @@ export (NodePath) var path_beats
 onready var node_beats: Node = get_node(path_beats)
 
 func _ready():
-	data = Data.Track.new(part_data)
 	AudioServer.add_bus()
 	bus_id = AudioServer.bus_count - 1
 	deserialize(data)
