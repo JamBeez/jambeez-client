@@ -1,7 +1,6 @@
 extends Node2D
 
-var data: Data.Lobby = Data.Lobby.new()
-#var data: LobbyData = LobbyData.from_dict(Consts.initial_lobby("i-am-a-drum-bee"))
+var data: Data.Lobby = Data.initial_state
 
 export (NodePath) var path_connection
 onready var node_connection:CheckButton = get_node(path_connection)
@@ -19,7 +18,7 @@ func _ready():
 	Communicator.connect("connection_state_changed", self, "_on_Communicator_connection_state_changed")
 	Communicator.connect("lobby_create", self, "_on_Communicator_lobby_create")
 	Communicator.connect("lobby_join", self, "_on_Communicator_lobby_join")
-	Communicator.serialize_main = funcref(self, "serialize")
+	Communicator.get_main_data = funcref(self, "get_data")
 
 func _on_Communicator_connection_state_changed(state):
 	match state:
@@ -55,5 +54,5 @@ func _on_ConnectionToogle_toggled(button_pressed):
 	else:
 		Communicator.stop_connection()
 		
-func serialize():
-	return inst2dict(data)
+func get_data() -> Data.Lobby:
+	return data

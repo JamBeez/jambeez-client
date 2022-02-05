@@ -17,7 +17,7 @@ var _client = WebSocketClient.new()
 var _is_connected = false
 
 var PARAM_WS_SERVER_URL: String
-var serialize_main: FuncRef
+var get_main_data: FuncRef
 
 func notify_request_lobby():
 	var msg = {
@@ -31,9 +31,10 @@ func notify_join_lobby(lobby_id: String):
 	}
 	_send_data(JSON.print(msg))
 func notify_update_parts(lobby: Data.Lobby):
+	var dict = lobby.to_dict()
 	var msg = {
 		"intent" : "lobby:update_parts",
-		"parts" : lobby.parts
+		"parts" : dict["parts"]
 	}
 	_send_data(JSON.print(msg))
 func notify_BPM(part_id: String, value: int):
@@ -96,6 +97,7 @@ func notify_change_track_sample(part_id: String, track_id: String, sample_id: in
 	_send_data(JSON.print(msg))
 
 func _ready():
+	print("sooo")
 	_client.connect("connection_closed", self, "_closed")
 	_client.connect("connection_error", self, "_closed")
 	_client.connect("connection_established", self, "_connected")
@@ -178,9 +180,7 @@ func _on_data():
 				var lobby = Data.Lobby.from_dict(data_json.lobby)
 				emit_signal("lobby_create", lobby.id)
 				
-				#var data = serialize_main.call_func()
-				#print(data)
-				#notify_update_parts(serialize_main.call_func())
+				notify_update_parts(get_main_data.call_func())
 			"lobby:join":
 				var lobby: Data.Lobby
 				if data_json.get("lobby") == null:
@@ -193,7 +193,7 @@ func _on_data():
 			"user:joined":
 				pass
 			"lobby:update_parts":
-				notify_update_parts(serialize_main.call_func())
+				notify_update_parts(get_main_data.call_func())
 			"part:add_track":
 				emit_signal("add_track", data_json.part_id, data_json.track)
 			"part:remove_track":
