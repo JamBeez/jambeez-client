@@ -25,8 +25,7 @@ signal setting_bars_changed(bars)
 var part_id = randi() # TODO
 var time_max: float = 100 # TODO
 
-var TrackScene = preload("res://scenes/track/Track.tscn")
-var Track = preload("res://scenes/track/Track.gd")
+const TrackScene = preload("res://scenes/track/Track.tscn")
 
 export (NodePath) var path_sig_upper
 onready var input_sig_upper:LineEdit = get_node(path_sig_upper)
@@ -97,7 +96,7 @@ func _on_ButtonTrackAdd_pressed():
 	data.muted = true
 	add_track(data)
 	
-func add_track(data): #Track.TrackData
+func add_track(data: Track.TrackData):
 	var child = TrackScene.instance()
 	child.data = data
 	child.part_data = self.data

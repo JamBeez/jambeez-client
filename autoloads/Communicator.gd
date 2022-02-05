@@ -116,10 +116,11 @@ func _on_data():
 		printerr("Error parsing JSON: " + result.error_string)
 	else:
 		var data_json = result.result
+		print(data_json)
 		match data_json.intent:
 			"lobby:create":
 				if data_json.get("lobby_id") == null:
-					data_json.lobby_id = "my_cool_lobby" # TODO remove
+					data_json.lobby_id = "i-am-a-drum-bee" # TODO remove
 					print("lobby:create : Mocking lobby id ", data_json.lobby_id)
 					
 				# TODO change url so that it can be shared but without triggering website reload
