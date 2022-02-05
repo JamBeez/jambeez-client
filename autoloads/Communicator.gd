@@ -74,6 +74,7 @@ func start_connection():
 	emit_signal("connection_state_changed", "connecting")
 	var url = PARAM_WS_SERVER_URL if PARAM_WS_SERVER_URL else Consts.WS_SERVER_URL
 	var err = _client.connect_to_url(url)
+	print("Connecting to: ", url)
 	if err != OK:
 		printerr("Unable to connect")
 		set_process(false)
@@ -117,20 +118,25 @@ func _on_data():
 		var data_json = result.result
 		match data_json.intent:
 			"lobby:create":
-				# data_json.lobby_id = "my_cool_lobby" # TODO remove
+				if data_json.get("lobby_id") == null:
+					data_json.lobby_id = "my_cool_lobby" # TODO remove
+					print("lobby:create : Mocking lobby id ", data_json.lobby_id)
+					
 				# TODO change url so that it can be shared but without triggering website reload
 				
-				#TONRTIANOTRINETNOD TOODO---------------------------------------------------------------t
 				emit_signal("lobby_create", data_json.lobby_id)
 				
 				var data = serialize_main.call_func()
 				print(data)
 			"lobby:join":
 				var lobby: Main.LobbyData
-				# lobby = data_json.lobby
-				# TODO remove dummy
-				lobby = Consts.initial_lobby
-				emit_signal("lobby_join", data_json.lobby_id, {"data":"value"})
+				if data_json.get("lobby") == null:
+					lobby = Consts.initial_lobby
+					print("lobby:join : Mocking lobby ", lobby)
+				else:
+					lobby = data_json.lobby
+				
+				emit_signal("lobby_join", lobby)
 			"user:joined":
 				pass
 			"lobby:request_state":
