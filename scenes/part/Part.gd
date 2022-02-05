@@ -12,6 +12,9 @@ var setting_sig_lower = 4
 var setting_bpm = 120
 var setting_bars = 2
 
+var TrackScene = preload("res://scenes/track/Track.tscn")
+var Track = preload("res://scenes/track/Track.gd")
+
 export (NodePath) var path_sig_upper
 onready var input_sig_upper:LineEdit = get_node(path_sig_upper)
 
@@ -33,7 +36,19 @@ func _ready():
 	Communicator.connect("change_BPM", self, "_on_Communicator_change_BPM")
 
 func _on_ButtonTrackAdd_pressed():
-	pass # Replace with function body.
+	var data = Track.TrackData.new()
+	data.muted = true
+	add_track(data)
+	
+func add_track(data): #Track.TrackData
+	var child = TrackScene.instance()
+	child.data = data
+	child.connect("delete", self, "delete_track", [child])
+	$VBoxContainer/Tracks.add_child(child)
+
+func delete_track(child):
+	# TODO propagete to server
+	$VBoxContainer/Tracks.remove_child(child)
 
 func _on_LineEditBPM_text_entered(new_text):
 	Communicator.notify_BPM(part_id, int(new_text))

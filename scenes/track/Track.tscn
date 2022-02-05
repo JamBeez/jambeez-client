@@ -10,6 +10,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+path_muted = NodePath("HBoxContainer/Mute")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
@@ -72,7 +73,7 @@ margin_bottom = 34.0
 rect_min_size = Vector2( 80, 0 )
 value = 50.0
 
-[node name="CheckBox" type="CheckBox" parent="HBoxContainer"]
+[node name="Mute" type="CheckBox" parent="HBoxContainer"]
 margin_left = 204.0
 margin_right = 265.0
 margin_bottom = 34.0
@@ -166,3 +167,5 @@ margin_right = 639.0
 [node name="Beat16" parent="HBoxContainer/Score/HBoxContainer" instance=ExtResource( 2 )]
 margin_left = 643.0
 margin_right = 681.0
+
+[connection signal="pressed" from="HBoxContainer/ButtonRemove" to="." method="_on_ButtonRemove_pressed"]
