@@ -59,7 +59,6 @@ func get_score_global_rect():
 	return Rect2($HBoxContainer/Score.rect_global_position, $HBoxContainer/Score.rect_size)
 
 func set_muted(val):
-	print(val)
 	data.muted = val
 	node_muted.pressed = val
 	AudioServer.set_bus_mute(bus_id, val)
