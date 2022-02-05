@@ -1,6 +1,9 @@
 extends Node2D
 
-var data: Data.Lobby = Data.initial_state
+#var data: Data.Lobby = Data.initial_state
+var data = Data.initial_state
+
+const Part = preload("res://scenes/part/Part.tscn")
 
 export (NodePath) var path_connection
 onready var node_connection:CheckButton = get_node(path_connection)
@@ -14,11 +17,17 @@ onready var node_invite:Node = get_node(path_invite)
 export (NodePath) var path_invite_link
 onready var node_invite_link:LineEdit = get_node(path_invite_link)
 
+export (NodePath) var path_tab_cont
+onready var node_tab_cont:TabContainer = get_node(path_tab_cont)
+
+
 func _ready():
 	Communicator.connect("connection_state_changed", self, "_on_Communicator_connection_state_changed")
 	Communicator.connect("lobby_create", self, "_on_Communicator_lobby_create")
 	Communicator.connect("lobby_join", self, "_on_Communicator_lobby_join")
 	Communicator.get_main_data = funcref(self, "get_data")
+	
+	deserialize(data)
 
 func _on_Communicator_connection_state_changed(state):
 	match state:
@@ -54,5 +63,27 @@ func _on_ConnectionToogle_toggled(button_pressed):
 	else:
 		Communicator.stop_connection()
 		
+
+func add_track(data: Data.Part):
+	var child = Part.instance()
+	child.data = data
+	child.connect("delete", self, "delete_track", [child])
+	node_tab_cont.add_child(child)
+
+func delete_track(child):
+	node_tab_cont.remove_child(child)
+
+func deserialize(data: Data.Lobby):
+	if data != null:
+		self.data = data
+	
+	# clear prev 
+	for part in node_tab_cont.get_children():
+		part.queue_free()
+	# Create new Tracks
+	for part_data in data.parts:
+		add_track(part_data)
+
+
 func get_data() -> Data.Lobby:
 	return data

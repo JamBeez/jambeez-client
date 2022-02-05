@@ -4,7 +4,7 @@ class Lobby:
 	var id: String
 	var users: Array = [] # Main.UserData
 	var parts: Array = [] # Part.PartData
-	
+
 	static func from_dict(dict: Dictionary) -> Lobby:
 		var lobby = Lobby.new()
 		lobby.id = dict['id']
@@ -33,7 +33,7 @@ class Lobby:
 class User:
 	var id: String
 	var alias: String
-	
+
 	static func from_dict(dict: Dictionary) -> User:
 		var user = User.new()
 		user.id = dict['id']
@@ -55,9 +55,6 @@ class Part:
 	var time: float = 0
 	var time_last: float = -0.00000001
 	var tracks: Array = [
-		Track.new(self),
-		Track.new(self),
-		Track.new(self)
 	]
 
 	static func from_dict(dict: Dictionary) -> Part:
@@ -100,7 +97,7 @@ class Track:
 		beats = []
 		for i in range(num_beats):
 			beats.append(false)
-			
+
 	static func from_dict(dict: Dictionary, part: Part) -> Track:
 		var track = Track.new(part)
 		track.id = dict['id']
@@ -122,46 +119,30 @@ class Track:
 		return d
 
 
-var initial_state: Lobby = Lobby.from_dict(initial_lobby("i-am-a-jam-bee"))
+var initial_state: Lobby = initial_lobby("i-am-a-jam-bee")
 
-func initial_lobby(id: String) -> Dictionary:
-	return {
-	"id": id,
-	"users": [],
-	"parts": [
-		initial_part("Part 1"),
+func initial_lobby(id: String) -> Lobby:
+	var lobby = Lobby.new()
+	lobby.id = id
+	lobby.users = []
+	lobby.parts = [
+		initial_part("Part 1", true),
 		initial_part("Part 2"),
 		initial_part("Part 3"),
 	]
-}
+	return lobby
 
-func initial_part(id: String):
-	return {
-		"id": id,
-		"bpm": 120,
-		"bars": 4,
-		"sig_upper": 4,
-		"sig_lower": 4,
-		"tracks": [
-			initial_track("Track 1")
-		]
-	}
+func initial_part(id: String, with_tracks: bool = false) -> Part:
+	var part = Part.new()
+	if with_tracks:
+		part.tracks.append(initial_track(part, "Snare Drum", 0))
+		part.tracks.append(initial_track(part, "Bass Drum", 1))
+		part.tracks.append(initial_track(part, "Cow Bell", 2))
+		part.tracks.append(initial_track(part, "Kick", 3))
+	return part
 
-func initial_track(id: String):
-	return {
-		"id": id,
-		"muted": false,
-		"sample_id": 0,
-		"volume": 50,
-		"beats": [
-			initial_beat(), initial_beat(), initial_beat(), initial_beat(),
-			initial_beat(), initial_beat(), initial_beat(), initial_beat(),
-			initial_beat(), initial_beat(), initial_beat(), initial_beat(),
-			initial_beat(), initial_beat(), initial_beat(), initial_beat(),
-		]
-	}
-
-func initial_beat():
-	return {
-		"is_on": false
-	}
+func initial_track(part: Part, id: String, sample_id: int = 0):
+	var track = Track.new(part)
+	track.id = id
+	track.sample_id = sample_id
+	return track
