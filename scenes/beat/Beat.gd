@@ -1,6 +1,5 @@
 tool
 extends Button
-class_name Beat
 
 var is_on = false
 var sample: Resource

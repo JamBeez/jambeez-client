@@ -8,16 +8,6 @@
 
 config_version=4
 
-_global_script_classes=[ {
-"base": "Button",
-"class": "Beat",
-"language": "GDScript",
-"path": "res://scenes/beat/Beat.gd"
-} ]
-_global_script_class_icons={
-"Beat": ""
-}
-
 [application]
 
 config/name="Jambeez-client"
