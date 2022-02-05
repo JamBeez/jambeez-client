@@ -1,4 +1,3 @@
-tool
 extends Node2D
 
 var data: Data.Lobby = Data.Lobby.new()
