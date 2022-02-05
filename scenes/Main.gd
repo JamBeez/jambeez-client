@@ -3,7 +3,12 @@ extends Node2D
 class_name Main
 class LobbyData:
 	var id: String
+	var users: Array
 	var parts: Array
+	
+class User:
+	var id: String
+	var alias: String
 	
 var data: LobbyData = LobbyData.new()
 
@@ -21,8 +26,8 @@ onready var node_invite_link:LineEdit = get_node(path_invite_link)
 
 func _ready():
 	Communicator.connect("connection_state_changed", self, "_on_Communicator_connection_state_changed")
-	Communicator.connect("request_lobby", self, "_on_Communicator_request_lobby")
-	Communicator.connect("join_lobby", self, "_on_Communicator_join_lobby")
+	Communicator.connect("lobby_create", self, "_on_Communicator_lobby_create")
+	Communicator.connect("lobby_join", self, "_on_Communicator_lobby_join")
 	Communicator.serialize_main = funcref(self, "serialize")
 
 func _on_Communicator_connection_state_changed(state):
@@ -44,13 +49,14 @@ func _on_Communicator_connection_state_changed(state):
 			node_connection.set_pressed_no_signal(false)
 			node_connection.disabled = false
 
-func _on_Communicator_request_lobby(lobby_id):
+func _on_Communicator_lobby_create(lobby_id):
 	node_invite_link.text = Consts.get_invite_link(lobby_id)
 	print("Created lobby with id " + str(lobby_id))
 
-func _on_Communicator_join_lobby(lobby_id, state):
-	node_invite_link.text = Consts.get_invite_link(lobby_id)
-	print("Joined lobby with id " + str(lobby_id))
+func _on_Communicator_lobby_join(lobby):
+	data = lobby
+	node_invite_link.text = Consts.get_invite_link(lobby.id)
+	print("Joined lobby with id " + str(lobby.id))
 
 func _on_ConnectionToogle_toggled(button_pressed):
 	if button_pressed:
@@ -59,4 +65,4 @@ func _on_ConnectionToogle_toggled(button_pressed):
 		Communicator.stop_connection()
 		
 func serialize():
-	return ""
+	return inst2dict(data)
