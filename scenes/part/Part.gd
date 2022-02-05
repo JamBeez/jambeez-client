@@ -2,12 +2,17 @@ tool
 extends MarginContainer
 class_name Part
 class PartData:
+	var time: float
 	var id: String
-	var bpm: int
-	var bars: int
-	var sig_upper: int
-	var sig_lower: int
-	var tracks: Array # Track.TrackData
+	var bpm: int = 120
+	var bars: int = 2
+	var sig_upper: int = 4
+	var sig_lower: int = 4
+	var tracks: Array = [
+		Track.TrackData.new(self),
+		Track.TrackData.new(self),
+		Track.TrackData.new(self)
+	]
 
 var data: PartData = PartData.new()
 
@@ -18,12 +23,7 @@ signal setting_bpm_changed(bpm)
 signal setting_bars_changed(bars)
 
 var part_id = randi() # TODO
-var time: float = 0
 var time_max: float = 100 # TODO
-var setting_sig_upper = 4
-var setting_sig_lower = 4
-var setting_bpm = 120
-var setting_bars = 2
 
 var TrackScene = preload("res://scenes/track/Track.tscn")
 var Track = preload("res://scenes/track/Track.gd")
@@ -47,29 +47,29 @@ export (NodePath) var path_needle
 onready var node_needle:Control = get_node(path_needle)
 
 func _ready():
-	input_sig_upper.text = str(setting_sig_upper)
-	input_sig_lower.text = str(setting_sig_lower)
-	input_bpm.text = str(setting_bpm)
-	input_bars.text = str(setting_bars)
+	input_sig_upper.text = str(data.sig_upper)
+	input_sig_lower.text = str(data.sig_lower)
+	input_bpm.text = str(data.bpm)
+	input_bars.text = str(data.bars)
 	
 	Communicator.connect("change_BPM", self, "_on_Communicator_change_BPM")
+	
+	for track_data in data.tracks:
+		add_track(track_data)
 	
 	yield(get_tree(), "idle_frame")
 	update_needle()
 	update_time()
 
 func _process(delta):
-	time += delta
-	time = fmod(time, time_max)
+	data.time = fmod(data.time + delta, time_max)
 	
-	node_needle.rect_position.x = lerp(needle_x_min, needle_x_max, time / time_max)
-	
-	for track in node_tracks.get_children():
-		track.time = time
+	node_needle.rect_position.x = lerp(needle_x_min, needle_x_max, data.time / time_max)
 	
 func update_time():
-	time = 0
-	time_max = (60.0 / setting_bpm) * (setting_sig_lower * setting_bars)
+	data.time = 0
+	time_max = (60.0 / data.bpm) * (data.sig_lower * data.bars)
+	
 	
 var needle_x_min = 0
 var needle_x_max = 0
@@ -99,6 +99,7 @@ func _on_ButtonTrackAdd_pressed():
 func add_track(data): #Track.TrackData
 	var child = TrackScene.instance()
 	child.data = data
+	child.part_data = self.data
 	child.connect("delete", self, "delete_track", [child])
 	node_tracks.add_child(child)
 	yield(get_tree(), "idle_frame")
@@ -118,7 +119,7 @@ func _on_LineEditBPM_focus_exited():
 func _on_Communicator_change_BPM(part_id, bpm):
 	if self.part_id != part_id:
 		return
-	setting_bpm = bpm
+	data.bpm = bpm
 	input_bpm.text = str(bpm)
 	update_time()
 	update_needle()

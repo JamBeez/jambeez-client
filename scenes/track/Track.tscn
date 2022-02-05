@@ -11,6 +11,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 path_muted = NodePath("HBoxContainer/Mute")
+path_beats = NodePath("HBoxContainer/Score/Beats")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
@@ -85,86 +86,86 @@ margin_right = 970.0
 margin_bottom = 34.0
 size_flags_horizontal = 3
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/Score"]
+[node name="Beats" type="HBoxContainer" parent="HBoxContainer/Score"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 688.0
 margin_bottom = 27.0
 
-[node name="Beat" parent="HBoxContainer/Score/HBoxContainer" instance=ExtResource( 2 )]
+[node name="Beat" parent="HBoxContainer/Score/Beats" instance=ExtResource( 2 )]
 
-[node name="Beat2" parent="HBoxContainer/Score/HBoxContainer" instance=ExtResource( 2 )]
+[node name="Beat2" parent="HBoxContainer/Score/Beats" instance=ExtResource( 2 )]
 margin_left = 41.0
 margin_right = 78.0
 
-[node name="Beat3" parent="HBoxContainer/Score/HBoxContainer" instance=ExtResource( 2 )]
+[node name="Beat3" parent="HBoxContainer/Score/Beats" instance=ExtResource( 2 )]
 margin_left = 82.0
 margin_right = 119.0
 
-[node name="Beat4" parent="HBoxContainer/Score/HBoxContainer" instance=ExtResource( 2 )]
+[node name="Beat4" parent="HBoxContainer/Score/Beats" instance=ExtResource( 2 )]
 margin_left = 123.0
 margin_right = 161.0
 
-[node name="VSeparator" type="VSeparator" parent="HBoxContainer/Score/HBoxContainer"]
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer/Score/Beats"]
 margin_left = 165.0
 margin_right = 169.0
 margin_bottom = 20.0
 
-[node name="Beat5" parent="HBoxContainer/Score/HBoxContainer" instance=ExtResource( 2 )]
+[node name="Beat5" parent="HBoxContainer/Score/Beats" instance=ExtResource( 2 )]
 margin_left = 173.0
 margin_right = 210.0
 
-[node name="Beat6" parent="HBoxContainer/Score/HBoxContainer" instance=ExtResource( 2 )]
+[node name="Beat6" parent="HBoxContainer/Score/Beats" instance=ExtResource( 2 )]
 margin_left = 214.0
 margin_right = 251.0
 
-[node name="Beat7" parent="HBoxContainer/Score/HBoxContainer" instance=ExtResource( 2 )]
+[node name="Beat7" parent="HBoxContainer/Score/Beats" instance=ExtResource( 2 )]
 margin_left = 255.0
 margin_right = 293.0
 
-[node name="Beat8" parent="HBoxContainer/Score/HBoxContainer" instance=ExtResource( 2 )]
+[node name="Beat8" parent="HBoxContainer/Score/Beats" instance=ExtResource( 2 )]
 margin_left = 297.0
 margin_right = 334.0
 
-[node name="VSeparator2" type="VSeparator" parent="HBoxContainer/Score/HBoxContainer"]
+[node name="VSeparator2" type="VSeparator" parent="HBoxContainer/Score/Beats"]
 margin_left = 338.0
 margin_right = 342.0
 margin_bottom = 20.0
 
-[node name="Beat9" parent="HBoxContainer/Score/HBoxContainer" instance=ExtResource( 2 )]
+[node name="Beat9" parent="HBoxContainer/Score/Beats" instance=ExtResource( 2 )]
 margin_left = 346.0
 margin_right = 383.0
 
-[node name="Beat10" parent="HBoxContainer/Score/HBoxContainer" instance=ExtResource( 2 )]
+[node name="Beat10" parent="HBoxContainer/Score/Beats" instance=ExtResource( 2 )]
 margin_left = 387.0
 margin_right = 425.0
 
-[node name="Beat11" parent="HBoxContainer/Score/HBoxContainer" instance=ExtResource( 2 )]
+[node name="Beat11" parent="HBoxContainer/Score/Beats" instance=ExtResource( 2 )]
 margin_left = 429.0
 margin_right = 466.0
 
-[node name="Beat12" parent="HBoxContainer/Score/HBoxContainer" instance=ExtResource( 2 )]
+[node name="Beat12" parent="HBoxContainer/Score/Beats" instance=ExtResource( 2 )]
 margin_left = 470.0
 margin_right = 507.0
 
-[node name="VSeparator3" type="VSeparator" parent="HBoxContainer/Score/HBoxContainer"]
+[node name="VSeparator3" type="VSeparator" parent="HBoxContainer/Score/Beats"]
 margin_left = 511.0
 margin_right = 515.0
 margin_bottom = 20.0
 
-[node name="Beat13" parent="HBoxContainer/Score/HBoxContainer" instance=ExtResource( 2 )]
+[node name="Beat13" parent="HBoxContainer/Score/Beats" instance=ExtResource( 2 )]
 margin_left = 519.0
 margin_right = 557.0
 
-[node name="Beat14" parent="HBoxContainer/Score/HBoxContainer" instance=ExtResource( 2 )]
+[node name="Beat14" parent="HBoxContainer/Score/Beats" instance=ExtResource( 2 )]
 margin_left = 561.0
 margin_right = 598.0
 
-[node name="Beat15" parent="HBoxContainer/Score/HBoxContainer" instance=ExtResource( 2 )]
+[node name="Beat15" parent="HBoxContainer/Score/Beats" instance=ExtResource( 2 )]
 margin_left = 602.0
 margin_right = 639.0
 
-[node name="Beat16" parent="HBoxContainer/Score/HBoxContainer" instance=ExtResource( 2 )]
+[node name="Beat16" parent="HBoxContainer/Score/Beats" instance=ExtResource( 2 )]
 margin_left = 643.0
 margin_right = 681.0
 
