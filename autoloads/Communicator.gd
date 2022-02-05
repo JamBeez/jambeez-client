@@ -3,6 +3,7 @@ extends Node
 signal connection_state_changed(state)
 signal change_BPM(part_id, bpm)
 signal request_lobby(lobby_id)
+signal join_lobby(lobby_id, a_lot_of_data)
 
 var _client = WebSocketClient.new()
 var _is_connected = false
@@ -35,12 +36,12 @@ func _ready():
 	yield(get_tree(), "idle_frame")
 	start_connection()
 
-func get_browser_get_parameter(parameter):
+func get_browser_get_parameter():
 	if OS.has_feature("JavaScript"):
 		return JavaScript.eval(""" 
 			var url_string = window.location.href;
 			var url = new URL(url_string);
-			url.searchParams.get(parameter);
+			url.searchParams.get("lobby_id");
 		""")
 	return null
 
@@ -60,7 +61,7 @@ func start_sharing():
 func _closed(was_clean = false):
 	print("Closed, clean: ", was_clean)
 	_is_connected = false
-	emit_signal("connection_state_changed", "closed", was_clean)
+	emit_signal("connection_state_changed", "closed")
 	set_process(false)
 
 func _connected(proto = ""):
@@ -68,7 +69,7 @@ func _connected(proto = ""):
 	_is_connected = true
 	emit_signal("connection_state_changed", "connected")
 	
-	var get_param = get_browser_get_parameter("lobby")
+	var get_param = get_browser_get_parameter()
 	if get_param:
 		notify_join_lobby(get_param)
 	else:
@@ -94,6 +95,9 @@ func _on_data():
 			"request_lobby":
 				data_json.lobby_id = 123 # TODO remove
 				emit_signal("request_lobby", data_json.lobby_id)
+			"join_lobby":
+				data_json.lobby_id = 123 # TODO remove
+				emit_signal("join_lobby", data_json.lobby_id, {"data":"value"})
 
 func _process(delta):
 	_client.poll()

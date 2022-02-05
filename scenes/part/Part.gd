@@ -35,7 +35,6 @@ func _ready():
 func _on_ButtonTrackAdd_pressed():
 	pass # Replace with function body.
 
-
 func _on_LineEditBPM_text_entered(new_text):
 	Communicator.notify_BPM(part_id, int(new_text))
 	

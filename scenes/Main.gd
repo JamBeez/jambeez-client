@@ -15,9 +15,9 @@ onready var node_invite_link:LineEdit = get_node(path_invite_link)
 func _ready():
 	Communicator.connect("connection_state_changed", self, "_on_Communicator_connection_state_changed")
 	Communicator.connect("request_lobby", self, "_on_Communicator_request_lobby")
+	Communicator.connect("join_lobby", self, "_on_Communicator_join_lobby")
 
 func _on_Communicator_connection_state_changed(state):
-	print(state)
 	match state:
 		"connecting":
 			node_connection.text = "Connecting..."
@@ -37,8 +37,12 @@ func _on_Communicator_connection_state_changed(state):
 			node_connection.disabled = false
 
 func _on_Communicator_request_lobby(lobby_id):
-	node_invite_link.text = "%s/%s" % [Consts.HTTP_SERVER_URL, str(lobby_id)]
+	node_invite_link.text = Consts.get_invite_link(lobby_id)
 	print("Created lobby with id " + str(lobby_id))
+
+func _on_Communicator_join_lobby(lobby_id):
+	node_invite_link.text = Consts.get_invite_link(lobby_id)
+	print("Joined lobby with id " + str(lobby_id))
 
 func _on_ConnectionToogle_toggled(button_pressed):
 	if button_pressed:
