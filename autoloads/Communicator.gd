@@ -1,6 +1,6 @@
 extends Node
 
-signal connection_state_changed(is_connected)
+signal connection_state_changed(state)
 signal change_BPM(part_id, bpm)
 
 const _websocket_url = "ws://echo.websocket.events/.ws" # TODO adjust url
@@ -22,7 +22,7 @@ func _ready():
 	_client.connect("data_received", self, "_on_data")
 
 func start_connection():
-	# Initiate connection to the given URL.
+	emit_signal("connection_state_changed", "connecting")
 	var err = _client.connect_to_url(_websocket_url)
 	if err != OK:
 		printerr("Unable to connect")
@@ -37,13 +37,13 @@ func start_sharing():
 func _closed(was_clean = false):
 	print("Closed, clean: ", was_clean)
 	_is_connected = false
-	emit_signal("connection_state_changed", _is_connected)
+	emit_signal("connection_state_changed", "closed", was_clean)
 	set_process(false)
 
 func _connected(proto = ""):
 	print("Connected with protocol: ", proto)
 	_is_connected = true
-	emit_signal("connection_state_changed", _is_connected)
+	emit_signal("connection_state_changed", "connected")
 
 func _send_data(message: String):
 	if _is_connected:
