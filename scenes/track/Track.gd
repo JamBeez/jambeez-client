@@ -5,6 +5,8 @@ class TrackData:
 
 var data: TrackData = TrackData.new()
 
+signal delete()
+
 export (NodePath) var path_muted
 onready var node_muted :CheckBox = get_node(path_muted)
 #var muted: bool = false setget set_muted, get_muted
@@ -12,11 +14,13 @@ onready var node_muted :CheckBox = get_node(path_muted)
 func _ready():
 	node_muted.connect("toggled", self, "set_muted")
 	
-	
 	deserialize(data)
 	
 func _on_tree_entered():
 	pass
+	
+func _on_ButtonRemove_pressed():
+	emit_signal("delete")
 	
 func set_muted(val):
 	print(val)

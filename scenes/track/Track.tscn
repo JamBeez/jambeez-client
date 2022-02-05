@@ -167,3 +167,5 @@ margin_right = 639.0
 [node name="Beat16" parent="HBoxContainer/Score/HBoxContainer" instance=ExtResource( 2 )]
 margin_left = 643.0
 margin_right = 681.0
+
+[connection signal="pressed" from="HBoxContainer/ButtonRemove" to="." method="_on_ButtonRemove_pressed"]

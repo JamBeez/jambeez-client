@@ -43,7 +43,12 @@ func _on_ButtonTrackAdd_pressed():
 func add_track(data): #Track.TrackData
 	var child = TrackScene.instance()
 	child.data = data
+	child.connect("delete", self, "delete_track", [child])
 	$VBoxContainer/Tracks.add_child(child)
+
+func delete_track(child):
+	# TODO propagete to server
+	$VBoxContainer/Tracks.remove_child(child)
 
 func _on_LineEditBPM_text_entered(new_text):
 	Communicator.notify_BPM(part_id, int(new_text))
