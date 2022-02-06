@@ -152,6 +152,7 @@ func _on_Communicator_change_BPM(part_id, value):
 	data.time_last = data.time - delta_last
 	
 	input_bpm.text = str(value)
+	
 	update_time()
 	update_needle()
 	
@@ -178,6 +179,7 @@ func _on_Communicator_change_sig_lower(part_id, value):
 		track.data.change_time_sig(data)
 		track.deserialize(null)
 		track.next_beat_id = res[1]
+		Communicator.notify_set_beats(data.id, track.data.id, track.data.beats)
 	update_time()
 	update_needle()
 	emit_signal("setting_sig_lower_changed", value)
@@ -195,6 +197,8 @@ func _on_Communicator_change_bars(part_id, value):
 		track.data.change_time_sig(data)
 		track.deserialize(null)
 		track.next_beat_id = res[1]
+		Communicator.notify_set_beats(data.id, track.data.id, track.data.beats)
+		
 	update_time()
 	update_needle()
 	emit_signal("setting_bars_changed", value)
