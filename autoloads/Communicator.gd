@@ -17,6 +17,7 @@ signal set_beats(part_id, track_id, beats)
 
 var _client = WebSocketClient.new()
 var _is_connected = false
+var _state = "disconnected" # todo this is almost NetworkedMultiplayerPeer.ConnectionStatus
 
 var PARAM_WS_SERVER_URL: String
 var get_main_data: FuncRef
@@ -143,15 +144,20 @@ func get_browser_get_parameter():
 	return null
 
 func start_connection():
-	emit_signal("connection_state_changed", "connecting")
+	_state = "connecting"
+	emit_signal("connection_state_changed", _state)
 	var url = PARAM_WS_SERVER_URL if PARAM_WS_SERVER_URL else Consts.WS_SERVER_URL
 	var err = _client.connect_to_url(url)
+	set_process(true)
 	print("Connecting to: ", url)
 	if err != OK:
 		printerr("Unable to connect")
 		set_process(false)
 
 func stop_connection():
+	print("Disconnecting from websocket")
+	_state = "disconnecting"
+	emit_signal("connection_state_changed", _state)
 	_client.disconnect_from_host()
 	
 func start_sharing():
@@ -160,13 +166,15 @@ func start_sharing():
 func _closed(was_clean = false):
 	print("Closed, clean: ", was_clean)
 	_is_connected = false
-	emit_signal("connection_state_changed", "closed")
+	_state = "disconnected"
+	emit_signal("connection_state_changed", _state)
 	set_process(false)
 
 func _connected(proto = ""):
 	print("Connected with protocol: ", proto)
 	_is_connected = true
-	emit_signal("connection_state_changed", "connected")
+	_state = "connected"
+	emit_signal("connection_state_changed", _state)
 	
 	var get_param = get_browser_get_parameter()
 	if get_param:

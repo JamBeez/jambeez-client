@@ -41,7 +41,7 @@ func _on_Communicator_connection_state_changed(state):
 			node_join.visible = false
 			node_connection.set_pressed_no_signal(true)
 			node_connection.disabled = false
-		"closed":
+		"disconnected":
 			node_connection.text = "Share Session"
 			node_invite.visible = false
 			node_join.visible = true
