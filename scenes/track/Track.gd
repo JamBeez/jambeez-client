@@ -32,7 +32,7 @@ func _ready():
 	Communicator.connect("change_volume", self, "_on_Communicator_change_volume")
 	Communicator.connect("set_beats", self, "_on_Communicator_set_beats")
 
-var next_beat_id = 0
+var next_beat_id:int = 0
 func _process(delta):
 	if node_beats.get_child_count() == 0:
 		return
@@ -41,8 +41,11 @@ func _process(delta):
 	if part_data.time >= next_beat_time:
 		# seconds to past where sound should have been
 		var time_error = part_data.time - next_beat_time
-		node_beats.get_children()[next_beat_id % node_beats.get_child_count()].play()
+		node_beats.get_children()[next_beat_id % data.beats.size()].play()
+		if data.beats[next_beat_id % data.beats.size()]:
+			print(next_beat_id, " / ", data.beats.size())
 		next_beat_id += 1
+		
 
 func _on_ButtonRemove_pressed():
 	Communicator.notify_remove_track(part_data.id, data.id)

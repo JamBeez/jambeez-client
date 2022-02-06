@@ -53,9 +53,11 @@ func _ready():
 	update_needle()
 	update_time()
 
+var delta_last = 0
 func _process(delta):
 	data.time_last = data.time
 	data.time += delta
+	delta_last = delta
 	
 	node_needle.rect_position.x = lerp(needle_x_min, needle_x_max, fmod(data.time, time_max) / time_max)
 	
@@ -82,7 +84,6 @@ func update_needle():
 	node_needle.rect_global_position.y = track_first.rect_global_position.y
 	
 	node_needle.rect_size.y = track_last.rect_global_position.y + track_last.rect_size.y - track_first.rect_global_position.y
-	print(node_needle.rect_position, " ", node_needle.rect_size)
 	
 	needle_x_min = node_needle.rect_position.x
 	needle_x_max = needle_x_min + track_first.get_score_global_rect().size.x
@@ -142,16 +143,13 @@ func _on_Communicator_remove_track(part_id, track_id):
 func _on_Communicator_change_BPM(part_id, value):
 	if data.id != part_id: return
 	
-	print("###")
-	print(data.time)
-	var bps = data.bpm * 60.0
-	var time_last_in_beats = data.time_last * bps
+	var bps = data.bpm / 60.0
 	var time_in_beats = data.time * bps
 	data.bpm = value
-	bps = data.bpm * 60.0
-	data.time_last = time_last_in_beats / bps
+	bps = data.bpm / 60.0
+	
 	data.time = time_in_beats / bps
-	print(data.time)
+	data.time_last = data.time - delta_last
 	
 	input_bpm.text = str(value)
 	update_time()
@@ -169,23 +167,54 @@ func _on_Communicator_change_sig_upper(part_id, value):
 
 func _on_Communicator_change_sig_lower(part_id, value):
 	if data.id != part_id: return
+	
+	var res = _calc_new_time_when_beats_per_pass_change(data, value * data.bars)
+	data.time = res[0]
+	data.time_last = data.time - delta_last
 	data.sig_lower = value
+	
 	input_sig_lower.text = str(value)
+	for track in node_tracks.get_children():
+		track.data.change_time_sig(data)
+		track.deserialize(null)
+		track.next_beat_id = res[1]
 	update_time()
 	update_needle()
 	emit_signal("setting_sig_lower_changed", value)
-
+	
 func _on_Communicator_change_bars(part_id, value):
 	if data.id != part_id: return
+	
+	var res = _calc_new_time_when_beats_per_pass_change(data, value * data.sig_lower)
+	data.time = res[0]
+	data.time_last = data.time - delta_last
 	data.bars = value
+	
 	input_bars.text = str(value)
 	for track in node_tracks.get_children():
 		track.data.change_time_sig(data)
 		track.deserialize(null)
+		track.next_beat_id = res[1]
 	update_time()
 	update_needle()
 	emit_signal("setting_bars_changed", value)
 
+func _calc_new_time_when_beats_per_pass_change(data: Data.Part, new_num_beats_per_pass):
+	var bps = data.bpm / 60.0
+	
+	var time_in_beats = data.time * bps # [b]
+	var beats_per_pass = data.bars * data.sig_lower # [b/p]
+	var time_per_pass = beats_per_pass / bps # [s/p]
+	var num_passes = int(time_in_beats / beats_per_pass)
+	
+	var time_in_this_pass = (data.time - num_passes * time_per_pass) 
+	var beats_in_this_pass = time_in_this_pass * bps
+	
+	return [
+		(num_passes * new_num_beats_per_pass + beats_in_this_pass) / bps,
+		new_num_beats_per_pass * num_passes + ceil(beats_in_this_pass)
+		]
+	
 func deserialize(new_data: Data.Part = null):
 	if new_data != null:
 		data = new_data
