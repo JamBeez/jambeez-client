@@ -1,3 +1,4 @@
+tool
 extends MarginContainer
 
 var data: Data.Part = Data.Part.new()
@@ -29,6 +30,9 @@ onready var node_tracks:Node = get_node(path_tracks)
 export (NodePath) var path_needle
 onready var node_needle:Control = get_node(path_needle)
 
+export (NodePath) var path_sample
+onready var node_sample:Control = get_node(path_sample)
+
 func _ready():
 	Communicator.connect("add_track", self, "_on_Communicator_add_track")
 	Communicator.connect("remove_track", self, "_on_Communicator_remove_track")
@@ -38,6 +42,10 @@ func _ready():
 	Communicator.connect("change_BPM", self, "_on_Communicator_change_BPM")
 	Communicator.connect("change_bars", self, "_on_Communicator_change_bars")
 	
+	node_sample.clear()
+	for sample in Consts.SAMPLES:
+		node_sample.add_item(sample[0])
+		
 	deserialize()
 	
 	# Runtime warn-error because Part from Editor get deleted befor yield
@@ -78,9 +86,9 @@ func _on_Part_resized():
 	
 func _on_ButtonTrackAdd_pressed():
 	var track_data = Data.Track.new(data)
-	track_data.muted = true
+	track_data.sample_id = node_sample.selected
 	#add_track(track_data)
-	Communicator.notify_add_track(data.id, track_data.to_dict())
+	Communicator.notify_add_track(data.id, track_data)
 	
 func add_track(track_data: Data.Track):
 	var child = Track.instance()
@@ -118,7 +126,7 @@ func _on_LineEditBPM_focus_exited(): _on_LineEditBPM_text_entered(input_bpm.text
 
 func _on_Communicator_add_track(part_id, track):
 	if data.id != part_id: return
-	add_track(track)
+	add_track(Data.Track.from_dict(track, data))
 func _on_Communicator_remove_track(part_id, track_id):
 	if data.id != part_id: return
 	for track in node_tracks.get_children():

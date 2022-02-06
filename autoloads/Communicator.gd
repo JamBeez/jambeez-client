@@ -68,10 +68,12 @@ func notify_sig_upper(part_id: String, value: int):
 	}
 	_send_data(JSON.print(msg))
 func notify_add_track(part_id: String, track: Data.Track):
+	var track_dict = track.to_dict()
+	track_dict.erase("id")
 	var msg = {
 		"intent" : "part:add_track",
 		"part_id" : part_id,
-		"track_to_add" : track
+		"track_to_add" : track_dict
 	}
 	_send_data(JSON.print(msg))
 func notify_remove_track(part_id: String, track_id: String):
@@ -216,9 +218,9 @@ func _on_data():
 			"lobby:update_parts":
 				notify_update_parts(get_main_data.call_func())
 			"part:add_track":
-				emit_signal("add_track", data_json.part_id, data_json.track)
+				emit_signal("add_track", data_json.newtrackresponse.part_id, data_json.newtrackresponse.track_to_add)
 			"part:remove_track":
-				emit_signal("remove_track", data_json.part_id, data_json.track_id)
+				emit_signal("remove_track", data_json.part_id, data_json.track_to_remove)
 			"part:change_bpm":
 				emit_signal("change_BPM", data_json.part_id, data_json.bpm)
 			"part:change_bars":

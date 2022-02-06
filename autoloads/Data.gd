@@ -104,8 +104,7 @@ class Track:
 		track.muted = dict['muted']
 		track.sample_id = dict['sample']
 		track.volume = dict['volume']
-		# TODO init read beats from dict
-		# track.beats
+		track.beats = dict['beats']
 		return track
 
 	func to_dict() -> Dictionary:
@@ -114,8 +113,7 @@ class Track:
 		d['muted'] = muted
 		d['sample'] = sample_id
 		d['volume'] = volume
-		# TODO save beats
-		# track.beats
+		d['beats'] = beats
 		return d
 
 
