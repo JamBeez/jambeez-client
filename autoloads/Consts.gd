@@ -3,10 +3,26 @@ extends Node
 const HTTP_SERVER_URL = "https://jambeez.github.io"
 #const WS_SERVER_URL = "ws://echo.websocket.events/.ws"
 #const WS_SERVER_URL = "ws://localhost:8080/jambeez"
+# url encoded ws%3A%2F%2Flocalhost%3A8080%2Fjambeez
 #const WS_SERVER_URL = "ws://vps.fuchss.org:8888/jambeez"
-const WS_SERVER_URL = "wss://ci.fuchss.org/jambeez"
+var WS_SERVER_URL = "wss://ci.fuchss.org/jambeez"
+# url encoded wss%3A%2F%2Fci.fuchss.org%2Fjambeez
 
+var PARAM_LOBBY_ID = null
+const JOIN_DEBUG_SESSION = false
 
+func _ready():
+	if JOIN_DEBUG_SESSION and OS.is_debug_build():
+		PARAM_LOBBY_ID = "DEBUG"
+		print("Debug: Set param url to ", PARAM_LOBBY_ID)
+	else:
+		PARAM_LOBBY_ID = get_browser_get_parameter("l")
+		print("Read lobby join id from url: ", PARAM_LOBBY_ID)
+
+	var param_ws_server = get_browser_get_parameter("ws_server")
+	if param_ws_server != null:
+		WS_SERVER_URL = param_ws_server
+		print("Read ws server address from url: ", WS_SERVER_URL)
 
 const SAMPLES = [
 	["Snare Drum", preload("res://assets/samples/drums/snare_drum.wav")],
@@ -44,3 +60,12 @@ const SAMPLES = [
 
 func get_invite_link(lobby_id) -> String:
 	return "%s?l=%s" % [HTTP_SERVER_URL, str(lobby_id)]
+
+func get_browser_get_parameter(id: String):
+	if OS.has_feature("JavaScript"):
+		return JavaScript.eval("""
+			var url_string = window.location.href;
+			var url = new URL(url_string);
+			url.searchParams.get("%s");
+		""" % id) # TODO prevent js injection
+	return null
