@@ -10,6 +10,7 @@ var WS_SERVER_URL = "wss://ci.fuchss.org/jambeez"
 
 var PARAM_LOBBY_ID = null
 const JOIN_DEBUG_SESSION = false
+var PARAM_AUTO_CONNECT = true
 
 func _ready():
 	if JOIN_DEBUG_SESSION and OS.is_debug_build():
@@ -18,6 +19,10 @@ func _ready():
 	else:
 		PARAM_LOBBY_ID = get_browser_get_parameter("l")
 		print("Read lobby join id from url: ", PARAM_LOBBY_ID)
+	
+	if get_browser_get_parameter("no_autoconnect") == "t":
+		PARAM_AUTO_CONNECT = false
+		print("No autoconnect requested by url params")
 
 	var param_ws_server = get_browser_get_parameter("ws_server")
 	if param_ws_server != null:
