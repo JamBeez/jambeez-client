@@ -1,6 +1,6 @@
 extends Node
 
-const HTTP_SERVER_URL = "https://jambeez.github.io"
+const HTTP_SERVER_URL = "jambeez.github.io"
 #const WS_SERVER_URL = "ws://echo.websocket.events/.ws"
 #const WS_SERVER_URL = "ws://localhost:8080/jambeez"
 # url encoded ws%3A%2F%2Flocalhost%3A8080%2Fjambeez
@@ -26,7 +26,11 @@ func _ready():
 	
 	if get_browser_get_parameter("no_autoconnect") == "t":
 		PARAM_AUTO_CONNECT = false
-		print("No autoconnect requested by url params")
+		print("No automatic connectin requested by url params")
+
+	if get_browser_get_parameter("no_autoshare") == "t":
+		PARAM_AUTO_CONNECT = false
+		print("No automatic sharing requested by url params")
 
 	var param_ws_server = get_browser_get_parameter("ws_server")
 	if param_ws_server != null:

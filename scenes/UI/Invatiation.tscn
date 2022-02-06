@@ -67,4 +67,5 @@ __meta__ = {
 }
 
 [connection signal="text_changed" from="LinkEdit" to="." method="_text_changed"]
+[connection signal="text_entered" from="LinkEdit" to="." method="_text_entered"]
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
