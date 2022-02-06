@@ -32,6 +32,7 @@ func _ready():
 	Communicator.connect("set_sample", self, "_on_Communicator_set_sample")
 	Communicator.connect("toggle_mute", self, "_on_Communicator_toggle_mute")
 	Communicator.connect("change_volume", self, "_on_Communicator_change_volume")
+	Communicator.connect("set_beats", self, "_on_Communicator_set_beats")
 
 var next_beat_id = 0
 func _process(delta):
@@ -87,26 +88,33 @@ func change_volume(val):
 	node_volume.value = val
 	is_awaiting_volume_change = false
 	# TODO calc db
+	AudioServer.set_bus_volume_db(bus_id, linear2db(val / 100.0))
 	
 func set_beats(beats):
 	data.beats = beats
 	
-	# TODO dont always clear
-	
-	# clear prev Beats
-	for beat in node_beats.get_children():
-		beat.queue_free()
+	if node_beats.get_child_count() == 0:
+		# Create new Beats
+		var i = 0
+		for beat_is_on in data.beats:
+			var beat = Beat.instance()
+			beat.is_on = beat_is_on
+			beat.sample = Consts.SAMPLES[data.sample_id][1]
+			beat.bus_id = bus_id
+			beat.connect("beat_toggled", self, "_on_beat_toggled", [i])
+			i+=1
+			node_beats.add_child(beat)
+	else:
+		var i = 0
+		for beat in node_beats.get_children():
+			beat.is_on = beats[i]
+			
+			i += 1
+#	# clear prev Beats
+#	for beat in node_beats.get_children():
+#		beat.queue_free()
 		
-	# Create new Beats
-	var i = 0
-	for beat_is_on in data.beats:
-		var beat = Beat.instance()
-		beat.is_on = beat_is_on
-		beat.sample = Consts.SAMPLES[data.sample_id][1]
-		beat.bus_id = bus_id
-		beat.connect("beat_toggled", self, "_on_beat_toggled", [i])
-		i+=1
-		node_beats.add_child(beat)
+	
 	
 func get_score_global_rect():
 	return Rect2($HBoxContainer/Score.rect_global_position, $HBoxContainer/Score.rect_size)

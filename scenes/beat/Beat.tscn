@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scenes/beat/Beat.gd" type="Script" id=1]
+[ext_resource path="res://assets/samples/synth/e_3.wav" type="AudioStream" id=2]
 
 [node name="Beat" type="Button"]
 margin_right = 37.0
@@ -16,6 +17,7 @@ __meta__ = {
 }
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
 
 [connection signal="mouse_entered" from="." to="." method="mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="mouse_exited"]

@@ -12,7 +12,7 @@ onready var player:AudioStreamPlayer = $AudioStreamPlayer
 func _ready():
 	player.stream = sample
 	player.bus = AudioServer.get_bus_name(bus_id)
-	pressed = is_on
+	set_pressed_no_signal(is_on)
 
 func play():
 	if is_on:
@@ -27,7 +27,7 @@ func _on_Beat_toggled(button_pressed):
 	
 func set_is_on(is_on):
 	self.is_on = is_on
-	pressed = is_on
+	set_pressed_no_signal(is_on)
 
 func _input(event):
 	# fix that mouse_entered is not called when mouse is already pressed
