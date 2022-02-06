@@ -7,6 +7,7 @@ var bus_id
 
 const Beat = preload("res://scenes/beat/Beat.tscn")
 const BarLine = preload("res://scenes/track/BarLine.tscn")
+const APLHA_MUTE = 0.5
 
 export (NodePath) var path_sample
 onready var node_sample: OptionButton = get_node(path_sample)
@@ -45,7 +46,9 @@ func _process(delta):
 	if part_data.time >= next_beat_time:
 		# seconds to past where sound should have been
 		var time_error = part_data.time - next_beat_time
-		node_beats.get_children()[next_beat_id % data.beats.size()].play(60.0 / part_data.bpm)
+		
+		if !data.muted:
+			node_beats.get_children()[next_beat_id % data.beats.size()].play(60.0 / part_data.bpm)
 #		if data.beats[next_beat_id % data.beats.size()]:
 #			print(next_beat_id, " / ", data.beats.size())
 		next_beat_id += 1
@@ -86,6 +89,8 @@ func set_sample(sample_id):
 func toggle_mute(val):
 	data.muted = val
 	node_muted.pressed = val
+	modulate.a = APLHA_MUTE if val else 1
+	node_muted.modulate.a = 1 / APLHA_MUTE if val else 1
 	AudioServer.set_bus_mute(bus_id, val)
 func change_volume(val):
 	prevent_volume_signal = true
