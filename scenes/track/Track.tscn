@@ -29,22 +29,22 @@ margin_bottom = 34.0
 rect_min_size = Vector2( 32, 32 )
 
 [node name="OptionButtonSample" type="OptionButton" parent="HBoxContainer"]
-margin_right = 120.0
+margin_right = 155.0
 margin_bottom = 34.0
-rect_min_size = Vector2( 120, 0 )
+rect_min_size = Vector2( 155, 0 )
 text = "Snare Drum"
 items = [ "Snare Drum", null, false, 0, null, "Bass Drum", null, false, 1, null, "Cow Bell", null, false, 2, null, "Kick", null, false, 3, null ]
 selected = 0
 
 [node name="ButtonRemove" type="Button" parent="HBoxContainer"]
-margin_left = 130.0
-margin_right = 150.0
+margin_left = 165.0
+margin_right = 185.0
 margin_bottom = 34.0
 text = "X"
 
 [node name="VBoxContainerVol" type="VBoxContainer" parent="HBoxContainer"]
-margin_left = 160.0
-margin_right = 240.0
+margin_left = 195.0
+margin_right = 275.0
 margin_bottom = 34.0
 
 [node name="Label" type="Label" parent="HBoxContainer/VBoxContainerVol"]
@@ -78,13 +78,13 @@ rect_min_size = Vector2( 80, 0 )
 value = 50.0
 
 [node name="ButtonMute" type="CheckBox" parent="HBoxContainer"]
-margin_left = 250.0
-margin_right = 311.0
+margin_left = 285.0
+margin_right = 346.0
 margin_bottom = 34.0
 text = "Mute"
 
 [node name="Score" type="PanelContainer" parent="HBoxContainer"]
-margin_left = 321.0
+margin_left = 356.0
 margin_right = 970.0
 margin_bottom = 34.0
 size_flags_horizontal = 3
@@ -92,13 +92,13 @@ size_flags_horizontal = 3
 [node name="BarLines" type="Control" parent="HBoxContainer/Score"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 642.0
+margin_right = 607.0
 margin_bottom = 27.0
 
 [node name="Beats" type="HBoxContainer" parent="HBoxContainer/Score"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 642.0
+margin_right = 607.0
 margin_bottom = 27.0
 custom_constants/separation = 0
 
