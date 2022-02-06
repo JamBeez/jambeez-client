@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://scenes/track/Track.gd" type="Script" id=1]
-[ext_resource path="res://scenes/track/BarLine.tscn" type="PackedScene" id=2]
 
 [node name="Track" type="PanelContainer"]
 margin_right = 984.0
@@ -95,9 +94,6 @@ margin_left = 7.0
 margin_top = 7.0
 margin_right = 642.0
 margin_bottom = 27.0
-
-[node name="BarLine" parent="HBoxContainer/Score/BarLines" instance=ExtResource( 2 )]
-position = Vector2( 635, 0 )
 
 [node name="Beats" type="HBoxContainer" parent="HBoxContainer/Score"]
 margin_left = 7.0
