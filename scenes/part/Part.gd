@@ -150,8 +150,9 @@ func deserialize(new_data: Data.Part = null):
 		data = new_data
 	elif data == null:
 		printerr("data is null can't deserialise Part")
-	
+		
 	# update ui
+	name = data.id
 	input_sig_upper.text = str(data.sig_upper)
 	input_sig_lower.text = str(data.sig_lower)
 	input_bpm.text = str(data.bpm)
