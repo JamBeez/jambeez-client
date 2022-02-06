@@ -56,6 +56,7 @@ func _on_ConnectionToogle_toggled(button_pressed):
 		Communicator.stop_connection()
 		
 func _on_invite_join(lobby_id: String):
+	Communicator.start_connection(lobby_id)
 	Communicator.notify_join_lobby(lobby_id)
 
 func add_part(part_data: Data.Part):

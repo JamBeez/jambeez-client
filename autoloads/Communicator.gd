@@ -18,6 +18,7 @@ signal set_beats(part_id, track_id, beats, color_per_beat)
 var _client = WebSocketClient.new()
 var _is_connected = false
 var _state = "disconnected" # todo this is almost NetworkedMultiplayerPeer.ConnectionStatus
+var _next_lobby = null
 
 var get_main_data: FuncRef
 
@@ -129,8 +130,12 @@ func _ready():
 	if not get_tree().root.has_node("Main"):
 		set_process(false)
 
-func start_connection():
+func start_connection(next_lobby = null):
+	if _state != "disconnected":
+		printerr("Commuicater cant connect when not disconected")
+		return null
 	_state = "connecting"
+	_next_lobby = next_lobby
 	emit_signal("connection_state_changed", _state)
 	var url = Consts.WS_SERVER_URL
 	var err = _client.connect_to_url(url)
@@ -163,9 +168,10 @@ func _connected(proto = ""):
 	emit_signal("connection_state_changed", _state)
 	
 	var lobby_param = Consts.get_browser_get_parameter("l")
+	var lobby = _next_lobby if _next_lobby != null else lobby_param
 	if Consts.PARAM_AUTO_SHARE:
-		if lobby_param:
-			notify_join_lobby(lobby_param)
+		if lobby:
+			notify_join_lobby(lobby)
 		else:
 			notify_request_lobby()
 
