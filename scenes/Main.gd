@@ -21,21 +21,23 @@ func _ready():
 	Communicator.connect("lobby_join", self, "_on_Communicator_lobby_join")
 	Communicator.connect("lobby_error", self, "_on_Communicator_lobby_error")
 	Communicator.get_main_data = funcref(self, "get_data")
+	
 	node_invite.connect("join", self, "_on_invite_join")
+	node_invite.set_state(Data.State.DISCONNECTED, Consts.PARAM_LOBBY_ID)
 	
 	deserialize()
 
 func _on_Communicator_connection_state_changed(state):
 	match state:
-		"connecting":
+		Data.ConnectionState.CONNECTING:
 			node_connection.text = "Connecting..."
 			node_connection.set_pressed_no_signal(true)
 			node_connection.disabled = true
-		"connected":
+		Data.ConnectionState.CONNECTED:
 			node_connection.text = "Connected"
 			node_connection.set_pressed_no_signal(true)
 			node_connection.disabled = false
-		"disconnected":
+		Data.ConnectionState.DISCONNECTING:
 			node_connection.text = "Share Session"
 			node_connection.set_pressed_no_signal(false)
 			node_connection.disabled = false

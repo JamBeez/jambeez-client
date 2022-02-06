@@ -36,6 +36,10 @@ func change_sample(sample_id: int):
 func _on_Beat_toggled(button_pressed):
 	emit_signal("beat_toggled", button_pressed)
 	
+	# Hack to playback when not connected
+	if Communicator._state != Data.ConnectionState.CONNECTED:
+		set_is_on(button_pressed)
+	
 func set_is_on(is_on):
 	self.is_on = is_on
 	set_pressed_no_signal(is_on)

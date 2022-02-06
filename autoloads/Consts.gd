@@ -5,7 +5,7 @@ const HTTP_SERVER_URL = "jambeez.github.io"
 #const WS_SERVER_URL = "ws://localhost:8080/jambeez"
 # url encoded ws%3A%2F%2Flocalhost%3A8080%2Fjambeez
 #const WS_SERVER_URL = "ws://vps.fuchss.org:8888/jambeez"
-var WS_SERVER_URL = "wss://ci.fuchss.org/jambeez"
+var WS_SERVER_URL = "wss://jambeez.fuchss.org/jambeez"
 # url encoded wss%3A%2F%2Fci.fuchss.org%2Fjambeez
 
 var PARAM_LOBBY_ID = null
@@ -26,7 +26,11 @@ func _ready():
 	
 	if get_browser_get_parameter("no_autoconnect") == "t":
 		PARAM_AUTO_CONNECT = false
-		print("No autoconnect requested by url params")
+		print("No automatic connectin requested by url params")
+
+	if get_browser_get_parameter("no_autoshare") == "t":
+		PARAM_AUTO_CONNECT = false
+		print("No automatic sharing requested by url params")
 
 	var param_ws_server = get_browser_get_parameter("ws_server")
 	if param_ws_server != null:
@@ -51,70 +55,70 @@ func _ready():
 	beat_style_active.margin_bottom = margin
 
 const SAMPLES = [
-	["Snare Drum", preload("res://assets/samples/drums/snare_drum.wav")],
-	["Bass Drum", preload("res://assets/samples/drums/bass_drum.wav")],
-	["Cow Bell", preload("res://assets/samples/drums/cow_bell.wav")],
-	["Kick", preload("res://assets/samples/drums/kick.wav")],
-	["drum2", preload("res://assets/samples/drums/bass_drum2.wav")],
-	["drum3", preload("res://assets/samples/drums/bass_drum3.wav")],
-	["drum4", preload("res://assets/samples/drums/bass_drum4.wav")],
-	["drum5", preload("res://assets/samples/drums/bass_drum5.wav")],
-	["drum6", preload("res://assets/samples/drums/bass_drum6.wav")],
-	["drum7", preload("res://assets/samples/drums/bass_drum7.wav")],
+	["Drum snare", preload("res://assets/samples/drums/snare_drum.wav")],
+	["Drum bass bad", preload("res://assets/samples/drums/bass_drum.wav")],
+	["Drum cow bell", preload("res://assets/samples/drums/cow_bell.wav")],
+	["Drum kick", preload("res://assets/samples/drums/kick.wav")],
+	["Drum bass rustle", preload("res://assets/samples/drums/bass_drum2.wav")],
+	["Drum bass flick", preload("res://assets/samples/drums/bass_drum3.wav")],
+	["Drum bass synth", preload("res://assets/samples/drums/bass_drum4.wav")],
+	["Drum bass heavy", preload("res://assets/samples/drums/bass_drum5.wav")],
+	["Drum bass bamboo", preload("res://assets/samples/drums/bass_drum6.wav")],
+	["Drum bass acoustic", preload("res://assets/samples/drums/bass_drum7.wav")],
 	
-	["c_3", preload("res://assets/samples/synth/c_3.wav")],
-	["c_sharp_3", preload("res://assets/samples/synth/c_sharp_3.wav")],
-	["d_3", preload("res://assets/samples/synth/d_3.wav")],
-	["d_sharp_3", preload("res://assets/samples/synth/d_sharp_3.wav")],
-	["e_3", preload("res://assets/samples/synth/e_3.wav")],
-	["f_3", preload("res://assets/samples/synth/f_3.wav")],
-	["f_sharp_3", preload("res://assets/samples/synth/f_sharp_3.wav")],
-	["g_3", preload("res://assets/samples/synth/g_3.wav")],
-	["g_sharp_3", preload("res://assets/samples/synth/g_sharp_3.wav")],
-	["a_3", preload("res://assets/samples/synth/a_3.wav")],
-	["a_sharp_3", preload("res://assets/samples/synth/a_sharp_3.wav")],
-	["b_3", preload("res://assets/samples/synth/b_3.wav")],
-	["c_4", preload("res://assets/samples/synth/c_4.wav")],
+	["Synth c3", preload("res://assets/samples/synth/c_3.wav")],
+	["Synth c#3", preload("res://assets/samples/synth/c_sharp_3.wav")],
+	["Synth d3", preload("res://assets/samples/synth/d_3.wav")],
+	["Synth d#3", preload("res://assets/samples/synth/d_sharp_3.wav")],
+	["Synth e3", preload("res://assets/samples/synth/e_3.wav")],
+	["Synth f3", preload("res://assets/samples/synth/f_3.wav")],
+	["Synth f#3", preload("res://assets/samples/synth/f_sharp_3.wav")],
+	["Synth g3", preload("res://assets/samples/synth/g_3.wav")],
+	["Synth g#3", preload("res://assets/samples/synth/g_sharp_3.wav")],
+	["Synth a3", preload("res://assets/samples/synth/a_3.wav")],
+	["Synth a#3", preload("res://assets/samples/synth/a_sharp_3.wav")],
+	["Synth b3", preload("res://assets/samples/synth/b_3.wav")],
+	["Synth c4", preload("res://assets/samples/synth/c_4.wav")],
 	
-	["c_3", preload("res://assets/samples/piano/c_3.wav")],
-	["c_sharp_3", preload("res://assets/samples/piano/c_sharp_3.wav")],
-	["d_3", preload("res://assets/samples/piano/d_3.wav")],
-	["d_sharp_3", preload("res://assets/samples/piano/d_sharp_3.wav")],
-	["e_3", preload("res://assets/samples/piano/e_3.wav")],
-	["f_3", preload("res://assets/samples/piano/f_3.wav")],
-	["f_sharp_3", preload("res://assets/samples/piano/f_sharp_3.wav")],
-	["g_3", preload("res://assets/samples/piano/g_3.wav")],
-	["g_sharp_3", preload("res://assets/samples/piano/g_sharp_3.wav")],
-	["a_3", preload("res://assets/samples/piano/a_3.wav")],
-	["a_sharp_3", preload("res://assets/samples/piano/a_sharp_3.wav")],
-	["b_3", preload("res://assets/samples/piano/b_3.wav")],
-	["c_4", preload("res://assets/samples/piano/c_4.wav")],
+	["Piano c3", preload("res://assets/samples/piano/c_3.wav")],
+	["Piano c#3", preload("res://assets/samples/piano/c_sharp_3.wav")],
+	["Piano d3", preload("res://assets/samples/piano/d_3.wav")],
+	["Piano d#3", preload("res://assets/samples/piano/d_sharp_3.wav")],
+	["Piano e3", preload("res://assets/samples/piano/e_3.wav")],
+	["Piano f3", preload("res://assets/samples/piano/f_3.wav")],
+	["Piano f#3", preload("res://assets/samples/piano/f_sharp_3.wav")],
+	["Piano g3", preload("res://assets/samples/piano/g_3.wav")],
+	["Piano g#3", preload("res://assets/samples/piano/g_sharp_3.wav")],
+	["Piano a3", preload("res://assets/samples/piano/a_3.wav")],
+	["Piano a#3", preload("res://assets/samples/piano/a_sharp_3.wav")],
+	["Piano b3", preload("res://assets/samples/piano/b_3.wav")],
+	["Piano c4", preload("res://assets/samples/piano/c_4.wav")],
 	
-	["c_4", preload("res://assets/samples/synth2/c_4.wav")],
-	["c_sharp_4", preload("res://assets/samples/synth2/c_sharp_4.wav")],
-	["d_4", preload("res://assets/samples/synth2/d_4.wav")],
-	["d_sharp_4", preload("res://assets/samples/synth2/d_sharp_4.wav")],
-	["e_4", preload("res://assets/samples/synth2/e_4.wav")],
-	["f_4", preload("res://assets/samples/synth2/f_4.wav")],
-	["f_sharp_4", preload("res://assets/samples/synth2/f_sharp_4.wav")],
-	["g_4", preload("res://assets/samples/synth2/g_4.wav")],
-	["g_sharp_4", preload("res://assets/samples/synth2/g_sharp_4.wav")],
-	["a_4", preload("res://assets/samples/synth2/a_4.wav")],
-	["a_sharp_4", preload("res://assets/samples/synth2/a_sharp_4.wav")],
-	["b_4", preload("res://assets/samples/synth2/b_4.wav")],
-	["c_5", preload("res://assets/samples/synth2/c_5.wav")],
-	["c_sharp_5", preload("res://assets/samples/synth2/c_sharp_5.wav")],
-	["d_5", preload("res://assets/samples/synth2/d_5.wav")],
-	["d_sharp_5", preload("res://assets/samples/synth2/d_sharp_5.wav")],
-	["e_5", preload("res://assets/samples/synth2/e_5.wav")],
-	["f_5", preload("res://assets/samples/synth2/f_5.wav")],
-	["f_sharp_5", preload("res://assets/samples/synth2/f_sharp_5.wav")],
-	["g_5", preload("res://assets/samples/synth2/g_5.wav")],
-	["g_sharp_5", preload("res://assets/samples/synth2/g_sharp_5.wav")],
-	["a_5", preload("res://assets/samples/synth2/a_5.wav")],
-	["a_sharp_5", preload("res://assets/samples/synth2/a_sharp_5.wav")],
-	["b_5", preload("res://assets/samples/synth2/b_5.wav")],
-	["c_6", preload("res://assets/samples/synth2/c_6.wav")],
+	["Synth2 c4", preload("res://assets/samples/synth2/c_4.wav")],
+	["Synth2 c#4", preload("res://assets/samples/synth2/c_sharp_4.wav")],
+	["Synth2 d4", preload("res://assets/samples/synth2/d_4.wav")],
+	["Synth2 d#4", preload("res://assets/samples/synth2/d_sharp_4.wav")],
+	["Synth2 e4", preload("res://assets/samples/synth2/e_4.wav")],
+	["Synth2 f4", preload("res://assets/samples/synth2/f_4.wav")],
+	["Synth2 f#4", preload("res://assets/samples/synth2/f_sharp_4.wav")],
+	["Synth2 g4", preload("res://assets/samples/synth2/g_4.wav")],
+	["Synth2 g#4", preload("res://assets/samples/synth2/g_sharp_4.wav")],
+	["Synth2 a4", preload("res://assets/samples/synth2/a_4.wav")],
+	["Synth2 a#4", preload("res://assets/samples/synth2/a_sharp_4.wav")],
+	["Synth2 b4", preload("res://assets/samples/synth2/b_4.wav")],
+	["Synth2 c5", preload("res://assets/samples/synth2/c_5.wav")],
+	["Synth2 c#5", preload("res://assets/samples/synth2/c_sharp_5.wav")],
+	["Synth2 d5", preload("res://assets/samples/synth2/d_5.wav")],
+	["Synth2 d#5", preload("res://assets/samples/synth2/d_sharp_5.wav")],
+	["Synth2 e5", preload("res://assets/samples/synth2/e_5.wav")],
+	["Synth2 f5", preload("res://assets/samples/synth2/f_5.wav")],
+	["Synth2 f#5", preload("res://assets/samples/synth2/f_sharp_5.wav")],
+	["Synth2 g5", preload("res://assets/samples/synth2/g_5.wav")],
+	["Synth2 g#5", preload("res://assets/samples/synth2/g_sharp_5.wav")],
+	["Synth2 a5", preload("res://assets/samples/synth2/a_5.wav")],
+	["Synth2 a#5", preload("res://assets/samples/synth2/a_sharp_5.wav")],
+	["Synth2 b5", preload("res://assets/samples/synth2/b_5.wav")],
+	["Synth2 c6", preload("res://assets/samples/synth2/c_6.wav")],
 ]
 
 # parse a invite linke smart
