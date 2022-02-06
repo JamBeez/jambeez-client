@@ -179,6 +179,9 @@ func _on_Communicator_change_bars(part_id, value):
 	if data.id != part_id: return
 	data.bars = value
 	input_bars.text = str(value)
+	for track in node_tracks.get_children():
+		track.data.change_time_sig(data)
+		track.deserialize(null)
 	update_time()
 	update_needle()
 	emit_signal("setting_bars_changed", value)
