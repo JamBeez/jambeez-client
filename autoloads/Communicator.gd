@@ -12,6 +12,7 @@ signal add_track(part_id, track)
 signal remove_track(part_id, track_id)
 signal set_sample(part_id, track_id, sample_id)
 signal toggle_mute(part_id, track_id, muted)
+signal change_volume(part_id, track_id, volume)
 signal set_beats(part_id, track_id, beats)
 
 var _client = WebSocketClient.new()

@@ -47,17 +47,15 @@ func _process(delta):
 
 func _on_ButtonRemove_pressed():
 	Communicator.notify_remove_track(part_data.id, data.id)
-	#emit_signal("delete") # TODO remove
-	
 func _on_OptionButtonSample_item_selected(index):
 	Communicator.notify_change_sample(part_data.id, data.id, index)
-	#set_sample(index) # TODO remove
 func _on_ButtonMute_toggled(pressed):
 	Communicator.notify_toggle_mute(part_data.id, data.id, pressed)
-	#toggle_mute(pressed) # TODO remove
+var is_awaiting_volume_change = false
 func _on_HSlider_value_changed(value):
-	Communicator.notify_change_volume(part_data.id, data.id, value)
-	#change_volume(value) # TODO remove
+	if !is_awaiting_volume_change:
+		Communicator.notify_change_volume(part_data.id, data.id, value)
+	is_awaiting_volume_change = true
 func _on_beat_toggled(is_on, idx):
 	data.beats[idx] = is_on
 	Communicator.notify_set_beats(part_data.id, data.id, data.beats)
@@ -87,6 +85,8 @@ func toggle_mute(val):
 func change_volume(val):
 	data.volume = val
 	node_volume.value = val
+	is_awaiting_volume_change = false
+	
 	# TODO calc db
 func set_beats(beats):
 	data.beats = beats
