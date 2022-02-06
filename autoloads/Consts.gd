@@ -11,7 +11,20 @@ const SAMPLES = [
 	["Snare Drum", preload("res://assets/samples/drums/snare_drum.wav")],
 	["Bass Drum", preload("res://assets/samples/drums/bass_drum.wav")],
 	["Cow Bell", preload("res://assets/samples/drums/cow_bell.wav")],
-	["Kick", preload("res://assets/samples/drums/kick.wav")]
+	["Kick", preload("res://assets/samples/drums/kick.wav")],
+	["c_3", preload("res://assets/samples/synth/c_3.wav")],
+	["c_sharp_3", preload("res://assets/samples/synth/c_sharp_3.wav")],
+	["d_3", preload("res://assets/samples/synth/d_3.wav")],
+	["d_sharp_3", preload("res://assets/samples/synth/d_sharp_3.wav")],
+	["e_3", preload("res://assets/samples/synth/e_3.wav")],
+	["f_3", preload("res://assets/samples/synth/f_3.wav")],
+	["f_sharp_3", preload("res://assets/samples/synth/f_sharp_3.wav")],
+	["g_3", preload("res://assets/samples/synth/g_3.wav")],
+	["g_sharp_3", preload("res://assets/samples/synth/g_sharp_3.wav")],
+	["a_3", preload("res://assets/samples/synth/a_3.wav")],
+	["a_sharp_3", preload("res://assets/samples/synth/a_sharp_3.wav")],
+	["b_3", preload("res://assets/samples/synth/b_3.wav")],
+	["c_4", preload("res://assets/samples/synth/c_4.wav")],
 ]
 
 func get_invite_link(lobby_id) -> String:

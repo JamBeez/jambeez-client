@@ -92,15 +92,15 @@ func notify_toggle_mute(part_id: String, track_id: String, muted: bool):
 		"intent" : "track:toggle_mute",
 		"part_id" : part_id,
 		"track_id" : track_id,
-		"muted" : muted
+		"mute" : muted
 	}
 	_send_data(JSON.print(msg))
 func notify_change_sample(part_id: String, track_id: String, sample_id: int):
 	var msg = {
-		"intent" : "track:change_sample",
+		"intent" : "track:set_sample",
 		"part_id" : part_id,
 		"track_id" : track_id,
-		"sample_id" : sample_id
+		"sample" : sample_id
 	}
 	_send_data(JSON.print(msg))
 
@@ -131,7 +131,7 @@ func get_browser_get_parameter():
 
 func start_connection():
 	emit_signal("connection_state_changed", "connecting")
-	var url = Consts.WS_SERVER_URL
+	var url = PARAM_WS_SERVER_URL if PARAM_WS_SERVER_URL else Consts.WS_SERVER_URL
 	var err = _client.connect_to_url(url)
 	print("Connecting to: ", url)
 	if err != OK:
@@ -214,11 +214,11 @@ func _on_data():
 			"part:change_sig_upper":
 				emit_signal("change_sig_upper", data_json.part_id, data_json.sig_upper)
 			"track:set_sample":
-				emit_signal("set_sample", data_json.part_id, data_json.track, data_json.sample)
+				emit_signal("set_sample", data_json.part_id, data_json.track_id, data_json.sample)
 			"track:change_volume":
-				emit_signal("change_volume", data_json.part_id, data_json.track, data_json.volume)
+				emit_signal("change_volume", data_json.part_id, data_json.track_id, data_json.volume)
 			"track:toggle_mute":
-				emit_signal("mute_track", data_json.part_id, data_json.track, data_json.mute)
+				emit_signal("toggle_mute", data_json.part_id, data_json.track_id, data_json.mute)
 
 func _process(delta):
 	_client.poll()

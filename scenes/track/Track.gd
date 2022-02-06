@@ -48,17 +48,17 @@ func _process(delta):
 
 func _on_ButtonRemove_pressed():
 	Communicator.notify_remove_track(part_data.id, data.id)
-	emit_signal("delete") # TODO remove
+	#emit_signal("delete") # TODO remove
 	
 func _on_OptionButtonSample_item_selected(index):
 	Communicator.notify_change_sample(part_data.id, data.id, index)
-	set_sample(index) # TODO remove
+	#set_sample(index) # TODO remove
 func _on_ButtonMute_toggled(pressed):
 	Communicator.notify_toggle_mute(part_data.id, data.id, pressed)
-	toggle_mute(pressed) # TODO remove
+	#toggle_mute(pressed) # TODO remove
 func _on_HSlider_value_changed(value):
 	Communicator.notify_change_volume(part_data.id, data.id, value)
-	change_volume(value) # TODO remove
+	#change_volume(value) # TODO remove
 
 func _on_Communicator_set_sample(part_id, track_id, sample_id):
 	if part_data.id == part_id and data.id == track_id:
