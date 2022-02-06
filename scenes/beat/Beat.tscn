@@ -9,6 +9,7 @@ mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 toggle_mode = true
 action_mode = 0
+button_mask = 3
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

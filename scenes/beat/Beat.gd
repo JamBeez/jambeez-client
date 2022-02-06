@@ -27,17 +27,19 @@ func _input(event):
 	# fix that mouse_entered is not called when mouse is already pressed
 	if event is InputEventMouseMotion:
 		if get_global_rect().has_point(event.position):
-			if not mouse_inside and Input.is_mouse_button_pressed(BUTTON_LEFT):
-				print("first inside")
+			if not mouse_inside:
 				mouse_entered()
-				mouse_inside = true
 		else:
 			mouse_inside = false
 
 func mouse_entered():
+	if mouse_inside: # _input races with the original mouse_entered
+		return
+	mouse_inside = true
 	if Input.is_mouse_button_pressed(BUTTON_LEFT):
 		pressed = !is_on
+	if Input.is_mouse_button_pressed(BUTTON_RIGHT):
+		pressed = false
 
 func mouse_exited():
-	# mouse_inside = false
-	pass
+	mouse_inside = false
