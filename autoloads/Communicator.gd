@@ -18,7 +18,7 @@ signal set_beats(part_id, track_id, beats, color_per_beat)
 
 var _client = WebSocketClient.new()
 var _is_connected = false
-var _state = "disconnected" # todo this is almost NetworkedMultiplayerPeer.ConnectionStatus
+var _state = Data.ConnectionState.DISCONNECTED # todo this is almost NetworkedMultiplayerPeer.ConnectionStatus
 var _next_lobby = null
 
 var get_main_data: FuncRef
@@ -132,10 +132,10 @@ func _ready():
 		set_process(false)
 
 func start_connection(next_lobby = null):
-	if _state != "disconnected":
+	if _state != Data.ConnectionState.DISCONNECTED:
 		printerr("Commuicater cant connect when not disconected")
 		return null
-	_state = "connecting"
+	_state = Data.ConnectionState.CONNECTING
 	_next_lobby = next_lobby
 	emit_signal("connection_state_changed", _state)
 	var url = Consts.WS_SERVER_URL
@@ -148,7 +148,7 @@ func start_connection(next_lobby = null):
 
 func stop_connection():
 	print("Disconnecting from websocket")
-	_state = "disconnecting"
+	_state = Data.ConnectionState.DISCONNECTING
 	emit_signal("connection_state_changed", _state)
 	_client.disconnect_from_host()
 	
@@ -158,14 +158,14 @@ func start_sharing():
 func _closed(was_clean = false):
 	print("Closed, clean: ", was_clean)
 	_is_connected = false
-	_state = "disconnected"
+	_state = Data.ConnectionState.DISCONNECTED
 	emit_signal("connection_state_changed", _state)
 	set_process(false)
 
 func _connected(proto = ""):
 	print("Connected with protocol: ", proto)
 	_is_connected = true
-	_state = "connected"
+	_state = Data.ConnectionState.CONNECTED
 	emit_signal("connection_state_changed", _state)
 	
 	var lobby_param = Consts.get_browser_get_parameter("l")

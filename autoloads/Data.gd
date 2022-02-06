@@ -138,6 +138,13 @@ enum State {
 	IN_LOBBY,
 }
 
+enum ConnectionState {
+	DISCONNECTED,
+	CONNECTING,
+	CONNECTED,
+	DISCONNECTING,
+}
+
 
 var initial_state: Lobby = initial_lobby("i-am-a-jam-bee")
 
