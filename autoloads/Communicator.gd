@@ -163,10 +163,11 @@ func _connected(proto = ""):
 	emit_signal("connection_state_changed", _state)
 	
 	var lobby_param = Consts.get_browser_get_parameter("l")
-	if lobby_param:
-		notify_join_lobby(lobby_param)
-	else:
-		notify_request_lobby()
+	if Consts.PARAM_AUTO_SHARE:
+		if lobby_param:
+			notify_join_lobby(lobby_param)
+		else:
+			notify_request_lobby()
 
 func _send_data(message: String):
 	if _is_connected:
