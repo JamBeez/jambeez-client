@@ -130,6 +130,12 @@ class Track:
 		d['beats'] = beats
 		d['color_per_beat'] = color_per_beat
 		return d
+		
+
+enum State {
+	DISCONNECTED
+	IN_LOBBY,
+}
 
 
 var initial_state: Lobby = initial_lobby("i-am-a-jam-bee")

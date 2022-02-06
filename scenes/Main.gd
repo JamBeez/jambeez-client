@@ -8,14 +8,8 @@ const Part = preload("res://scenes/part/Part.tscn")
 export (NodePath) var path_connection
 onready var node_connection:CheckButton = get_node(path_connection)
 
-export (NodePath) var path_join
-onready var node_join:Button = get_node(path_join)
-
 export (NodePath) var path_invite
 onready var node_invite:Node = get_node(path_invite)
-
-export (NodePath) var path_invite_link
-onready var node_invite_link:LineEdit = get_node(path_invite_link)
 
 export (NodePath) var path_tab_cont
 onready var node_tab_cont:TabContainer = get_node(path_tab_cont)
@@ -37,24 +31,21 @@ func _on_Communicator_connection_state_changed(state):
 			node_connection.disabled = true
 		"connected":
 			node_connection.text = "Connected"
-			node_invite.visible = true
-			node_join.visible = false
 			node_connection.set_pressed_no_signal(true)
 			node_connection.disabled = false
 		"disconnected":
 			node_connection.text = "Share Session"
-			node_invite.visible = false
-			node_join.visible = true
 			node_connection.set_pressed_no_signal(false)
 			node_connection.disabled = false
+			node_invite.set_state(Data.State.DISCONNECTED)
 
 func _on_Communicator_lobby_create(lobby_id: String):
-	node_invite_link.text = Consts.get_invite_link(lobby_id)
+	node_invite.set_state(Data.State.IN_LOBBY, Consts.to_invite_link(lobby_id))
 	print("Created lobby with id " + str(lobby_id))
 
 func _on_Communicator_lobby_join(lobby: Data.Lobby):
 	deserialize(lobby)
-	node_invite_link.text = Consts.get_invite_link(lobby.id)
+	node_invite.set_state(Data.State.IN_LOBBY, Consts.to_invite_link(lobby.id))
 	print("Joined lobby with id " + lobby.id)
 
 func _on_ConnectionToogle_toggled(button_pressed):
@@ -89,6 +80,3 @@ func deserialize(new_data: Data.Lobby = null):
 
 func get_data() -> Data.Lobby:
 	return data
-
-func _on_ButtonInviteCopy_pressed():
-	OS.set_clipboard(node_invite_link.text)

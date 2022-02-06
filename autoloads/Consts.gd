@@ -116,8 +116,32 @@ const SAMPLES = [
 	["c_6", preload("res://assets/samples/synth2/c_6.wav")],
 ]
 
-func get_invite_link(lobby_id) -> String:
-	return "%s?l=%s" % [HTTP_SERVER_URL, str(lobby_id)]
+# parse a invite linke smart
+static func lobby_id_from_invite(input: String):
+	var regex = RegEx.new()
+	regex.compile('[\\?\\&]l=([^&]*)')
+	var result = regex.search(input)
+	if result:
+		return result.get_string(1)
+	
+	var clean = input.strip_edges()
+	var split = clean.split("_")
+	if len(split) == 3:
+		return clean
+	
+	split = clean.split(" ")
+	if len(split) == 3:
+		return split.join("_")
+	
+	return null
+
+
+#	Consts.lobby_id_from_invite("https://jambeez.github.io/?l=Djembe_Xiao_Txistu")
+#	Consts.lobby_id_from_invite("Djembe_Xiao_Txistu")
+#	Consts.lobby_id_from_invite("Djembe Xiao Txistu")
+
+static func to_invite_link(lobby_id: String) -> String:
+	return "%s?l=%s" % [HTTP_SERVER_URL, lobby_id]
 
 func get_browser_get_parameter(id: String):
 	if OS.has_feature("JavaScript"):
