@@ -86,7 +86,12 @@ func change_volume(val):
 func get_score_global_rect():
 	return Rect2($HBoxContainer/Score.rect_global_position, $HBoxContainer/Score.rect_size)
 	
-func deserialize(data: Data.Track):
+func deserialize(new_data: Data.Track):
+	if new_data != null:
+		data = new_data
+	elif data == null:
+		printerr("data is null can't deserialise Track")
+
 	toggle_mute(data.muted)
 	set_sample(data.sample_id)
 	if data != null:
