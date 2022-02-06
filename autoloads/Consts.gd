@@ -43,4 +43,4 @@ const SAMPLES = [
 ]
 
 func get_invite_link(lobby_id) -> String:
-	return "%s?lobby_id=%s" % [HTTP_SERVER_URL, str(lobby_id)]
+	return "%s?l=%s" % [HTTP_SERVER_URL, str(lobby_id)]
