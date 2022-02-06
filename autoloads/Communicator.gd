@@ -105,7 +105,6 @@ func notify_change_sample(part_id: String, track_id: String, sample_id: int):
 	_send_data(JSON.print(msg))
 
 func _ready():
-	print("sooo")
 	_client.connect("connection_closed", self, "_closed")
 	_client.connect("connection_error", self, "_closed")
 	_client.connect("connection_established", self, "_connected")
@@ -132,7 +131,7 @@ func get_browser_get_parameter():
 
 func start_connection():
 	emit_signal("connection_state_changed", "connecting")
-	var url = PARAM_WS_SERVER_URL if PARAM_WS_SERVER_URL else Consts.WS_SERVER_URL
+	var url = Consts.WS_SERVER_URL
 	var err = _client.connect_to_url(url)
 	print("Connecting to: ", url)
 	if err != OK:
