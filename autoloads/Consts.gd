@@ -62,9 +62,9 @@ const SAMPLES = [
 	["Drum bass rustle", preload("res://assets/samples/drums/bass_drum2.wav")],
 	["Drum bass flick", preload("res://assets/samples/drums/bass_drum3.wav")],
 	["Drum bass synth", preload("res://assets/samples/drums/bass_drum4.wav")],
-	["drum bass heavy", preload("res://assets/samples/drums/bass_drum5.wav")],
-	["drum bass bamboo", preload("res://assets/samples/drums/bass_drum6.wav")],
-	["drum bass acoustic", preload("res://assets/samples/drums/bass_drum7.wav")],
+	["Drum bass heavy", preload("res://assets/samples/drums/bass_drum5.wav")],
+	["Drum bass bamboo", preload("res://assets/samples/drums/bass_drum6.wav")],
+	["Drum bass acoustic", preload("res://assets/samples/drums/bass_drum7.wav")],
 	
 	["Synth c3", preload("res://assets/samples/synth/c_3.wav")],
 	["Synth c#3", preload("res://assets/samples/synth/c_sharp_3.wav")],
