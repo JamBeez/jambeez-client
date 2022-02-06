@@ -28,5 +28,5 @@ const SAMPLES = [
 	["c_4", preload("res://assets/samples/synth/c_4.wav")],
 ]
 
-func get_invite_link(lobby_id) -> String:
-	return "%s?lobby_id=%s" % [HTTP_SERVER_URL, str(lobby_id)]
+func get_invite_link(lobby_id: String) -> String:
+	return "%s?l=%s" % [HTTP_SERVER_URL, lobby_id]
