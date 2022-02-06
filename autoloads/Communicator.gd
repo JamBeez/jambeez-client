@@ -41,28 +41,28 @@ func notify_BPM(part_id: String, value: int):
 	var msg = {
 		"intent" : "part:change_bpm",
 		"part_id" : part_id,
-		"value" : value
+		"bpm" : value
 	}
 	_send_data(JSON.print(msg))
 func notify_bars(part_id: String, value: int):
 	var msg = {
 		"intent" : "part:change_bars",
 		"part_id" : part_id,
-		"value" : value
+		"bars" : value
 	}
 	_send_data(JSON.print(msg))
 func notify_sig_lower(part_id: String, value: int):
 	var msg = {
 		"intent" : "part:change_sig_lower",
 		"part_id" : part_id,
-		"value" : value
+		"sig_lower" : value
 	}
 	_send_data(JSON.print(msg))
 func notify_sig_upper(part_id: String, value: int):
 	var msg = {
 		"intent" : "part:change_sig_upper",
 		"part_id" : part_id,
-		"value" : value
+		"sig_upper" : value
 	}
 	_send_data(JSON.print(msg))
 func notify_add_track(part_id: String, track: Data.Track):
@@ -207,13 +207,13 @@ func _on_data():
 			"part:remove_track":
 				emit_signal("remove_track", data_json.part_id, data_json.track_id)
 			"part:change_bpm":
-				emit_signal("change_BPM", data_json.part_id, data_json.value)
+				emit_signal("change_BPM", data_json.part_id, data_json.bpm)
 			"part:change_bars":
-				emit_signal("change_bars", data_json.part_id, data_json.value)
+				emit_signal("change_bars", data_json.part_id, data_json.bars)
 			"part:change_sig_lower":
-				emit_signal("change_sig_lower", data_json.part_id, data_json.value)
+				emit_signal("change_sig_lower", data_json.part_id, data_json.sig_lower)
 			"part:change_sig_upper":
-				emit_signal("change_sig_upper", data_json.part_id, data_json.value)
+				emit_signal("change_sig_upper", data_json.part_id, data_json.sig_upper)
 			"track:set_sample":
 				emit_signal("set_sample", data_json.part_id, data_json.track, data_json.sample)
 			"track:change_volume":
