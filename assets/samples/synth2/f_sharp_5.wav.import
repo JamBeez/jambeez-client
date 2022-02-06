@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/f_sharp_5.wav-bcd2a419557b65fd079a74fb18212290.sample"
+
+[deps]
+
+source_file="res://assets/samples/synth2/f_sharp_5.wav"
+dest_files=[ "res://.import/f_sharp_5.wav-bcd2a419557b65fd079a74fb18212290.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
