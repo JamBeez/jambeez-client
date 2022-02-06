@@ -3,6 +3,7 @@ extends Node
 signal connection_state_changed(state)
 signal lobby_create(lobby_id)
 signal lobby_join(lobby)
+signal lobby_error(message)
 signal add_part(part)
 signal change_BPM(part_id, bpm)
 signal change_bars(part_id, bars)
@@ -214,6 +215,8 @@ func _on_data():
 					lobby = Data.Lobby.from_dict(data_json.lobby)
 				
 				emit_signal("lobby_join", lobby)
+			"error:lobby:join":
+				emit_signal("lobby_error", data_json.message)
 			"user:joined":
 				pass
 			"lobby:update_parts":

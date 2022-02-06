@@ -19,6 +19,7 @@ func _ready():
 	Communicator.connect("connection_state_changed", self, "_on_Communicator_connection_state_changed")
 	Communicator.connect("lobby_create", self, "_on_Communicator_lobby_create")
 	Communicator.connect("lobby_join", self, "_on_Communicator_lobby_join")
+	Communicator.connect("lobby_error", self, "_on_Communicator_lobby_error")
 	Communicator.get_main_data = funcref(self, "get_data")
 	node_invite.connect("join", self, "_on_invite_join")
 	
@@ -48,6 +49,9 @@ func _on_Communicator_lobby_join(lobby: Data.Lobby):
 	deserialize(lobby)
 	node_invite.set_state(Data.State.IN_LOBBY, Consts.to_invite_link(lobby.id))
 	print("Joined lobby with id " + lobby.id)
+	
+func _on_Communicator_lobby_error(message: String):
+	print(message)
 
 func _on_ConnectionToogle_toggled(button_pressed):
 	if button_pressed:
