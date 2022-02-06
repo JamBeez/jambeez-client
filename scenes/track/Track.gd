@@ -105,7 +105,7 @@ func set_beats(beats):
 	else:
 		var i = 0
 		for beat in node_beats.get_children():
-			beat.is_on = beats[i]
+			beat.set_is_on(beats[i])
 			
 			i += 1
 #	# clear prev Beats
