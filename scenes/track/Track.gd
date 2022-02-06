@@ -7,8 +7,6 @@ var bus_id
 
 const Beat = preload("res://scenes/beat/Beat.tscn")
 
-signal delete()
-
 export (NodePath) var path_sample
 onready var node_sample: OptionButton = get_node(path_sample)
 

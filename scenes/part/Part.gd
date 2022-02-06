@@ -30,6 +30,9 @@ export (NodePath) var path_needle
 onready var node_needle:Control = get_node(path_needle)
 
 func _ready():
+	Communicator.connect("add_track", self, "_on_Communicator_add_track")
+	Communicator.connect("remove_track", self, "_on_Communicator_remove_track")
+	
 	Communicator.connect("change_sig_upper", self, "_on_Communicator_change_sig_upper")
 	Communicator.connect("change_sig_lower", self, "_on_Communicator_change_sig_lower")
 	Communicator.connect("change_BPM", self, "_on_Communicator_change_BPM")
@@ -76,19 +79,19 @@ func _on_Part_resized():
 func _on_ButtonTrackAdd_pressed():
 	var track_data = Data.Track.new(data)
 	track_data.muted = true
-	add_track(track_data)
+	#add_track(track_data)
+	Communicator.notify_add_track(data.id, track_data.to_dict())
 	
 func add_track(track_data: Data.Track):
 	var child = Track.instance()
 	child.data = track_data
 	child.part_data = self.data
-	child.connect("delete", self, "delete_track", [child])
 	node_tracks.add_child(child)
 	yield(get_tree(), "idle_frame")
 	update_needle()
 
 func delete_track(child):
-	# TODO propagete to server
+	data.tracks.erase(child.data)
 	node_tracks.remove_child(child)
 	update_needle()
 
@@ -112,6 +115,15 @@ func _on_LineEditBPM_text_entered(new_text):
 	if int(new_text) == data.bpm: return
 	Communicator.notify_BPM(data.id, int(new_text))
 func _on_LineEditBPM_focus_exited(): _on_LineEditBPM_text_entered(input_bpm.text)
+
+func _on_Communicator_add_track(part_id, track):
+	if data.id != part_id: return
+	add_track(track)
+func _on_Communicator_remove_track(part_id, track_id):
+	if data.id != part_id: return
+	for track in node_tracks.get_children():
+		if track.data.id == track_id:
+			delete_track(track)
 	
 func _on_Communicator_change_BPM(part_id, value):
 	if data.id != part_id: return

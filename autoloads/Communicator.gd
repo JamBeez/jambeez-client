@@ -71,14 +71,14 @@ func notify_add_track(part_id: String, track: Data.Track):
 	var msg = {
 		"intent" : "part:add_track",
 		"part_id" : part_id,
-		"track_data" : track
+		"track_to_add" : track
 	}
 	_send_data(JSON.print(msg))
 func notify_remove_track(part_id: String, track_id: String):
 	var msg = {
 		"intent" : "part:remove_track",
 		"part_id" : part_id,
-		"track_id" : track_id
+		"track_to_remove" : track_id
 	}
 	_send_data(JSON.print(msg))
 func notify_change_volume(part_id: String, track_id: String, volume: int):
