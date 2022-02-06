@@ -96,7 +96,7 @@ text = "Join Session"
 
 [node name="Invitation" type="HBoxContainer" parent="CanvasLayer/MarginContainer/VBoxContainer/Header/HBoxContainer"]
 visible = false
-margin_left = 796.0
+margin_left = 716.0
 margin_right = 984.0
 margin_bottom = 40.0
 
@@ -109,16 +109,16 @@ text = "Invite"
 [node name="LineEditInvite" type="LineEdit" parent="CanvasLayer/MarginContainer/VBoxContainer/Header/HBoxContainer/Invitation"]
 margin_left = 41.0
 margin_top = 8.0
-margin_right = 141.0
+margin_right = 221.0
 margin_bottom = 32.0
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 180, 0 )
 size_flags_vertical = 4
 text = "http://"
 
 [node name="ButtonInviteCopy" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Header/HBoxContainer/Invitation"]
-margin_left = 145.0
+margin_left = 225.0
 margin_top = 10.0
-margin_right = 188.0
+margin_right = 268.0
 margin_bottom = 30.0
 size_flags_vertical = 4
 text = "Copy"
@@ -198,3 +198,4 @@ margin_bottom = 20.0
 text = "Download"
 
 [connection signal="toggled" from="CanvasLayer/MarginContainer/VBoxContainer/Header/HBoxContainer/ConnectionToogle" to="." method="_on_ConnectionToogle_toggled"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Header/HBoxContainer/Invitation/ButtonInviteCopy" to="." method="_on_ButtonInviteCopy_pressed"]

@@ -86,8 +86,8 @@ func change_volume(val):
 	data.volume = val
 	node_volume.value = val
 	is_awaiting_volume_change = false
-	
 	# TODO calc db
+	
 func set_beats(beats):
 	data.beats = beats
 	

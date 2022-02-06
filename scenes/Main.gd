@@ -89,3 +89,6 @@ func deserialize(new_data: Data.Lobby = null):
 
 func get_data() -> Data.Lobby:
 	return data
+
+func _on_ButtonInviteCopy_pressed():
+	OS.set_clipboard(node_invite_link.text)
