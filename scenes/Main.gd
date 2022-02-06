@@ -75,9 +75,9 @@ func delete_track(child):
 
 func deserialize(new_data: Data.Lobby = null):
 	if new_data != null:
-		if data == null:
-			printerr("data is null can't deserialise Lobby")
 		data = new_data
+	elif data == null:
+		printerr("data is null can't deserialise Lobby")
 	
 	# clear prev 
 	for part in node_tab_cont.get_children():

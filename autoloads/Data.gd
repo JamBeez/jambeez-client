@@ -136,10 +136,10 @@ func initial_part(id: String, with_tracks: bool = false) -> Part:
 	var part = Part.new()
 	part.id = id
 	if with_tracks:
-		part.tracks.append(initial_track(part, "Snare Drum", 0))
-		part.tracks.append(initial_track(part, "Bass Drum", 1))
 		part.tracks.append(initial_track(part, "Cow Bell", 2))
 		part.tracks.append(initial_track(part, "Kick", 3))
+		part.tracks.append(initial_track(part, "Snare Drum", 0))
+		part.tracks.append(initial_track(part, "Bass Drum", 1))
 	return part
 
 func initial_track(part: Part, id: String, sample_id: int = 0):

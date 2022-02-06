@@ -24,15 +24,14 @@ onready var node_beats: Node = get_node(path_beats)
 func _ready():
 	AudioServer.add_bus()
 	bus_id = AudioServer.bus_count - 1
+	node_sample.clear()
+	for sample in Consts.SAMPLES:
+		node_sample.add_item(sample[0])
 	deserialize(data)
 	
 	Communicator.connect("set_sample", self, "_on_Communicator_set_sample")
 	Communicator.connect("toggle_mute", self, "_on_Communicator_toggle_mute")
 	Communicator.connect("change_volume", self, "_on_Communicator_change_volume")
-
-	node_sample.clear()
-	for sample in Consts.SAMPLES:
-		node_sample.add_item(sample[0])
 
 var next_beat_id = 0
 func _process(delta):
@@ -87,7 +86,12 @@ func change_volume(val):
 func get_score_global_rect():
 	return Rect2($HBoxContainer/Score.rect_global_position, $HBoxContainer/Score.rect_size)
 	
-func deserialize(data: Data.Track):
+func deserialize(new_data: Data.Track):
+	if new_data != null:
+		data = new_data
+	elif data == null:
+		printerr("data is null can't deserialise Track")
+
 	toggle_mute(data.muted)
 	set_sample(data.sample_id)
 	if data != null:

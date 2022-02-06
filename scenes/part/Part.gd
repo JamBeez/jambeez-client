@@ -147,11 +147,12 @@ func _on_Communicator_change_bars(part_id, value):
 
 func deserialize(new_data: Data.Part = null):
 	if new_data != null:
-		if data == null:
-			printerr("data is null can't deserialise Part")
 		data = new_data
-	
+	elif data == null:
+		printerr("data is null can't deserialise Part")
+		
 	# update ui
+	name = data.id
 	input_sig_upper.text = str(data.sig_upper)
 	input_sig_lower.text = str(data.sig_lower)
 	input_bpm.text = str(data.bpm)
