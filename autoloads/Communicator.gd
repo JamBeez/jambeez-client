@@ -13,7 +13,7 @@ signal remove_track(part_id, track_id)
 signal set_sample(part_id, track_id, sample_id)
 signal toggle_mute(part_id, track_id, muted)
 signal change_volume(part_id, track_id, volume)
-signal set_beats(part_id, track_id, beats)
+signal set_beats(part_id, track_id, beats, color_per_beat)
 
 var _client = WebSocketClient.new()
 var _is_connected = false
@@ -226,7 +226,7 @@ func _on_data():
 			"track:toggle_mute":
 				emit_signal("toggle_mute", data_json.part_id, data_json.track_id, data_json.mute)
 			"track:set_beats":
-				emit_signal("set_beats", data_json.part_id, data_json.track_id, data_json.beats)
+				emit_signal("set_beats", data_json.trackchange.part_id, data_json.trackchange.track_id, data_json.trackchange.beats, data_json.trackchange.color_per_beat)
 
 func _process(delta):
 	_client.poll()

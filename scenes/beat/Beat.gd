@@ -1,6 +1,8 @@
 extends Button
 
+
 var is_on = false
+var color = []
 var sample: Resource
 var bus_id = 0
 var mouse_inside = false
@@ -28,6 +30,15 @@ func _on_Beat_toggled(button_pressed):
 func set_is_on(is_on):
 	self.is_on = is_on
 	set_pressed_no_signal(is_on)
+	if !is_on:
+		modulate = Color(1, 1, 1)
+
+func set_color(color):
+	self.color = color
+	if color.empty() or !is_on:
+		modulate = Color(1, 1, 1)
+	else:
+		modulate = Color(color[0], color[1], color[2])
 
 func _input(event):
 	# fix that mouse_entered is not called when mouse is already pressed

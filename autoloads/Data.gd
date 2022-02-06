@@ -90,6 +90,7 @@ class Track:
 	var id: String
 	var muted: bool
 	var beats: Array
+	var color_per_beat: Array
 	var sample_id: int = 0
 	var volume: int = 50
 	func _init(part_data):
@@ -97,6 +98,8 @@ class Track:
 		beats = []
 		for _i in range(num_beats):
 			beats.append(false)
+		for _i in range(num_beats):
+			color_per_beat.append([])
 			
 	func change_time_sig(part_data: Part):
 		var old_size = len(beats)
@@ -104,6 +107,9 @@ class Track:
 		beats.resize(new_size)
 		for i in range(old_size, new_size):
 			beats[i] = false
+		color_per_beat.resize(new_size)
+		for i in range(old_size, new_size):
+			color_per_beat[i] = []
 
 	static func from_dict(dict: Dictionary, part: Part) -> Track:
 		var track = Track.new(part)
@@ -112,6 +118,7 @@ class Track:
 		track.sample_id = dict['sample']
 		track.volume = dict['volume']
 		track.beats = dict['beats']
+		track.color_per_beat = dict['color_per_beat']
 		return track
 
 	func to_dict() -> Dictionary:
@@ -121,6 +128,7 @@ class Track:
 		d['sample'] = sample_id
 		d['volume'] = volume
 		d['beats'] = beats
+		d['color_per_beat'] = color_per_beat
 		return d
 
 
