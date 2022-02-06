@@ -20,6 +20,7 @@ func _ready():
 	Communicator.connect("lobby_create", self, "_on_Communicator_lobby_create")
 	Communicator.connect("lobby_join", self, "_on_Communicator_lobby_join")
 	Communicator.get_main_data = funcref(self, "get_data")
+	node_invite.connect("join", self, "_on_invite_join")
 	
 	deserialize()
 
@@ -53,7 +54,9 @@ func _on_ConnectionToogle_toggled(button_pressed):
 		Communicator.start_connection()
 	else:
 		Communicator.stop_connection()
-
+		
+func _on_invite_join(lobby_id: String):
+	Communicator.notify_join_lobby(lobby_id)
 
 func add_part(part_data: Data.Part):
 	var child = Part.instance()

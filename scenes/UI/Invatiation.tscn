@@ -16,10 +16,10 @@ __meta__ = {
 [node name="InviteLabel" type="Label" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -427.0
-margin_top = 4.0
-margin_right = -356.0
-margin_bottom = 18.0
+margin_left = -388.0
+margin_top = 5.0
+margin_right = -317.0
+margin_bottom = 19.0
 text = "Invite Link:"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -28,7 +28,7 @@ __meta__ = {
 [node name="LinkEdit" type="LineEdit" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -433.0
+margin_left = -389.0
 margin_top = 23.0
 margin_right = -110.0
 margin_bottom = 49.0
@@ -57,10 +57,10 @@ __meta__ = {
 [node name="Label" type="Label" parent="InvatationPopup"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -340.0
-margin_top = 4.0
-margin_right = -121.0
-margin_bottom = 18.0
+margin_left = -309.0
+margin_top = 5.0
+margin_right = -110.0
+margin_bottom = 19.0
 text = "Invite link copied to clipboard."
 __meta__ = {
 "_edit_use_anchors_": false

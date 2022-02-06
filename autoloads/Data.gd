@@ -133,7 +133,8 @@ class Track:
 		
 
 enum State {
-	DISCONNECTED
+	DISCONNECTED,
+	JOINING,
 	IN_LOBBY,
 }
 
