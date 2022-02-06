@@ -97,24 +97,25 @@ margin_top = 5.0
 margin_right = 994.0
 margin_bottom = 505.0
 tab_align = 0
+tabs_visible = false
 
 [node name="Part" parent="CanvasLayer/MarginContainer/VBoxContainer/Content/TabContainer" instance=ExtResource( 2 )]
 margin_left = 4.0
-margin_top = 32.0
+margin_top = 8.0
 margin_right = -4.0
 margin_bottom = -4.0
 
 [node name="Part2" parent="CanvasLayer/MarginContainer/VBoxContainer/Content/TabContainer" instance=ExtResource( 2 )]
 visible = false
 margin_left = 4.0
-margin_top = 32.0
+margin_top = 8.0
 margin_right = -4.0
 margin_bottom = -4.0
 
 [node name="Part3" parent="CanvasLayer/MarginContainer/VBoxContainer/Content/TabContainer" instance=ExtResource( 2 )]
 visible = false
 margin_left = 4.0
-margin_top = 32.0
+margin_top = 8.0
 margin_right = -4.0
 margin_bottom = -4.0
 
@@ -137,26 +138,31 @@ text = "Footer"
 
 [node name="Spacer" type="Control" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer"]
 margin_left = 45.0
-margin_right = 824.0
+margin_right = 945.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 
 [node name="ButtonRec" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer"]
-margin_left = 828.0
-margin_right = 863.0
+margin_left = 949.0
+margin_right = 984.0
 margin_bottom = 20.0
 text = "Rec"
 
-[node name="ButtonPlay" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer"]
-margin_left = 867.0
-margin_right = 905.0
-margin_bottom = 20.0
-text = "Play"
-
 [node name="ButtonDownload" type="Button" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer"]
+visible = false
 margin_left = 909.0
 margin_right = 984.0
 margin_bottom = 20.0
 text = "Download"
 
+[node name="FileDialog" type="FileDialog" parent="CanvasLayer"]
+margin_right = 416.0
+margin_bottom = 184.0
+rect_min_size = Vector2( 400, 140 )
+filters = PoolStringArray( "*.wav ; WAV Files" )
+show_hidden_files = true
+
 [connection signal="toggled" from="CanvasLayer/MarginContainer/VBoxContainer/Header/ConnectionToogle" to="." method="_on_ConnectionToogle_toggled"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer/ButtonRec" to="." method="_on_ButtonRec_pressed"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer/ButtonDownload" to="." method="_on_ButtonDownload_pressed"]
+[connection signal="file_selected" from="CanvasLayer/FileDialog" to="." method="_on_FileDialog_file_selected"]

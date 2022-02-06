@@ -88,3 +88,36 @@ func deserialize(new_data: Data.Lobby = null):
 
 func get_data() -> Data.Lobby:
 	return data
+
+onready var fileDialog:FileDialog = $CanvasLayer/FileDialog
+onready var btnRec = $CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer/ButtonRec
+onready var btnDownload = $CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer/ButtonDownload
+var is_recording = false
+var current_record = null
+func _on_ButtonRec_pressed():
+	if is_recording:
+		var effect:AudioEffectRecord = AudioServer.get_bus_effect(0, 0)
+		current_record = effect.get_recording()
+		effect.set_recording_active(false)
+		btnRec.text = "Rec"
+		btnDownload.visible = true
+	else:
+		var effect:AudioEffectRecord = AudioServer.get_bus_effect(0, 0)
+		effect.set_recording_active(true)
+		btnRec.text = "Stop Rec"
+	is_recording = !is_recording
+	
+export var s:AudioStreamSample
+func _on_ButtonDownload_pressed():
+	fileDialog.popup_centered()
+
+func _on_FileDialog_file_selected(path):
+	var effect:AudioEffectRecord = AudioServer.get_bus_effect(0, 0)
+	var recording = effect.get_recording()
+	print("dl")
+	if OK == recording.save_to_wav(path):
+		pass
+	else:
+		pass
+	
+	
