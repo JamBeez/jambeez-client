@@ -123,7 +123,8 @@ func _ready():
 	_client.connect("data_received", self, "_on_data")
 	
 	yield(get_tree(), "idle_frame")
-	start_connection()
+	if Consts.PARAM_AUTO_CONNECT: #true by default
+		start_connection()
 
 func start_connection():
 	_state = "connecting"
