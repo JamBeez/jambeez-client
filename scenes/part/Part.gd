@@ -67,8 +67,15 @@ func update_time():
 var needle_x_min = 0
 var needle_x_max = 0
 func update_needle():
-	if !node_tracks or node_tracks.get_child_count() == 0:
+	if !node_tracks:
 		return
+	if node_tracks.get_child_count() == 0:
+		node_needle.visible = false
+		return
+	else:
+		node_needle.visible = true
+	
+	yield(get_tree(), "idle_frame")
 	
 	var track_first:Control = node_tracks.get_child(0)
 	var track_last:Control = node_tracks.get_child(node_tracks.get_child_count() - 1)
@@ -77,6 +84,7 @@ func update_needle():
 	node_needle.rect_global_position.y = track_first.rect_global_position.y
 	
 	node_needle.rect_size.y = track_last.rect_global_position.y + track_last.rect_size.y - track_first.rect_global_position.y
+	print(node_needle.rect_position, " ", node_needle.rect_size)
 	
 	needle_x_min = node_needle.rect_position.x
 	needle_x_max = needle_x_min + track_first.get_score_global_rect().size.x
