@@ -135,7 +135,7 @@ func get_browser_get_parameter():
 		return JavaScript.eval("""
 			var url_string = window.location.href;
 			var url = new URL(url_string);
-			url.searchParams.get("lobby_id");
+			url.searchParams.get("l");
 		""")
 	return null
 
@@ -197,7 +197,6 @@ func _on_data():
 				else:
 					lobby = Data.Lobby.from_dict(data_json.lobby)
 
-				# TODO change url so that it can be shared but without triggering website reload
 
 				emit_signal("lobby_create", lobby.id)
 

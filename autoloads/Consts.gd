@@ -26,6 +26,20 @@ const SAMPLES = [
 	["a_sharp_3", preload("res://assets/samples/synth/a_sharp_3.wav")],
 	["b_3", preload("res://assets/samples/synth/b_3.wav")],
 	["c_4", preload("res://assets/samples/synth/c_4.wav")],
+	
+	["c_3", preload("res://assets/samples/piano/c_3.wav")],
+	["c_sharp_3", preload("res://assets/samples/piano/c_sharp_3.wav")],
+	["d_3", preload("res://assets/samples/piano/d_3.wav")],
+	["d_sharp_3", preload("res://assets/samples/piano/d_sharp_3.wav")],
+	["e_3", preload("res://assets/samples/piano/e_3.wav")],
+	["f_3", preload("res://assets/samples/piano/f_3.wav")],
+	["f_sharp_3", preload("res://assets/samples/piano/f_sharp_3.wav")],
+	["g_3", preload("res://assets/samples/piano/g_3.wav")],
+	["g_sharp_3", preload("res://assets/samples/piano/g_sharp_3.wav")],
+	["a_3", preload("res://assets/samples/piano/a_3.wav")],
+	["a_sharp_3", preload("res://assets/samples/piano/a_sharp_3.wav")],
+	["b_3", preload("res://assets/samples/piano/b_3.wav")],
+	["c_4", preload("res://assets/samples/piano/c_4.wav")],
 ]
 
 func get_invite_link(lobby_id) -> String:

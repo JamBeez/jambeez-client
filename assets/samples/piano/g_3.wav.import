@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/g_3.wav-bfcbbdd83e66a36fd8837679936cd415.sample"
+
+[deps]
+
+source_file="res://assets/samples/piano/g_3.wav"
+dest_files=[ "res://.import/g_3.wav-bfcbbdd83e66a36fd8837679936cd415.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
