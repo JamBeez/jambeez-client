@@ -116,6 +116,7 @@ func _ready():
 			var url = new URL(url_string);
 			url.searchParams.get("ws_url");
 		""")
+		print("PARAM_WS_SERVER_URL: ", PARAM_WS_SERVER_URL)
 
 	yield(get_tree(), "idle_frame")
 	start_connection()
