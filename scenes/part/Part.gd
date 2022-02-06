@@ -60,9 +60,7 @@ func _process(delta):
 	node_needle.rect_position.x = lerp(needle_x_min, needle_x_max, fmod(data.time, time_max) / time_max)
 	
 func update_time():
-	data.time = 0
 	time_max = (60.0 / data.bpm) * (data.sig_lower * data.bars)
-	
 	
 var needle_x_min = 0
 var needle_x_max = 0
@@ -143,10 +141,22 @@ func _on_Communicator_remove_track(part_id, track_id):
 	
 func _on_Communicator_change_BPM(part_id, value):
 	if data.id != part_id: return
+	
+	print("###")
+	print(data.time)
+	var bps = data.bpm * 60.0
+	var time_last_in_beats = data.time_last * bps
+	var time_in_beats = data.time * bps
 	data.bpm = value
+	bps = data.bpm * 60.0
+	data.time_last = time_last_in_beats / bps
+	data.time = time_in_beats / bps
+	print(data.time)
+	
 	input_bpm.text = str(value)
 	update_time()
 	update_needle()
+	
 	emit_signal("setting_bpm_changed", value)
 
 func _on_Communicator_change_sig_upper(part_id, value):
