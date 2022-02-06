@@ -125,6 +125,9 @@ func _ready():
 	yield(get_tree(), "idle_frame")
 	if Consts.PARAM_AUTO_CONNECT: #true by default
 		start_connection()
+		
+	if not get_tree().root.has_node("Main"):
+		set_process(false)
 
 func start_connection():
 	_state = "connecting"
