@@ -97,6 +97,13 @@ class Track:
 		beats = []
 		for _i in range(num_beats):
 			beats.append(false)
+			
+	func change_time_sig(part_data: Part):
+		var old_size = len(beats)
+		var new_size = part_data.sig_lower * part_data.bars
+		beats.resize(new_size)
+		for i in range(old_size, new_size):
+			beats[i] = false
 
 	static func from_dict(dict: Dictionary, part: Part) -> Track:
 		var track = Track.new(part)

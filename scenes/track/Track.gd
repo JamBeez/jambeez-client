@@ -91,27 +91,30 @@ func change_volume(val):
 func set_beats(beats):
 	data.beats = beats
 	
-	if node_beats.get_child_count() == 0:
-		# Create new Beats
-		var i = 0
-		for beat_is_on in data.beats:
+	var old_size = node_beats.get_child_count()
+	var new_size = len(beats)
+	var size_diff = new_size - old_size
+	
+	if size_diff > 0: # add new beats
+		for i in range(old_size, new_size):
 			var beat = Beat.instance()
-			beat.is_on = beat_is_on
+			beat.is_on = data.beats[i]
 			beat.sample = Consts.SAMPLES[data.sample_id][1]
 			beat.bus_id = bus_id
 			beat.connect("beat_toggled", self, "_on_beat_toggled", [i])
-			i+=1
 			node_beats.add_child(beat)
-	else:
-		var i = 0
-		for beat in node_beats.get_children():
-			beat.set_is_on(beats[i])
-			
-			i += 1
-#	# clear prev Beats
-#	for beat in node_beats.get_children():
-#		beat.queue_free()
-		
+
+	var children = node_beats.get_children()
+	
+	# remove overflowing beats
+	if size_diff < 0:
+		for i in range(new_size, old_size):
+			node_beats.remove_child(children[i])
+
+	# update existing beats
+	for i in range(min(old_size, new_size)):
+		children[i].set_is_on(beats[i])
+		i += 1
 	
 	
 func get_score_global_rect():
