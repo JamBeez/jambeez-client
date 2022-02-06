@@ -41,7 +41,7 @@ func _process(delta):
 	if part_data.time >= next_beat_time:
 		# seconds to past where sound should have been
 		var time_error = part_data.time - next_beat_time
-		node_beats.get_children()[next_beat_id % data.beats.size()].play()
+		node_beats.get_children()[next_beat_id % data.beats.size()].play(60.0 / part_data.bpm)
 #		if data.beats[next_beat_id % data.beats.size()]:
 #			print(next_beat_id, " / ", data.beats.size())
 		next_beat_id += 1

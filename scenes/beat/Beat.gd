@@ -15,10 +15,17 @@ func _ready():
 	player.stream = sample
 	player.bus = AudioServer.get_bus_name(bus_id)
 	set_pressed_no_signal(is_on)
-
-func play():
+	
+	
+func play(blink_duration = 0):
 	if is_on:
 		player.play(0)
+		if blink_duration > 0:
+			add_stylebox_override("pressed", Consts.beat_style_active)
+			$Timer.start(blink_duration)
+			
+func _on_Timer_timeout():
+	add_stylebox_override("pressed", Consts.beat_style_normal)
 
 func change_sample(sample_id: int):
 	sample = Consts.SAMPLES[sample_id][1]
@@ -60,3 +67,6 @@ func mouse_entered():
 
 func mouse_exited():
 	mouse_inside = false
+
+
+

@@ -36,7 +36,7 @@ func _ready():
 	var margin = 12
 	beat_style_normal = StyleBoxTexture.new()
 	beat_style_normal.texture = texture
-	beat_style_normal.region_rect = Rect2(9, 1, 2*margin+1, 2*margin+1)
+	beat_style_normal.region_rect = Rect2(65, 1, 2*margin+1, 2*margin+1)
 	beat_style_normal.margin_left = margin
 	beat_style_normal.margin_right = margin
 	beat_style_normal.margin_top = margin

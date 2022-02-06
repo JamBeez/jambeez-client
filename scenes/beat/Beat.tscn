@@ -50,6 +50,10 @@ __meta__ = {
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 2 )
 
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="mouse_entered" from="." to="." method="mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="mouse_exited"]
 [connection signal="toggled" from="." to="." method="_on_Beat_toggled"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
