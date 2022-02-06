@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/c_5.wav-9f88e6b4ad1959a60d7fa7fcaf82568f.sample"
+
+[deps]
+
+source_file="res://assets/samples/synth2/c_5.wav"
+dest_files=[ "res://.import/c_5.wav-9f88e6b4ad1959a60d7fa7fcaf82568f.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0

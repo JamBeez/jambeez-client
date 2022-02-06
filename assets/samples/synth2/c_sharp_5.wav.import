@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/c_sharp_5.wav-e96271f1fa3dc7801293d49f22d5f0b5.sample"
+
+[deps]
+
+source_file="res://assets/samples/synth2/c_sharp_5.wav"
+dest_files=[ "res://.import/c_sharp_5.wav-e96271f1fa3dc7801293d49f22d5f0b5.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=0
