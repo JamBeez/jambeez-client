@@ -41,9 +41,9 @@ func _process(delta):
 	if part_data.time >= next_beat_time:
 		# seconds to past where sound should have been
 		var time_error = part_data.time - next_beat_time
-		node_beats.get_children()[next_beat_id % data.beats.size()].play()
-		if data.beats[next_beat_id % data.beats.size()]:
-			print(next_beat_id, " / ", data.beats.size())
+		node_beats.get_children()[next_beat_id % data.beats.size()].play(60.0 / part_data.bpm)
+#		if data.beats[next_beat_id % data.beats.size()]:
+#			print(next_beat_id, " / ", data.beats.size())
 		next_beat_id += 1
 		
 
@@ -71,9 +71,9 @@ func _on_Communicator_toggle_mute(part_id, track_id, muted):
 func _on_Communicator_change_volume(part_id, track_id, volume):
 	if part_data.id == part_id and data.id == track_id:
 		change_volume(volume)
-func _on_Communicator_set_beats(part_id, track_id, beats):
+func _on_Communicator_set_beats(part_id, track_id, beats, color_per_beat):
 	if part_data.id == part_id and data.id == track_id:
-		set_beats(beats)
+		set_beats(beats, color_per_beat)
 
 func set_sample(sample_id):
 	data.sample_id = sample_id
@@ -91,8 +91,9 @@ func change_volume(val):
 	# TODO calc db
 	AudioServer.set_bus_volume_db(bus_id, linear2db(val / 100.0))
 	
-func set_beats(beats):
+func set_beats(beats, color_per_beat):
 	data.beats = beats
+	data.color_per_beat = color_per_beat
 	
 	var old_size = node_beats.get_child_count()
 	var new_size = len(beats)
@@ -102,6 +103,7 @@ func set_beats(beats):
 		for i in range(old_size, new_size):
 			var beat = Beat.instance()
 			beat.is_on = data.beats[i]
+			beat.color = data.color_per_beat[i]
 			beat.sample = Consts.SAMPLES[data.sample_id][1]
 			beat.bus_id = bus_id
 			beat.connect("beat_toggled", self, "_on_beat_toggled", [i])
@@ -117,6 +119,7 @@ func set_beats(beats):
 	# update existing beats
 	for i in range(min(old_size, new_size)):
 		children[i].set_is_on(beats[i])
+		children[i].set_color(color_per_beat[i])
 		i += 1
 	
 	
@@ -132,7 +135,7 @@ func deserialize(new_data: Data.Track):
 	toggle_mute(data.muted)
 	set_sample(data.sample_id)
 	change_volume(data.volume)
-	set_beats(data.beats)
+	set_beats(data.beats, data.color_per_beat)
 	
 func serialize():
 	return inst2dict(data)
