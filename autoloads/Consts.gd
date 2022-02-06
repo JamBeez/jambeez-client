@@ -5,7 +5,7 @@ const HTTP_SERVER_URL = "jambeez.github.io"
 #const WS_SERVER_URL = "ws://localhost:8080/jambeez"
 # url encoded ws%3A%2F%2Flocalhost%3A8080%2Fjambeez
 #const WS_SERVER_URL = "ws://vps.fuchss.org:8888/jambeez"
-var WS_SERVER_URL = "wss://ci.fuchss.org/jambeez"
+var WS_SERVER_URL = "wss://jambeez.fuchss.org/jambeez"
 # url encoded wss%3A%2F%2Fci.fuchss.org%2Fjambeez
 
 var PARAM_LOBBY_ID = null
