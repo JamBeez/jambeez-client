@@ -5,8 +5,10 @@
 [node name="Beat" type="Button"]
 margin_right = 37.0
 margin_bottom = 20.0
+mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 toggle_mode = true
+action_mode = 0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -14,4 +16,6 @@ __meta__ = {
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 
+[connection signal="mouse_entered" from="." to="." method="mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="mouse_exited"]
 [connection signal="toggled" from="." to="." method="_on_Beat_toggled"]
