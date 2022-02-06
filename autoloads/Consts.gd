@@ -11,7 +11,7 @@ var WS_SERVER_URL = "wss://ci.fuchss.org/jambeez"
 var PARAM_LOBBY_ID = null
 const JOIN_DEBUG_SESSION = false
 var PARAM_AUTO_CONNECT = true
-var PARAM_AUTO_SHARE = false
+var PARAM_AUTO_SHARE = true
 
 var beat_style_normal:StyleBoxTexture
 var beat_style_active:StyleBoxTexture
