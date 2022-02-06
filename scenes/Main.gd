@@ -48,21 +48,21 @@ func _on_Communicator_connection_state_changed(state):
 			node_connection.set_pressed_no_signal(false)
 			node_connection.disabled = false
 
-func _on_Communicator_lobby_create(lobby_id):
+func _on_Communicator_lobby_create(lobby_id: String):
 	node_invite_link.text = Consts.get_invite_link(lobby_id)
 	print("Created lobby with id " + str(lobby_id))
 
-func _on_Communicator_lobby_join(lobby):
-	data = lobby
+func _on_Communicator_lobby_join(lobby: Data.Lobby):
+	deserialize(lobby)
 	node_invite_link.text = Consts.get_invite_link(lobby.id)
-	print("Joined lobby with id " + str(lobby.id))
+	print("Joined lobby with id " + lobby.id)
 
 func _on_ConnectionToogle_toggled(button_pressed):
 	if button_pressed:
 		Communicator.start_connection()
 	else:
 		Communicator.stop_connection()
-		
+
 
 func add_part(part_data: Data.Part):
 	var child = Part.instance()

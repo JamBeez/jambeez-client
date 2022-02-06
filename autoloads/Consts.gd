@@ -44,3 +44,12 @@ const SAMPLES = [
 
 func get_invite_link(lobby_id) -> String:
 	return "%s?l=%s" % [HTTP_SERVER_URL, str(lobby_id)]
+
+func get_browser_get_parameter(id: String):
+	if OS.has_feature("JavaScript"):
+		return JavaScript.eval("""
+			var url_string = window.location.href;
+			var url = new URL(url_string);
+			url.searchParams.get("l");
+		""")
+	return null

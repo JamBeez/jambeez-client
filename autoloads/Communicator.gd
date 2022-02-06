@@ -134,15 +134,6 @@ func _ready():
 	yield(get_tree(), "idle_frame")
 	start_connection()
 
-func get_browser_get_parameter():
-	if OS.has_feature("JavaScript"):
-		return JavaScript.eval("""
-			var url_string = window.location.href;
-			var url = new URL(url_string);
-			url.searchParams.get("l");
-		""")
-	return null
-
 func start_connection():
 	_state = "connecting"
 	emit_signal("connection_state_changed", _state)
@@ -176,9 +167,9 @@ func _connected(proto = ""):
 	_state = "connected"
 	emit_signal("connection_state_changed", _state)
 	
-	var get_param = get_browser_get_parameter()
-	if get_param:
-		notify_join_lobby(get_param)
+	var lobby_param = Consts.get_browser_get_parameter("l")
+	if lobby_param:
+		notify_join_lobby(lobby_param)
 	else:
 		notify_request_lobby()
 
@@ -213,12 +204,12 @@ func _on_data():
 
 				notify_update_parts(get_main_data.call_func())
 			"lobby:join":
-				var lobby: Data.Lobby
+				var lobby # : Data.Lobby
 				if data_json.get("lobby") == null:
 					lobby = Consts.initial_lobby
 					print("lobby:join : Mocking lobby ", lobby)
 				else:
-					lobby = data_json.lobby
+					lobby = Data.Lobby.from_dict(data_json.lobby)
 				
 				emit_signal("lobby_join", lobby)
 			"user:joined":
