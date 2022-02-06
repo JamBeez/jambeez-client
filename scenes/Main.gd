@@ -110,16 +110,46 @@ func _on_ButtonRec_pressed():
 	is_recording = !is_recording
 	
 export var s:AudioStreamSample
-func _on_ButtonDownload_pressed():
-	fileDialog.popup_centered()
 
-func _on_FileDialog_file_selected(path):
+func _on_ButtonDownload_pressed():
+	if OS.get_name() == "HTML5" and OS.has_feature('JavaScript'):
+		_download_sound()
+	else:
+		# Default Download for non HTML5
+		fileDialog.popup_centered()
+
+
+func _on_FileDialog_file_selected(path:String):
+	var wavData : Array = _get_wave_data()
+	if wavData.size() == 0:
+		return
+
+	if(!path.ends_with(".wav")):
+		path = path + ".wav"
+		
+	var file :File = File.new()
+	file.open(path, File.WRITE)
+	file.store_buffer(wavData)
+	file.close()
+	
+func _download_sound():
+	var wavData : Array = _get_wave_data()
+	if wavData.size() == 0:
+		return
+	JavaScript.download_buffer(wavData, "jambeez.wav")
+
+func _get_wave_data() -> Array:
 	var effect:AudioEffectRecord = AudioServer.get_bus_effect(0, 0)
 	var recording = effect.get_recording()
-	print("dl")
-	if OK == recording.save_to_wav(path):
-		pass
-	else:
-		pass
-	
-	
+	print("saving wav to tmp in user://")
+	recording.save_to_wav("user://export_temp.wav")
+	var file:File = File.new()
+	if file.open("user://export_temp.wav", File.READ):
+		# On Error do nothing for now
+		return Array()
+	print("Store WAV to Buffer")
+	var wavData = Array(file.get_buffer(file.get_len()))
+	file.close()
+	var dir = Directory.new()
+	dir.remove("user://export_temp.wav")
+	return wavData

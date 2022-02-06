@@ -159,8 +159,12 @@ text = "Download"
 margin_right = 416.0
 margin_bottom = 184.0
 rect_min_size = Vector2( 400, 140 )
+access = 2
 filters = PoolStringArray( "*.wav ; WAV Files" )
 show_hidden_files = true
+current_dir = "/"
+current_file = "export.wav"
+current_path = "/export.wav"
 
 [connection signal="toggled" from="CanvasLayer/MarginContainer/VBoxContainer/Header/ConnectionToogle" to="." method="_on_ConnectionToogle_toggled"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer/ButtonRec" to="." method="_on_ButtonRec_pressed"]
