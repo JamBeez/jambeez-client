@@ -57,11 +57,10 @@ func _on_OptionButtonSample_item_selected(index):
 	Communicator.notify_change_sample(part_data.id, data.id, index)
 func _on_ButtonMute_toggled(pressed):
 	Communicator.notify_toggle_mute(part_data.id, data.id, pressed)
-var is_awaiting_volume_change = false
+var prevent_volume_signal = false
 func _on_HSlider_value_changed(value):
-	if !is_awaiting_volume_change:
+	if !prevent_volume_signal:
 		Communicator.notify_change_volume(part_data.id, data.id, value)
-	is_awaiting_volume_change = true
 func _on_beat_toggled(is_on, idx):
 	data.beats[idx] = is_on
 	Communicator.notify_set_beats(part_data.id, data.id, data.beats)
@@ -89,10 +88,10 @@ func toggle_mute(val):
 	node_muted.pressed = val
 	AudioServer.set_bus_mute(bus_id, val)
 func change_volume(val):
+	prevent_volume_signal = true
 	data.volume = val
+	call_deferred("set", "prevent_volume_signal", false)
 	node_volume.value = val
-	is_awaiting_volume_change = false
-	# TODO calc db
 	AudioServer.set_bus_volume_db(bus_id, linear2db(val / 100.0))
 	
 func set_beats(beats, color_per_beat):
