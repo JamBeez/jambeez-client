@@ -29,15 +29,15 @@ func _ready():
 
 func _on_Communicator_connection_state_changed(state):
 	match state:
-		"connecting":
+		Data.ConnectionState.CONNECTING:
 			node_connection.text = "Connecting..."
 			node_connection.set_pressed_no_signal(true)
 			node_connection.disabled = true
-		"connected":
+		Data.ConnectionState.CONNECTED:
 			node_connection.text = "Connected"
 			node_connection.set_pressed_no_signal(true)
 			node_connection.disabled = false
-		"disconnected":
+		Data.ConnectionState.DISCONNECTING:
 			node_connection.text = "Share Session"
 			node_connection.set_pressed_no_signal(false)
 			node_connection.disabled = false
