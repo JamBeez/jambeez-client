@@ -58,7 +58,10 @@ func _on_ButtonMute_toggled(pressed):
 func _on_HSlider_value_changed(value):
 	Communicator.notify_change_volume(part_data.id, data.id, value)
 	#change_volume(value) # TODO remove
-
+func _on_beat_toggled(is_on, idx):
+	data.beats[idx] = is_on
+	Communicator.notify_set_beats(part_data.id, data.id, data.beats)
+	
 func _on_Communicator_set_sample(part_id, track_id, sample_id):
 	if part_data.id == part_id and data.id == track_id:
 		set_sample(sample_id)
@@ -68,7 +71,10 @@ func _on_Communicator_toggle_mute(part_id, track_id, muted):
 func _on_Communicator_change_volume(part_id, track_id, volume):
 	if part_data.id == part_id and data.id == track_id:
 		change_volume(volume)
-	
+func _on_Communicator_set_beats(part_id, track_id, beats):
+	if part_data.id == part_id and data.id == track_id:
+		set_beats(beats)
+
 func set_sample(sample_id):
 	data.sample_id = sample_id
 	node_sample.selected = data.sample_id
@@ -82,6 +88,25 @@ func change_volume(val):
 	data.volume = val
 	node_volume.value = val
 	# TODO calc db
+func set_beats(beats):
+	data.beats = beats
+	
+	# TODO dont always clear
+	
+	# clear prev Beats
+	for beat in node_beats.get_children():
+		beat.queue_free()
+		
+	# Create new Beats
+	var i = 0
+	for beat_is_on in data.beats:
+		var beat = Beat.instance()
+		beat.is_on = beat_is_on
+		beat.sample = Consts.SAMPLES[data.sample_id][1]
+		beat.bus_id = bus_id
+		beat.connect("beat_toggled", self, "_on_beat_toggled", [i])
+		i+=1
+		node_beats.add_child(beat)
 	
 func get_score_global_rect():
 	return Rect2($HBoxContainer/Score.rect_global_position, $HBoxContainer/Score.rect_size)
@@ -94,18 +119,8 @@ func deserialize(new_data: Data.Track):
 
 	toggle_mute(data.muted)
 	set_sample(data.sample_id)
-	if data != null:
-		self.data = data
-	# clear prev Beats
-	for beat in node_beats.get_children():
-		beat.queue_free()
-	# Create new Beats
-	for beat_is_on in data.beats:
-		var beat = Beat.instance()
-		beat.is_on = beat_is_on
-		beat.sample = Consts.SAMPLES[data.sample_id][1]
-		beat.bus_id = bus_id
-		node_beats.add_child(beat)
+	change_volume(data.volume)
+	set_beats(data.beats)
 	
 func serialize():
 	return inst2dict(data)

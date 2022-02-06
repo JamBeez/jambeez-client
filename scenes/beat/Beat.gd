@@ -5,6 +5,8 @@ var sample: Resource
 var bus_id = 0
 var mouse_inside = false
 
+signal beat_toggled(pressed)
+
 onready var player:AudioStreamPlayer = $AudioStreamPlayer
 
 func _ready():
@@ -21,7 +23,11 @@ func change_sample(sample_id: int):
 	player.stream = sample
 
 func _on_Beat_toggled(button_pressed):
-	is_on = button_pressed
+	emit_signal("beat_toggled", button_pressed)
+	
+func set_is_on(is_on):
+	self.is_on = is_on
+	pressed = is_on
 
 func _input(event):
 	# fix that mouse_entered is not called when mouse is already pressed
