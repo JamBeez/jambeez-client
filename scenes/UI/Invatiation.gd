@@ -11,8 +11,12 @@ func _ready():
 func set_state(val, link = null):
 	match val:
 		Data.State.DISCONNECTED:
-			var text = OS.clipboard
-			$LinkEdit.text = text if Consts.lobby_id_from_invite(text) != null else "paste invite link here"
+			var text = "paste invite link here"
+			if link != null:
+				text = link
+			elif Consts.lobby_id_from_invite(OS.clipboard) != null:
+				text = OS.clipboard
+			$LinkEdit.text = text
 			$LinkEdit.editable = true
 			$LinkEdit.clear_button_enabled = true
 			$Button.text = "Join"
@@ -42,10 +46,10 @@ func get_state():
 
 
 func _text_changed(new_text):
-	if new_text == "":
-		pass
-	print("changed to ", new_text, " from ", $LinkEdit.text)
+	$LinkEdit.clear_button_enabled = Consts.lobby_id_from_invite(new_text) == null
 
+func _text_entered(new_text):
+	$Button.set_pressed(true)
 
 func _on_Button_pressed():
 	match state:

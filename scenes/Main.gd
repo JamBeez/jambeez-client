@@ -21,7 +21,9 @@ func _ready():
 	Communicator.connect("lobby_join", self, "_on_Communicator_lobby_join")
 	Communicator.connect("lobby_error", self, "_on_Communicator_lobby_error")
 	Communicator.get_main_data = funcref(self, "get_data")
+	
 	node_invite.connect("join", self, "_on_invite_join")
+	node_invite.set_state(Data.State.DISCONNECTED, Consts.PARAM_LOBBY_ID)
 	
 	deserialize()
 
