@@ -6,6 +6,7 @@ var part_data: Data.Part
 var bus_id
 
 const Beat = preload("res://scenes/beat/Beat.tscn")
+const BarLine = preload("res://scenes/track/BarLine.tscn")
 
 export (NodePath) var path_sample
 onready var node_sample: OptionButton = get_node(path_sample)
@@ -18,6 +19,9 @@ onready var node_muted :CheckBox = get_node(path_muted)
 
 export (NodePath) var path_beats
 onready var node_beats: Node = get_node(path_beats)
+
+export (NodePath) var path_bar_lines
+onready var node_bar_lines: Node = get_node(path_bar_lines)
 
 func _ready():
 	AudioServer.add_bus()
@@ -136,7 +140,19 @@ func deserialize(new_data: Data.Track):
 	set_sample(data.sample_id)
 	change_volume(data.volume)
 	set_beats(data.beats, data.color_per_beat)
-	
+	update_bar_lines()
+
+func _on_Score_resized():
+	update_bar_lines()
+func update_bar_lines():
+	# Update BarLines
+	for bar_line in node_bar_lines.get_children():
+		bar_line.queue_free()
+	yield(get_tree(), "idle_frame")
+	for i in range(1, part_data.bars):
+		var bar_line:Node = BarLine.instance()
+		node_bar_lines.add_child(bar_line)
+		bar_line.position.x = (float(i) / part_data.bars) * float(node_bar_lines.rect_size.x)
+		
 func serialize():
 	return inst2dict(data)
-

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://scenes/track/Track.gd" type="Script" id=1]
+[ext_resource path="res://scenes/track/BarLine.tscn" type="PackedScene" id=2]
 
 [node name="Track" type="PanelContainer"]
 margin_right = 984.0
@@ -13,6 +14,7 @@ path_sample = NodePath("HBoxContainer/OptionButtonSample")
 path_volume = NodePath("HBoxContainer/VBoxContainerVol/HSlider")
 path_muted = NodePath("HBoxContainer/ButtonMute")
 path_beats = NodePath("HBoxContainer/Score/Beats")
+path_bar_lines = NodePath("HBoxContainer/Score/BarLines")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 margin_left = 7.0
@@ -88,13 +90,24 @@ margin_right = 970.0
 margin_bottom = 34.0
 size_flags_horizontal = 3
 
-[node name="Beats" type="HBoxContainer" parent="HBoxContainer/Score"]
+[node name="BarLines" type="Control" parent="HBoxContainer/Score"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 642.0
 margin_bottom = 27.0
 
+[node name="BarLine" parent="HBoxContainer/Score/BarLines" instance=ExtResource( 2 )]
+position = Vector2( 635, 0 )
+
+[node name="Beats" type="HBoxContainer" parent="HBoxContainer/Score"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 642.0
+margin_bottom = 27.0
+custom_constants/separation = 0
+
 [connection signal="item_selected" from="HBoxContainer/OptionButtonSample" to="." method="_on_OptionButtonSample_item_selected"]
 [connection signal="pressed" from="HBoxContainer/ButtonRemove" to="." method="_on_ButtonRemove_pressed"]
 [connection signal="value_changed" from="HBoxContainer/VBoxContainerVol/HSlider" to="." method="_on_HSlider_value_changed"]
 [connection signal="toggled" from="HBoxContainer/ButtonMute" to="." method="_on_ButtonMute_toggled"]
+[connection signal="resized" from="HBoxContainer/Score" to="." method="_on_Score_resized"]
