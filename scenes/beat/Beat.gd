@@ -10,6 +10,7 @@ var mouse_inside = false
 signal beat_toggled(pressed)
 
 onready var player:AudioStreamPlayer = $AudioStreamPlayer
+onready var anim:AnimationPlayer = $AnimationPlayer
 
 func _ready():
 	player.stream = sample
@@ -20,6 +21,7 @@ func _ready():
 func play(blink_duration = 0):
 	if is_on:
 		player.play(0)
+		anim.play("wiggle")
 		if blink_duration > 0:
 			add_stylebox_override("pressed", Consts.beat_style_active)
 			$Timer.start(blink_duration)
@@ -68,5 +70,5 @@ func mouse_entered():
 func mouse_exited():
 	mouse_inside = false
 
-
-
+func _on_Beat_resized():
+	rect_pivot_offset.y = rect_size.y / 2.0

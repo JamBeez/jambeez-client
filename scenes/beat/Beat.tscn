@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://scenes/beat/Beat.gd" type="Script" id=1]
 [ext_resource path="res://assets/samples/synth/e_3.wav" type="AudioStream" id=2]
@@ -30,9 +30,41 @@ margin_right = 12.0
 margin_top = 12.0
 margin_bottom = 12.0
 
+[sub_resource type="Animation" id=5]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "wiggle"
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ), Vector2( 1, 1.2 ), Vector2( 1, 0.92 ), Vector2( 1, 1 ) ]
+}
+
 [node name="Beat" type="Button"]
 margin_right = 37.0
 margin_bottom = 20.0
+rect_pivot_offset = Vector2( 0, 19 )
 mouse_default_cursor_shape = 2
 size_flags_horizontal = 3
 custom_styles/hover = SubResource( 1 )
@@ -53,7 +85,12 @@ stream = ExtResource( 2 )
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 5 )
+anims/wiggle = SubResource( 6 )
+
 [connection signal="mouse_entered" from="." to="." method="mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="mouse_exited"]
+[connection signal="resized" from="." to="." method="_on_Beat_resized"]
 [connection signal="toggled" from="." to="." method="_on_Beat_toggled"]
 [connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
