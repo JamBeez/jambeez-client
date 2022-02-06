@@ -19,7 +19,6 @@ var _client = WebSocketClient.new()
 var _is_connected = false
 var _state = "disconnected" # todo this is almost NetworkedMultiplayerPeer.ConnectionStatus
 
-var PARAM_WS_SERVER_URL: String
 var get_main_data: FuncRef
 
 func notify_request_lobby():
@@ -123,21 +122,13 @@ func _ready():
 	_client.connect("connection_established", self, "_connected")
 	_client.connect("data_received", self, "_on_data")
 	
-	if OS.is_debug_build() and OS.has_feature("JavaScript"):
-		PARAM_WS_SERVER_URL = JavaScript.eval("""
-			var url_string = window.location.href;
-			var url = new URL(url_string);
-			url.searchParams.get("ws_url");
-		""")
-		print("PARAM_WS_SERVER_URL: ", PARAM_WS_SERVER_URL)
-
 	yield(get_tree(), "idle_frame")
 	start_connection()
 
 func start_connection():
 	_state = "connecting"
 	emit_signal("connection_state_changed", _state)
-	var url = PARAM_WS_SERVER_URL if PARAM_WS_SERVER_URL else Consts.WS_SERVER_URL
+	var url = Consts.WS_SERVER_URL
 	var err = _client.connect_to_url(url)
 	set_process(true)
 	print("Connecting to: ", url)
