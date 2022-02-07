@@ -42,15 +42,15 @@ func _process(delta):
 	if node_beats.get_child_count() == 0:
 		return
 	
-	var next_beat_time = next_beat_id * (60.0 / part_data.bpm)
+	var spm = (60.0 / part_data.bpm)
+	var next_beat_time = next_beat_id * spm
 	if part_data.time >= next_beat_time:
 		# seconds to past where sound should have been
 		var time_error = part_data.time - next_beat_time
 		
 		if !data.muted:
-			node_beats.get_children()[next_beat_id % data.beats.size()].play(60.0 / part_data.bpm)
-#		if data.beats[next_beat_id % data.beats.size()]:
-#			print(next_beat_id, " / ", data.beats.size())
+			var beat = node_beats.get_child(next_beat_id % data.beats.size())
+			beat.play(spm, time_error)
 		next_beat_id += 1
 		
 

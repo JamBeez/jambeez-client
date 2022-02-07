@@ -18,9 +18,9 @@ func _ready():
 	set_pressed_no_signal(is_on)
 	
 	
-func play(blink_duration = 0):
+func play(blink_duration = 0.0, time_error = 0.0):
 	if is_on:
-		player.play(0)
+		player.play(time_error)
 		anim.play("wiggle")
 		if blink_duration > 0:
 			add_stylebox_override("pressed", Consts.beat_style_active)
