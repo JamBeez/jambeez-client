@@ -112,7 +112,7 @@ func set_beats(beats, color_per_beat):
 			var beat = Beat.instance()
 			beat.is_on = data.beats[i]
 			if not data.color_per_beat.empty():
-				beat.color = data.color_per_beat[i]
+				beat.set_color(data.color_per_beat[i])
 			beat.sample = Consts.SAMPLES[data.sample_id][1]
 			beat.bus_id = bus_id
 			beat.connect("beat_toggled", self, "_on_beat_toggled", [i])
