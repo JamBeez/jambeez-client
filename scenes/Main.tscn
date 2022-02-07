@@ -132,12 +132,29 @@ margin_bottom = 25.0
 
 [node name="Label" type="Label" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer"]
 margin_top = 3.0
-margin_right = 41.0
+margin_right = 129.0
 margin_bottom = 17.0
-text = "Footer"
+text = "Created in 48 hours."
+
+[node name="Padder" type="Control" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer"]
+margin_left = 133.0
+margin_right = 148.0
+margin_bottom = 20.0
+rect_min_size = Vector2( 15, 0 )
+
+[node name="LinkButton" type="LinkButton" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer"]
+margin_left = 152.0
+margin_top = 3.0
+margin_right = 282.0
+margin_bottom = 17.0
+size_flags_vertical = 4
+text = "Check out on Github"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="Spacer" type="Control" parent="CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer"]
-margin_left = 45.0
+margin_left = 286.0
 margin_right = 945.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
@@ -167,6 +184,7 @@ current_file = "export.wav"
 current_path = "/export.wav"
 
 [connection signal="toggled" from="CanvasLayer/MarginContainer/VBoxContainer/Header/ConnectionToogle" to="." method="_on_ConnectionToogle_toggled"]
+[connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer/LinkButton" to="." method="_on_LinkButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer/ButtonRec" to="." method="_on_ButtonRec_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer/ButtonDownload" to="." method="_on_ButtonDownload_pressed"]
 [connection signal="file_selected" from="CanvasLayer/FileDialog" to="." method="_on_FileDialog_file_selected"]

@@ -109,7 +109,8 @@ func _on_ButtonRec_pressed():
 		btnRec.text = "Stop Rec"
 	is_recording = !is_recording
 	
-export var s:AudioStreamSample
+func _on_LinkButton_pressed():
+		OS.shell_open(Consts.HTTP_GITHUB_URL)
 
 func _on_ButtonDownload_pressed():
 	if OS.get_name() == "HTML5" and OS.has_feature('JavaScript'):
@@ -117,7 +118,6 @@ func _on_ButtonDownload_pressed():
 	else:
 		# Default Download for non HTML5
 		fileDialog.popup_centered()
-
 
 func _on_FileDialog_file_selected(path:String):
 	var wavData : Array = _get_wave_data()

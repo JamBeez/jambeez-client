@@ -1,6 +1,7 @@
 extends Node
 
-const HTTP_SERVER_URL = "jambeez.github.io"
+const HTTP_SERVER_URL = "https://jambeez.github.io"
+const HTTP_GITHUB_URL = "https://github.com/JamBeez/jambeez-client"
 #const WS_SERVER_URL = "ws://echo.websocket.events/.ws"
 #const WS_SERVER_URL = "ws://localhost:8080/jambeez"
 # url encoded ws%3A%2F%2Flocalhost%3A8080%2Fjambeez
