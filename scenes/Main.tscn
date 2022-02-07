@@ -78,7 +78,7 @@ text = "Share Session"
 [node name="Invatiation" parent="CanvasLayer/MarginContainer/VBoxContainer/Header" instance=ExtResource( 5 )]
 anchor_left = 0.0
 anchor_right = 0.0
-margin_left = 994.0
+margin_left = 822.0
 margin_top = 5.0
 margin_right = 994.0
 margin_bottom = 45.0

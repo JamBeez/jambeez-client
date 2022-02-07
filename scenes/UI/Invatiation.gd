@@ -1,5 +1,10 @@
 extends Control
 
+export (NodePath) var path_link_edit
+onready var node_link_edit = get_node(path_link_edit)
+
+export (NodePath) var path_button
+onready var node_button = get_node(path_button)
 
 signal join(lobby_id)
 
@@ -7,6 +12,7 @@ export(Data.State) var state = Data.State.DISCONNECTED setget set_state, get_sta
 
 func _ready():
 	set_state(Data.State.DISCONNECTED)
+	$InvatationConfirm.hide()
 
 func set_state(val, link = null):
 	match val:
@@ -16,20 +22,20 @@ func set_state(val, link = null):
 				text = link
 			elif Consts.lobby_id_from_invite(OS.clipboard) != null:
 				text = OS.clipboard
-			$LinkEdit.text = text
-			$LinkEdit.editable = true
-			$LinkEdit.clear_button_enabled = true
-			$Button.text = "Join"
-			$Button.disabled = false
+			node_link_edit.text = text
+			node_link_edit.editable = true
+			node_link_edit.clear_button_enabled = true
+			node_button.text = "Join"
+			node_button.disabled = false
 		Data.State.JOINING:
-			$LinkEdit.editable = false
-			$Button.text = "Joining..."
-			$Button.disabled = true
+			node_link_edit.editable = false
+			node_button.text = "Joining..."
+			node_button.disabled = true
 		Data.State.IN_LOBBY:
-			$LinkEdit.text = link
-			$LinkEdit.editable = false
-			$Button.text = "Copy"
-			$Button.disabled = false
+			node_link_edit.text = link
+			node_link_edit.editable = false
+			node_button.text = "Copy"
+			node_button.disabled = false
 	state = val
 
 func get_state():
@@ -46,20 +52,24 @@ func get_state():
 
 
 func _text_changed(new_text):
-	$LinkEdit.clear_button_enabled = Consts.lobby_id_from_invite(new_text) == null
+	node_link_edit.clear_button_enabled = Consts.lobby_id_from_invite(new_text) == null
 
 func _text_entered(new_text):
-	$Button.set_pressed(true)
+	node_button.set_pressed(true)
 
 func _on_Button_pressed():
 	match state:
 		Data.State.DISCONNECTED:
-			var text = Consts.lobby_id_from_invite($LinkEdit.text)
+			var text = Consts.lobby_id_from_invite(node_link_edit.text)
 			if text == null:
-				text = $LinkEdit.text
-			$LinkEdit.text = text
-			print(text)
+				text = node_link_edit.text
+			node_link_edit.text = text
 			emit_signal("join", text)
 		Data.State.IN_LOBBY:
-			OS.clipboard = $LinkEdit.text
-			$InvatationPopup.popup()
+			OS.clipboard = node_link_edit.text
+			$InvatationConfirm.show()
+			$Timer.start(3)
+
+
+func _on_Timer_timeout():
+	$InvatationConfirm.hide()
