@@ -55,7 +55,7 @@ func _ready():
 
 var delta_last = 0
 var next_beat_id:int = 0
-func _process(delta):
+func _physics_process(delta):
 	data.time_last = data.time
 	data.time += delta
 	delta_last = delta
