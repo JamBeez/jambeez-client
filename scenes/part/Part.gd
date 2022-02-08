@@ -181,6 +181,7 @@ func _on_Communicator_change_sig_lower(part_id, value):
 	
 	var res = _calc_new_time_when_beats_per_pass_change(data, value * data.bars)
 	data.time = res[0]
+	next_beat_id = res[1]
 	data.time_last = data.time - delta_last
 	data.sig_lower = value
 	
@@ -188,7 +189,6 @@ func _on_Communicator_change_sig_lower(part_id, value):
 	for track in node_tracks.get_children():
 		track.data.change_time_sig(data)
 		track.deserialize(null)
-		track.next_beat_id = res[1]
 		Communicator.notify_set_beats(data.id, track.data.id, track.data.beats)
 	update_time()
 	update_needle()
@@ -199,14 +199,15 @@ func _on_Communicator_change_bars(part_id, value):
 	
 	var res = _calc_new_time_when_beats_per_pass_change(data, value * data.sig_lower)
 	data.time = res[0]
+	next_beat_id = res[1]
 	data.time_last = data.time - delta_last
 	data.bars = value
 	
 	input_bars.text = str(value)
+	
 	for track in node_tracks.get_children():
 		track.data.change_time_sig(data)
 		track.deserialize(null)
-		track.next_beat_id = res[1]
 		Communicator.notify_set_beats(data.id, track.data.id, track.data.beats)
 		
 	update_time()
