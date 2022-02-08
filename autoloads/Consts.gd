@@ -55,6 +55,7 @@ func _ready():
 	beat_style_active.margin_top = margin
 	beat_style_active.margin_bottom = margin
 
+var INITIAL_SAMPLES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] + range(23, 36)
 const SAMPLES = [
 	["Drum snare", preload("res://assets/samples/drums/snare_drum.wav")],
 	["Drum bass bad", preload("res://assets/samples/drums/bass_drum.wav")],

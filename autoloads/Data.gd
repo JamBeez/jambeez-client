@@ -159,14 +159,18 @@ func initial_lobby(id: String) -> Lobby:
 	]
 	return lobby
 
+
 func initial_part(id: String, with_tracks: bool = false) -> Part:
 	var part = Part.new()
 	part.id = id
 	if with_tracks:
-		part.tracks.append(initial_track(part, "Synth2 c4", 36))
-		part.tracks.append(initial_track(part, "Synth2 a4", 45))
-		part.tracks.append(initial_track(part, "Drum snare", 0))
-		part.tracks.append(initial_track(part, "Drum bass acoustic", 9))
+		for sample_id in Consts.INITIAL_SAMPLES:
+			var sample = Consts.SAMPLES[sample_id]
+			part.tracks.append(initial_track(part, sample[0], sample_id))
+#		part.tracks.append(initial_track(part, "Synth2 c4", 36))
+#		part.tracks.append(initial_track(part, "Synth2 a4", 45))
+#		part.tracks.append(initial_track(part, "Drum snare", 0))
+#		part.tracks.append(initial_track(part, "Drum bass acoustic", 9))
 	return part
 
 func initial_track(part: Part, id: String, sample_id: int = 0):
