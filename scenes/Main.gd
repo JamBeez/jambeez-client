@@ -25,6 +25,9 @@ func _ready():
 	node_invite.connect("join", self, "_on_invite_join")
 	node_invite.set_state(Data.State.DISCONNECTED, Consts.PARAM_LOBBY_ID)
 	
+	if OS.get_name().to_lower().find("android") > -1:
+		get_tree().set_screen_stretch(SceneTree.STRETCH_MODE_2D,  SceneTree.STRETCH_ASPECT_EXPAND, Vector2(1280,720), 1)
+		
 	deserialize()
 
 func _on_Communicator_connection_state_changed(state):
