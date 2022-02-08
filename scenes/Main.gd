@@ -53,7 +53,9 @@ func _on_Communicator_lobby_join(lobby: Data.Lobby):
 	print("Joined lobby with id " + lobby.id)
 	
 func _on_Communicator_lobby_error(message: String):
-	print(message)
+	$CanvasLayer/ErrorDialog.popup_centered()
+func _on_ErrorDialog_confirmed():
+	Communicator.notify_request_lobby()
 
 func _on_ConnectionToogle_toggled(button_pressed):
 	if button_pressed:

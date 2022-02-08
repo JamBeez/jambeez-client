@@ -183,8 +183,20 @@ current_dir = "/"
 current_file = "export.wav"
 current_path = "/export.wav"
 
+[node name="ErrorDialog" type="AcceptDialog" parent="CanvasLayer"]
+margin_right = 83.0
+margin_bottom = 58.0
+popup_exclusive = true
+window_title = "Lobby doesn't exist"
+dialog_text = "The Lobby you are trying to join does not exist!
+Creating new Lobby instead."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="toggled" from="CanvasLayer/MarginContainer/VBoxContainer/Header/ConnectionToogle" to="." method="_on_ConnectionToogle_toggled"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer/LinkButton" to="." method="_on_LinkButton_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer/ButtonRec" to="." method="_on_ButtonRec_pressed"]
 [connection signal="pressed" from="CanvasLayer/MarginContainer/VBoxContainer/Footer/HBoxContainer/ButtonDownload" to="." method="_on_ButtonDownload_pressed"]
 [connection signal="file_selected" from="CanvasLayer/FileDialog" to="." method="_on_FileDialog_file_selected"]
+[connection signal="confirmed" from="CanvasLayer/ErrorDialog" to="." method="_on_ErrorDialog_confirmed"]
