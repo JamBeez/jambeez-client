@@ -14,9 +14,6 @@ const JOIN_DEBUG_SESSION = false
 var PARAM_AUTO_CONNECT = true
 var PARAM_AUTO_SHARE = true
 
-var beat_style_normal:StyleBoxTexture
-var beat_style_active:StyleBoxTexture
-
 func _ready():
 	if JOIN_DEBUG_SESSION and OS.is_debug_build():
 		PARAM_LOBBY_ID = "DEBUG"
@@ -37,23 +34,6 @@ func _ready():
 	if param_ws_server != null:
 		WS_SERVER_URL = param_ws_server
 		print("Read ws server address from url: ", WS_SERVER_URL)
-	
-	var texture = preload("res://assets/img/theme.png")
-	var margin = 12
-	beat_style_normal = StyleBoxTexture.new()
-	beat_style_normal.texture = texture
-	beat_style_normal.region_rect = Rect2(65, 1, 2*margin+1, 2*margin+1)
-	beat_style_normal.margin_left = margin
-	beat_style_normal.margin_right = margin
-	beat_style_normal.margin_top = margin
-	beat_style_normal.margin_bottom = margin
-	beat_style_active = StyleBoxTexture.new()
-	beat_style_active.texture = texture
-	beat_style_active.region_rect = Rect2(93, 1, 2*margin+1, 2*margin+1)
-	beat_style_active.margin_left = margin
-	beat_style_active.margin_right = margin
-	beat_style_active.margin_top = margin
-	beat_style_active.margin_bottom = margin
 
 var INITIAL_SAMPLES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] + range(23, 36)
 const SAMPLES = [

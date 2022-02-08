@@ -1,5 +1,5 @@
+tool
 extends Button
-
 
 var is_on = false
 var color = []
@@ -17,17 +17,24 @@ func _ready():
 	player.bus = AudioServer.get_bus_name(bus_id)
 	set_pressed_no_signal(is_on)
 	
+	add_stylebox_override("hover", theme.get_stylebox("beat_hover", "Beat"))
+	add_stylebox_override("pressed", theme.get_stylebox("beat_pressed", "Beat"))
+	add_stylebox_override("focus", theme.get_stylebox("beat_focus", "Beat"))
+	add_stylebox_override("normal", theme.get_stylebox("beat_normal", "Beat"))
+
+func set_visual_active(active):
+	add_stylebox_override("pressed", theme.get_stylebox("beat_active" if active else "beat_pressed", "Beat"))
 	
 func play(blink_duration = 0.0, time_error = 0.0):
 	if is_on:
 		player.play(time_error)
 		anim.play("wiggle")
 		if blink_duration > 0:
-			add_stylebox_override("pressed", Consts.beat_style_active)
+			set_visual_active(true)
 			$Timer.start(blink_duration)
 			
 func _on_Timer_timeout():
-	add_stylebox_override("pressed", Consts.beat_style_normal)
+	set_visual_active(false)
 
 func change_sample(sample_id: int):
 	sample = Consts.SAMPLES[sample_id][1]
