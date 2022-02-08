@@ -48,7 +48,7 @@ class User:
 
 class Part:
 	var id: String
-	var bpm: int = 120
+	var bpm: int = 120 setget _set_bpm
 	var bars: int = 2
 	var sig_upper: int = 4
 	var sig_lower: int = 4
@@ -56,11 +56,19 @@ class Part:
 	var time_last: float = -0.00000001
 	var tracks: Array = [
 	]
+	
+	func _init():
+		_set_bpm(bpm)
+		
+	var spb # sec per beat
+	func _set_bpm(val):
+		bpm = val
+		spb = 60.0 / bpm
 
 	static func from_dict(dict: Dictionary) -> Part:
 		var part = Part.new()
 		part.id = dict["id"]
-		part.bpm = dict["bpm"]
+		part._set_bpm(dict["bpm"])
 		part.bars = dict["bars"]
 		part.sig_upper = dict["sig_upper"]
 		part.sig_lower = dict["sig_lower"]

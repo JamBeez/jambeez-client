@@ -54,12 +54,22 @@ func _ready():
 	update_time()
 
 var delta_last = 0
+var next_beat_id:int = 0
 func _process(delta):
 	data.time_last = data.time
 	data.time += delta
 	delta_last = delta
 	
 	node_needle.rect_position.x = lerp(needle_x_min, needle_x_max, fmod(data.time, time_max) / time_max)
+	
+	var next_beat_time = next_beat_id * data.spb
+	if data.time >= next_beat_time:
+		# seconds to past where sound should have been
+		var time_error = data.time - next_beat_time
+		
+		for track in node_tracks.get_children():
+			track.play_beat(next_beat_id, time_error)
+		next_beat_id += 1
 	
 func update_time():
 	time_max = (60.0 / data.bpm) * (data.sig_lower * data.bars)

@@ -37,22 +37,11 @@ func _ready():
 	Communicator.connect("change_volume", self, "_on_Communicator_change_volume")
 	Communicator.connect("set_beats", self, "_on_Communicator_set_beats")
 
-var next_beat_id:int = 0
-func _process(delta):
-	if node_beats.get_child_count() == 0:
-		return
-	
-	var spb = (60.0 / part_data.bpm)
-	var next_beat_time = next_beat_id * spb
-	if part_data.time >= next_beat_time:
-		# seconds to past where sound should have been
-		var time_error = part_data.time - next_beat_time
-		
-		if !data.muted:
-			var beat = node_beats.get_child(next_beat_id % data.beats.size())
-			beat.play(spb, time_error)
-		next_beat_id += 1
-		
+
+func play_beat(id, time_error=0.0):
+	if !data.muted:
+		var beat = node_beats.get_child(id % data.beats.size())
+		beat.play(part_data.spb, time_error)
 
 func _on_ButtonRemove_pressed():
 	Communicator.notify_remove_track(part_data.id, data.id)
@@ -140,15 +129,6 @@ func deserialize(new_data: Data.Track):
 		data = new_data
 	elif data == null:
 		printerr("data is null can't deserialise Track")
-	
-	var spb = (60.0 / part_data.bpm) # secs per beat
-	var bpp = part_data.bars * part_data.sig_lower # beats per pass
-	var spp = bpp * spb # secs per pass
-	
-	var time_this_pass = fmod(part_data.time, spp)
-	var beat_this_pass = time_this_pass / spb
-	
-	next_beat_id = int(ceil(beat_this_pass))
 	
 	toggle_mute(data.muted)
 	set_sample(data.sample_id)
