@@ -14,10 +14,10 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-path_sig_upper = NodePath("VBoxContainer/HBoxContainer/LineEditSigUpper")
-path_sig_lower = NodePath("VBoxContainer/HBoxContainer/LineEditSigLower")
-path_bpm = NodePath("VBoxContainer/HBoxContainer/LineEditBPM")
-path_bars = NodePath("VBoxContainer/HBoxContainer/LineEditBars")
+path_sig_upper = NodePath("VBoxContainer/HBoxContainer/SpinBoxSigUpper")
+path_sig_lower = NodePath("VBoxContainer/HBoxContainer/SpinBoxSigLower")
+path_bpm = NodePath("VBoxContainer/HBoxContainer/SpinBoxBPM")
+path_bars = NodePath("VBoxContainer/HBoxContainer/SpinBoxBars")
 path_tracks = NodePath("VBoxContainer/ScrollContainer/Tracks")
 path_needle = NodePath("VBoxContainer/ScrollContainer/Needle/NinePatchRect")
 path_sample = NodePath("VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer/OptionButtonSample")
@@ -36,62 +36,71 @@ margin_right = 95.0
 margin_bottom = 19.0
 text = "Time Signature"
 
-[node name="LineEditSigLower" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+[node name="SpinBoxSigLower" type="SpinBox" parent="VBoxContainer/HBoxContainer"]
 margin_left = 99.0
-margin_right = 157.0
+margin_right = 173.0
 margin_bottom = 24.0
-text = "4"
+min_value = 1.0
+max_value = 16.0
+value = 4.0
 
 [node name="Label2" type="Label" parent="VBoxContainer/HBoxContainer"]
-margin_left = 161.0
+margin_left = 177.0
 margin_top = 5.0
-margin_right = 166.0
+margin_right = 182.0
 margin_bottom = 19.0
 text = "/"
 
-[node name="LineEditSigUpper" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
-margin_left = 170.0
-margin_right = 228.0
+[node name="SpinBoxSigUpper" type="SpinBox" parent="VBoxContainer/HBoxContainer"]
+margin_left = 186.0
+margin_right = 260.0
 margin_bottom = 24.0
-text = "4"
+min_value = 1.0
+max_value = 16.0
+value = 4.0
 
 [node name="Spacer" type="Control" parent="VBoxContainer/HBoxContainer"]
-margin_left = 232.0
-margin_right = 252.0
+margin_left = 264.0
+margin_right = 284.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 20, 0 )
 
 [node name="Label3" type="Label" parent="VBoxContainer/HBoxContainer"]
-margin_left = 256.0
+margin_left = 288.0
 margin_top = 5.0
-margin_right = 285.0
+margin_right = 317.0
 margin_bottom = 19.0
 text = "BPM"
 
-[node name="LineEditBPM" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
-margin_left = 289.0
-margin_right = 347.0
+[node name="SpinBoxBPM" type="SpinBox" parent="VBoxContainer/HBoxContainer"]
+margin_left = 321.0
+margin_right = 395.0
 margin_bottom = 24.0
-text = "120"
+max_value = 2000.0
+step = 10.0
+page = 40.0
+value = 120.0
 
 [node name="Spacer2" type="Control" parent="VBoxContainer/HBoxContainer"]
-margin_left = 351.0
-margin_right = 371.0
+margin_left = 399.0
+margin_right = 419.0
 margin_bottom = 24.0
 rect_min_size = Vector2( 20, 0 )
 
 [node name="Label4" type="Label" parent="VBoxContainer/HBoxContainer"]
-margin_left = 375.0
+margin_left = 423.0
 margin_top = 5.0
-margin_right = 403.0
+margin_right = 451.0
 margin_bottom = 19.0
 text = "Bars"
 
-[node name="LineEditBars" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
-margin_left = 407.0
-margin_right = 465.0
+[node name="SpinBoxBars" type="SpinBox" parent="VBoxContainer/HBoxContainer"]
+margin_left = 455.0
+margin_right = 529.0
 margin_bottom = 24.0
-text = "2"
+min_value = 1.0
+max_value = 12.0
+value = 2.0
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
 margin_top = 28.0
@@ -110,6 +119,7 @@ size_flags_vertical = 3
 position = Vector2( 0, -28 )
 
 [node name="NinePatchRect" type="NinePatchRect" parent="VBoxContainer/ScrollContainer/Needle"]
+visible = false
 margin_top = 28.0
 margin_right = 3.0
 margin_bottom = 180.0
@@ -127,12 +137,12 @@ margin_bottom = 600.0
 alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer2"]
-margin_left = 458.0
-margin_right = 487.0
+margin_left = 421.0
+margin_right = 525.0
 margin_bottom = 20.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2/VBoxContainer"]
-margin_right = 29.0
+margin_right = 104.0
 margin_bottom = 20.0
 
 [node name="CheckBoxTrackSamplePreset" type="CheckBox" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer" groups=["radio"]]
@@ -143,9 +153,12 @@ pressed = true
 text = "Preset sample"
 
 [node name="OptionButtonSample" type="OptionButton" parent="VBoxContainer/HBoxContainer2/VBoxContainer/HBoxContainer"]
-margin_right = 29.0
+margin_right = 104.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
+text = "Drum snare"
+items = [ "Drum snare", null, false, 0, null, "Drum bass bad", null, false, 1, null, "Drum cow bell", null, false, 2, null, "Drum kick", null, false, 3, null, "Drum bass rustle", null, false, 4, null, "Drum bass flick", null, false, 5, null, "Drum bass synth", null, false, 6, null, "Drum bass heavy", null, false, 7, null, "Drum bass bamboo", null, false, 8, null, "Drum bass acoustic", null, false, 9, null, "Synth c3", null, false, 10, null, "Synth c#3", null, false, 11, null, "Synth d3", null, false, 12, null, "Synth d#3", null, false, 13, null, "Synth e3", null, false, 14, null, "Synth f3", null, false, 15, null, "Synth f#3", null, false, 16, null, "Synth g3", null, false, 17, null, "Synth g#3", null, false, 18, null, "Synth a3", null, false, 19, null, "Synth a#3", null, false, 20, null, "Synth b3", null, false, 21, null, "Synth c4", null, false, 22, null, "Piano c3", null, false, 23, null, "Piano c#3", null, false, 24, null, "Piano d3", null, false, 25, null, "Piano d#3", null, false, 26, null, "Piano e3", null, false, 27, null, "Piano f3", null, false, 28, null, "Piano f#3", null, false, 29, null, "Piano g3", null, false, 30, null, "Piano g#3", null, false, 31, null, "Piano a3", null, false, 32, null, "Piano a#3", null, false, 33, null, "Piano b3", null, false, 34, null, "Piano c4", null, false, 35, null, "Synth2 c4", null, false, 36, null, "Synth2 c#4", null, false, 37, null, "Synth2 d4", null, false, 38, null, "Synth2 d#4", null, false, 39, null, "Synth2 e4", null, false, 40, null, "Synth2 f4", null, false, 41, null, "Synth2 f#4", null, false, 42, null, "Synth2 g4", null, false, 43, null, "Synth2 g#4", null, false, 44, null, "Synth2 a4", null, false, 45, null, "Synth2 a#4", null, false, 46, null, "Synth2 b4", null, false, 47, null, "Synth2 c5", null, false, 48, null, "Synth2 c#5", null, false, 49, null, "Synth2 d5", null, false, 50, null, "Synth2 d#5", null, false, 51, null, "Synth2 e5", null, false, 52, null, "Synth2 f5", null, false, 53, null, "Synth2 f#5", null, false, 54, null, "Synth2 g5", null, false, 55, null, "Synth2 g#5", null, false, 56, null, "Synth2 a5", null, false, 57, null, "Synth2 a#5", null, false, 58, null, "Synth2 b5", null, false, 59, null, "Synth2 c6", null, false, 60, null ]
+selected = 0
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer2/VBoxContainer"]
 visible = false
@@ -170,18 +183,18 @@ margin_bottom = 24.0
 text = "Select File"
 
 [node name="ButtonTrackAdd" type="Button" parent="VBoxContainer/HBoxContainer2"]
-margin_left = 491.0
-margin_right = 565.0
+margin_left = 529.0
+margin_right = 603.0
 margin_bottom = 20.0
 text = "Add Track"
 
 [connection signal="resized" from="." to="." method="_on_Part_resized"]
-[connection signal="focus_exited" from="VBoxContainer/HBoxContainer/LineEditSigLower" to="." method="_on_LineEditSigLower_focus_exited"]
-[connection signal="text_entered" from="VBoxContainer/HBoxContainer/LineEditSigLower" to="." method="_on_LineEditSigLower_text_entered"]
-[connection signal="focus_exited" from="VBoxContainer/HBoxContainer/LineEditSigUpper" to="." method="_on_LineEditSigUpper_focus_exited"]
-[connection signal="text_entered" from="VBoxContainer/HBoxContainer/LineEditSigUpper" to="." method="_on_LineEditSigUpper_text_entered"]
-[connection signal="focus_exited" from="VBoxContainer/HBoxContainer/LineEditBPM" to="." method="_on_LineEditBPM_focus_exited"]
-[connection signal="text_entered" from="VBoxContainer/HBoxContainer/LineEditBPM" to="." method="_on_LineEditBPM_text_entered"]
-[connection signal="focus_exited" from="VBoxContainer/HBoxContainer/LineEditBars" to="." method="_on_LineEditBars_focus_exited"]
-[connection signal="text_entered" from="VBoxContainer/HBoxContainer/LineEditBars" to="." method="_on_LineEditBars_text_entered"]
+[connection signal="focus_exited" from="VBoxContainer/HBoxContainer/SpinBoxSigLower" to="." method="_on_LineEditSigLower_focus_exited"]
+[connection signal="value_changed" from="VBoxContainer/HBoxContainer/SpinBoxSigLower" to="." method="_on_SpinBoxSigLower_value_changed"]
+[connection signal="focus_exited" from="VBoxContainer/HBoxContainer/SpinBoxSigUpper" to="." method="_on_LineEditSigUpper_focus_exited"]
+[connection signal="value_changed" from="VBoxContainer/HBoxContainer/SpinBoxSigUpper" to="." method="_on_SpinBoxSigUpper_value_changed"]
+[connection signal="focus_exited" from="VBoxContainer/HBoxContainer/SpinBoxBPM" to="." method="_on_LineEditBPM_focus_exited"]
+[connection signal="value_changed" from="VBoxContainer/HBoxContainer/SpinBoxBPM" to="." method="_on_SpinBoxBPM_value_changed"]
+[connection signal="focus_exited" from="VBoxContainer/HBoxContainer/SpinBoxBars" to="." method="_on_LineEditBars_focus_exited"]
+[connection signal="value_changed" from="VBoxContainer/HBoxContainer/SpinBoxBars" to="." method="_on_SpinBoxBars_value_changed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer2/ButtonTrackAdd" to="." method="_on_ButtonTrackAdd_pressed"]

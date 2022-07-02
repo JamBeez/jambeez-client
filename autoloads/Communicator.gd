@@ -178,13 +178,16 @@ func _connected(proto = ""):
 
 func _send_data(message: String):
 	if _is_connected:
-		print("SEND:    ", message)
+		# DEBUG
+		# print("SEND:    ", message)
 		_client.get_peer(1).put_packet(message.to_utf8())
 		
 func _on_data():
 	var data_str = _client.get_peer(1).get_packet().get_string_from_utf8()
 	var result = JSON.parse(data_str)
-	print("RECEIVE: ", data_str)
+	
+	# DEBUG
+	# print("RECEIVE: ", data_str)
 	
 	if result.error != OK:
 		printerr("Error parsing JSON: " + result.error_string)

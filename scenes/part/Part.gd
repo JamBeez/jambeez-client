@@ -13,16 +13,16 @@ var time_max: float = 100 # TODO
 const Track = preload("res://scenes/track/Track.tscn")
 
 export (NodePath) var path_sig_upper
-onready var input_sig_upper:LineEdit = get_node(path_sig_upper)
+onready var input_sig_upper:LineEdit = get_node(path_sig_upper).get_line_edit()
 
 export (NodePath) var path_sig_lower
-onready var input_sig_lower:LineEdit = get_node(path_sig_lower)
+onready var input_sig_lower:LineEdit = get_node(path_sig_lower).get_line_edit()
 
 export (NodePath) var path_bpm
-onready var input_bpm:LineEdit = get_node(path_bpm)
+onready var input_bpm:LineEdit = get_node(path_bpm).get_line_edit()
 
 export (NodePath) var path_bars
-onready var input_bars:LineEdit = get_node(path_bars)
+onready var input_bars:LineEdit = get_node(path_bars).get_line_edit()
 
 export (NodePath) var path_tracks
 onready var node_tracks:Node = get_node(path_tracks)
@@ -49,7 +49,8 @@ func _ready():
 	deserialize()
 	
 	# Runtime warn-error because Part from Editor get deleted befor yield
-	yield(get_tree(), "idle_frame")
+	# TODO DF: I've disabled yield here. It causes errors in the log : Resumed function '_ready()' after yield
+	# yield(get_tree(), "idle_frame")
 	update_needle()
 	update_time()
 
@@ -60,15 +61,17 @@ func _physics_process(delta):
 	data.time += delta
 	delta_last = delta
 	
-	node_needle.rect_position.x = lerp(needle_x_min, needle_x_max, fmod(data.time, time_max) / time_max)
+	if(needle_x_min != needle_x_max):
+		node_needle.rect_position.x = lerp(needle_x_min, needle_x_max, fmod(data.time, time_max) / time_max)
 	
 	var next_beat_time = next_beat_id * data.spb
 	if data.time >= next_beat_time:
 		# seconds to past where sound should have been
 		var time_error = data.time - next_beat_time
 		
-		for track in node_tracks.get_children():
-			track.play_beat(next_beat_id, time_error)
+		if(node_tracks):
+			for track in node_tracks.get_children():
+				track.play_beat(next_beat_id, time_error)
 		next_beat_id += 1
 	
 func update_time():
@@ -121,25 +124,22 @@ func delete_track(child):
 	update_needle()
 
 
-func _on_LineEditSigUpper_text_entered(new_text):
+func _on_SpinBoxSigUpper_value_changed(new_text):
 	if int(new_text) == data.sig_upper: return
 	Communicator.notify_sig_upper(data.id, int(new_text))
-func _on_LineEditSigUpper_focus_exited(): _on_LineEditSigUpper_text_entered(input_sig_upper.text)
 
-func _on_LineEditSigLower_text_entered(new_text):
+func _on_SpinBoxSigLower_value_changed(new_text):
 	if int(new_text) == data.sig_lower: return
 	Communicator.notify_sig_lower(data.id, int(new_text))
-func _on_LineEditSigLower_focus_exited(): _on_LineEditSigLower_text_entered(input_sig_lower.text)
 
-func _on_LineEditBars_text_entered(new_text):
+func _on_SpinBoxBars_value_changed(new_text):
 	if int(new_text) == data.bars: return
 	Communicator.notify_bars(data.id, int(new_text))
-func _on_LineEditBars_focus_exited(): _on_LineEditBars_text_entered(input_bars.text)
 	
-func _on_LineEditBPM_text_entered(new_text):
+func _on_SpinBoxBPM_value_changed(new_text):
 	if int(new_text) == data.bpm: return
 	Communicator.notify_BPM(data.id, int(new_text))
-func _on_LineEditBPM_focus_exited(): _on_LineEditBPM_text_entered(input_bpm.text)
+	
 
 func _on_Communicator_add_track(part_id, track):
 	if data.id != part_id: return
