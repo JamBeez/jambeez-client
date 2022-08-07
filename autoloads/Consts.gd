@@ -35,7 +35,7 @@ func _ready():
 		WS_SERVER_URL = param_ws_server
 		print("Read ws server address from url: ", WS_SERVER_URL)
 
-var INITIAL_SAMPLES = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] + range(35, 22, -1)
+var INITIAL_SAMPLES = [0, 1, 2, 3]
 const SAMPLES = [
 	["Drum snare", preload("res://assets/samples/drums/snare_drum.wav")],
 	["Drum bass bad", preload("res://assets/samples/drums/bass_drum.wav")],
